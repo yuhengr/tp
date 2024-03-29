@@ -43,6 +43,29 @@ the `results` command.
 > return an error to the user indicating that there are no 
 > results.
 
+### Solution feature
+
+The solution feature either prints the solution to 1 question or all solutions in 1 topic.
+
+The solution feature is facilitated by ```Parser#processSolutionCommand```, which is called by ```Parser#parseCommand```
+
+Step 1: After user runs the program and keys in the user commands, the commands will be passed to 
+```Parser#parseCommand```.
+
+The command must contain the ```solution``` keyword before being passed into ```Parser#processSolutionCommand```
+![Solution sequence diagram](./team/img/Solution.png)
+
+Step 2: ```Parser#processSolutionCommand``` will first check number of parameters.
+First, it will call ```QuestionsList``` class which contains all questions in a topic.
+If there is 1 parameter, ```QuestionsList#getAllSolutions``` will be called to get all solutions in a topic.
+If there are 2 parameters, ```QuestionsList#getOneSolution``` will be called to get one specific solution.
+
+Step 3: 
+To get all solutions, ```ui#printAllSolutions``` will be called to print all solutions
+To get one specific solution, ```ui#printOneSolution``` will be called to print that one solution.
+
+### Explain feature
+
 ## Product scope
 
 ### Target user profile
