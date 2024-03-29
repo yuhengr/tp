@@ -55,11 +55,17 @@ mechanism behaves at each step.
 Step 1. The user launches the application for the first time,
 and proceeds to start a game with their chosen topic.
 
+The following shows the class diagram for `topicList`:
+![TopicList class diagram](./team/img/TopicList_Topic_class_diagram.png)
+
 Step 2. A question from the question set of the chosen topic is displayed.
         The user inputs their answer.
 
 Step 3. Step 2 repeats until all the questions in the question set has been asked.
         Step 1 executes and process repeats.
+
+The following shows the class diagram for `QuestionListByTopic`:
+![QuestionListByTopic](./team/img/QuestionListByTopic_class_diagram.png)
 
 ## Product scope
 
