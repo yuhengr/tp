@@ -3,6 +3,8 @@ package seedu.duke;
 import seedu.duke.exceptions.CustomException;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Parser {
     private static final int NO_RESULTS = 0;
@@ -22,6 +24,11 @@ public class Parser {
     private static final String MESSAGE_INVALID_PARAMETERS = "Invalid parameters.";
     private static final String MESSAGE_INDEX_OUT_OF_BOUNDS = "Index is out of bounds.";
     private static final String MESSAGE_INVALID_INDEX = "Index must be an integer.";
+
+    private static final String MESSAGE_INVALID_TOPICNUM = "Topic number is invalid.";
+
+    private static final String MESSAGE_INVALID_TOPIC_COMMAND_FORMAT = "Topic command format is invalid.";
+
     private static final boolean INCLUDES_DETAILS = true;
     private static final boolean IS_CORRECT_ANSWER = true;
 
@@ -33,10 +40,13 @@ public class Parser {
     ) throws CustomException {
 
         String lowerCaseCommand = command.toLowerCase();
+        CommandList commandToken = CommandList.getCommandToken(command);
         if (ui.isPlaying) {
 
-            if (lowerCaseCommand.contentEquals("topic")) {
-                processStartCommand(lowerCaseCommand, ui, topicList, questionListByTopic, allResults, userAnswers);
+            if (commandToken == CommandList.TOPIC) {
+                // Still under testing.
+                beginStartCommand(command, ui, topicList, questionListByTopic, allResults, userAnswers);
+                // processStartCommand(lowerCaseCommand, ui, topicList, questionListByTopic, allResults, userAnswers);
             } else if (lowerCaseCommand.contentEquals("bye")) {
                 ui.isPlaying = false;
             } else if (lowerCaseCommand.contentEquals("solution") || lowerCaseCommand.contentEquals("explain")) {
@@ -106,6 +116,42 @@ public class Parser {
             }
         default:
             throw new CustomException(MESSAGE_ERROR);
+        }
+    }
+
+    private void beginStartCommand(
+            String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
+            ResultsList allResults, AnswerTracker userAnswers
+    ) throws CustomException {
+
+        Pattern topicPattern = Pattern.compile(CommandList.getTopicPattern());
+        Matcher matcher = topicPattern.matcher(command);
+        boolean foundMatch = matcher.find();
+
+        if(!foundMatch) {
+            throw new CustomException("Can't find a match.");
+        }
+
+        try {
+            int topicNum = Integer.parseInt(matcher.group(1));
+            System.out.println("You've chosen topic number " + topicNum);
+            boolean validTopicNum = (topicNum <= topicList.getSize() + 1) && topicNum != 0;
+
+            if(validTopicNum){
+                ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers);
+                System.out.println("You've finished the topic. What will be your next topic?");
+                topicList.get(topicNum - 1).markAsAttempted();
+                ui.printTopicList(topicList, ui);
+            }
+            else {
+                throw new CustomException(MESSAGE_INVALID_TOPICNUM);
+            }
+        }
+        catch(NumberFormatException error) {
+            throw new CustomException(MESSAGE_INVALID_TOPIC_COMMAND_FORMAT);
+        }
+        catch(IllegalStateException error) {
+            throw new CustomException(MESSAGE_INVALID_TOPICNUM);
         }
     }
 

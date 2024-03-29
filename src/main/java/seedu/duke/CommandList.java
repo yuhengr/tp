@@ -1,16 +1,49 @@
 package seedu.duke;
 
-public class CommandList {
+public enum CommandList {
 
-    public static String PATTERN_TOPIC = "(?i)topic\\s*(\\d+)";
+    TOPIC, HELP, SOLUTION, EXPLAIN, RESULTS, BYE, INVALID;
 
-    public static String PATTERN_BYE = "(?i)bye";
+    private static final String PATTERN_TOPIC = "(?i)topic\\s*(\\d*)";
 
-    public static String PATTERN_SOLUTION = "(?i)solution\\s*(\\d+)\\s*(\\d+)";
+    private static final String PATTERN_BYE = "(?i)bye";
 
-    public static String PATTERN_EXPLANATION = "(?i)explanation\\s*(\\d+)\\s*(\\d+)";
+    private static final String PATTERN_SOLUTION = "(?i)solution\\s*(\\d+)\\s*(\\d+)";
 
-    public static String PATTERN_HELP = "(?i)help\\s*(\\w*)";
+    private static final String PATTERN_EXPLANATION = "(?i)explanation\\s*(\\d+)\\s*(\\d+)";
 
-    public static String PATTERN_RESULTS = "(?i)results\\s*(\\d+)";
+    private static final String PATTERN_HELP = "(?i)help\\s*(\\w*)";
+
+    private static final String PATTERN_RESULTS = "(?i)results\\s*(\\d+)";
+
+    public static String getTopicPattern() {
+        return PATTERN_TOPIC;
+    }
+
+    public static CommandList getCommandToken(String command) {
+        String[] splitCommand = command.split(" ");
+        String mainCommand = splitCommand[0].toLowerCase();
+
+        if(mainCommand.contentEquals("topic")) {
+            return TOPIC;
+        }
+        else if(mainCommand.contentEquals("help")) {
+            return HELP;
+        }
+        else if(mainCommand.contentEquals("solution")) {
+            return SOLUTION;
+        }
+        else if(mainCommand.contentEquals("explanation")) {
+            return EXPLAIN;
+        }
+        else if(mainCommand.contentEquals("results")) {
+            return RESULTS;
+        }
+        else if(mainCommand.contentEquals("bye")) {
+            return BYE;
+        }
+        else {
+            return INVALID;
+        }
+    }
 }
