@@ -45,7 +45,7 @@ the `results` command.
 
 ### Solution feature
 
-The solution feature either prints the solution to 1 question or all solutions in 1 topic.
+The solution feature either prints the solution to 1 question or all questions in 1 topic.
 
 The solution feature is facilitated by ```Parser#processSolutionCommand```, which is called by ```Parser#parseCommand```
 
@@ -64,7 +64,24 @@ Step 3:
 To get all solutions, ```ui#printAllSolutions``` will be called to print all solutions
 To get one specific solution, ```ui#printOneSolution``` will be called to print that one solution.
 
-### Explain feature
+### [Intended] Explain feature
+The explain feature either prints the explanation to 1 question or all questions in 1 topic.
+
+The explain feature is facilitated by ```Parser#processExplanationCommand```, which is called by ```Parser#parseCommand```
+
+Step 1: After user runs the program and keys in the user commands, the commands will be passed to
+```Parser#parseCommand```.
+
+The command must contain the ```explain``` keyword before being passed into ```Parser#processExplainCommand```
+
+Step 2: ```Parser#processExplainCommand``` will first check number of parameters.
+First, it will call ```QuestionsList``` class which contains all questions in a topic.
+If there is 1 parameter, ```QuestionsList#getAllExplanations``` will be called to get all explanations in a topic.
+If there are 2 parameters, ```QuestionsList#getOneExplanation``` will be called to get one specific explanation.
+
+Step 3:
+To get all explanations, ```ui#printAllExplanation``` will be called to print all explanations
+To get one specific explanation, ```ui#printOneExplanation``` will be called to print that one explanation.
 
 ## Product scope
 
