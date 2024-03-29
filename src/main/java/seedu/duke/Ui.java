@@ -87,24 +87,27 @@ public class Ui {
             System.out.println(questionUnit.getQuestion());
 
             if (isTimedMode) {
-                Timer timer = new Timer();
-                TimerTask task = new TimerTask() {
-                    @Override
-                    public void run() {
-                        if (!hasCompletedSet[0]) {
-                            printTimesUpMessage();
-                            isTimesUp[0] = true;
-                            index[0] = numOfQns;
-                            timer.cancel();
-                        } else{
-                            isTimesUp[0] = true;
-                            timer.cancel();
+                if (index[0] == 0) {
+                    Timer timer = new Timer();
+
+                    TimerTask task = new TimerTask() {
+                        @Override
+                        public void run() {
+                            if (!hasCompletedSet[0]) {
+                                printTimesUpMessage();
+                                isTimesUp[0] = true;
+                                index[0] = numOfQns;
+                                timer.cancel();
+                            } else {
+                                isTimesUp[0] = true;
+                                timer.cancel();
+                            }
                         }
+                    };
+                    timer.schedule(task, 5000);
+                    if (isTimesUp[0]) {
+                        break;
                     }
-                };
-                timer.schedule(task, 5000);
-                if (isTimesUp[0]){
-                    break;
                 }
             }
 
