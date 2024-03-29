@@ -43,6 +43,31 @@ the `results` command.
 > return an error to the user indicating that there are no 
 > results.
 
+
+###Topics Feature
+
+The topics feature comprises `TopicList` and `QuestionListByTopic`. 
+`TopicList` is the list of topics for the users to attempt.
+`QuestionListByTopic` stores the respective question set for each topic in an ArrayList. 
+
+Given below is an example usage scenario and how the results
+mechanism behaves at each step.
+
+Step 1. The user launches the application for the first time,
+and proceeds to start a game with their chosen topic.
+
+The following shows the class diagram for `topicList`:
+![TopicList class diagram](./team/img/TopicList_Topic_class_diagram.png)
+
+Step 2. A question from the question set of the chosen topic is displayed.
+        The user inputs their answer.
+
+Step 3. Step 2 repeats until all the questions in the question set has been asked.
+        Step 1 executes and process repeats.
+
+The following shows the class diagram for `QuestionListByTopic`:
+![QuestionListByTopic](./team/img/QuestionListByTopic_class_diagram.png)
+
 ### Solution feature
 
 The solution feature either prints the solution to 1 question or all questions in 1 topic.
@@ -83,6 +108,7 @@ Step 3:
 To get all explanations, ```ui#printAllExplanation``` will be called to print all explanations
 To get one specific explanation, ```ui#printOneExplanation``` will be called to print that one explanation.
 
+
 ## Product scope
 
 ### Target user profile
@@ -95,15 +121,19 @@ Integration of key notions and learning learning objectives for CS2113 course, s
 
 ## User Stories
 
-| Version | As a ...     | I want to ...                                        | So that I can ...                                            |
-| ------- | ------------ | ---------------------------------------------------- | ------------------------------------------------------------ |
-| v1.0    | new user     | see user guide in the app                            | refer to them if I am unfamiliar with the usage of a command |
-| v2.0    | regular user | see a progress bar when answering MCQs               | track my progress when attempting a question set             |
-| v2.0    | regular user | see a progress bar about all topics in the main menu | track my revision progress for the entire course             |
+| Version | As a ...                       | I want to ...                                        | So that I can ...                                                      |
+|---------|--------------------------------|------------------------------------------------------|------------------------------------------------------------------------|
+| v1.0    | new user                       | see user guide in the app                            | refer to them if I am unfamiliar with the usage of a command           |
+| v1.0    | student new to Java            | receive solutions with explanation after answering   | be aware of the reasoning behind the correct answer                    | 
+| v2.0    | regular user                   | see a progress bar when answering MCQs               | track my progress when attempting a question set                       |
+| v2.0    | regular user                   | see a progress bar about all topics in the main menu | track my revision progress for the entire course                       |
+| v2.0    | student going to take the exam | access timed modes in the game easily                | train my thought process to quicken in preparation for tests           |
+| v2.0    | student new to Java            | avoid memorization of specific question sets through randomly generated practice sets  | I can ensure I understand the concepts rather than memorising answers  |
 
 ## Non-Functional Requirements
 
-Usability: the user is able to use the app without reading lenthy documentations.
+Usability: the user is able to use the app without reading lengthy documentations.
+Technical: the app should run on both macOS and Windows
 
 ## Glossary
 
