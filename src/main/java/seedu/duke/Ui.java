@@ -6,6 +6,8 @@ import seedu.duke.exceptions.CustomException;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Ui {
     private static final Scanner in = new Scanner(System.in);
@@ -62,10 +64,13 @@ public class Ui {
 
     public void printChosenTopic(
             int topicNum, TopicList topicList, QuestionListByTopic questionListByTopic, ResultsList alLResults,
-            AnswerTracker userAnswers
+            AnswerTracker userAnswers, boolean isTimedMode
     ){
         Results topicResults = new Results();
         QuestionsList qnList;
+        boolean[] isTimesUp = {false};
+        boolean[] hasCompletedSet = {false};
+
         System.out.println("Selected topic: " + topicList.getTopic(topicNum - 1));
         System.out.println("Here are the questions: ");
         qnList = questionListByTopic.getQuestionSet(topicNum - 1);
@@ -76,20 +81,66 @@ public class Ui {
         String answer;
         ArrayList<String> allAnswers = new ArrayList<>();
         ArrayList<Boolean> answersCorrectness = new ArrayList<>();
-        for (int index = 0; index < numOfQns; index ++){//go through 1 question set
-            questionUnit = qnList.getQuestionUnit(index);
+        for (final int[] index = {0}; index[0] < numOfQns; index[0]++){//go through 1 question set
+            questionUnit = qnList.getQuestionUnit(index[0]);
             topicResults.increaseNumberOfQuestions();
             System.out.println(questionUnit.getQuestion());
+
+            if (isTimedMode) {
+                if (index[0] == 0) {
+                    Timer timer = new Timer();
+
+                    TimerTask task = new TimerTask() {
+                        @Override
+                        public void run() {
+                            if (!hasCompletedSet[0]) {
+                                printTimesUpMessage();
+                                isTimesUp[0] = true;
+                                index[0] = numOfQns;
+                                timer.cancel();
+                            } else {
+                                isTimesUp[0] = true;
+                                timer.cancel();
+                            }
+                        }
+                    };
+                    timer.schedule(task, 5000);
+                    if (isTimesUp[0]) {
+                        break;
+                    }
+                }
+            }
+
             askForAnswerInput();
             Parser parser = new Parser();
             answer = in.nextLine();
-            parser.handleAnswerInputs(inputAnswers, index, answer, questionUnit, topicResults, answersCorrectness);
-            allAnswers.add(answer);
+
+            if (!isTimesUp[0]) {
+                parser.handleAnswerInputs(inputAnswers, index[0], answer, questionUnit,
+                        topicResults, answersCorrectness);
+                if (index[0] == numOfQns - 1 && isTimedMode){
+                    printCongratulatoryMessage();
+                    hasCompletedSet[0] = true;
+                }
+                allAnswers.add(answer);
+            }
         }
         topicResults.calculateScore();
         alLResults.addResults(topicResults);
         userAnswers.addUserAnswers(allAnswers);
         userAnswers.addUserCorrectness(answersCorrectness);
+    }
+
+    public void printCongratulatoryMessage(){
+        System.out.println("Congrats! You beat the timer!");
+    }
+
+    public void printTimesUpMessage(){
+        System.out.println("Time is up!");
+        System.out.println(" Press enter to go back to topic selection. ");
+    }
+    public void printTimedModeSelected(){
+        System.out.println("Timed mode selected. Please enter the topic you would like to try. ");
     }
 
     public void printNoSolutionAccess(){
