@@ -43,7 +43,7 @@ the `results` command.
 > return an error to the user indicating that there are no 
 > results.
 
-###Topics Feature
+### Topics Feature
 
 The topics feature comprises `TopicList` and `QuestionListByTopic`. 
 `TopicList` is the list of topics for the users to attempt.
@@ -91,6 +91,7 @@ Integration of key notions and learning learning objectives for CS2113 course, s
 ## Non-Functional Requirements
 
 Usability: the user is able to use the app without reading lengthy documentations.
+
 Technical: the app should run on both macOS and Windows
 
 ## Glossary
