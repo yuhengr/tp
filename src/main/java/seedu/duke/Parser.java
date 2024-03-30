@@ -55,12 +55,14 @@ public class Parser {
                 /* processStartCommand(lowerCaseCommand, ui, topicList, questionListByTopic,
                 allResults, userAnswers, isTimedMode); */
                 isTimedMode = false;
-            } else if (lowerCaseCommand.contentEquals("bye")) {
-                ui.isPlaying = false;
-            } else if (lowerCaseCommand.startsWith("solution") || lowerCaseCommand.startsWith("explain")) {
+            } else if (lowerCaseCommand.startsWith("solution")) {
                 processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
+            } else if (lowerCaseCommand.startsWith("explain")) {
+                processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith("results")) {
                 processResultsCommand(lowerCaseCommand, allResults, ui, questionListByTopic, userAnswers);
+            } else if (lowerCaseCommand.contentEquals("bye")) {
+                ui.isPlaying = false;
             } else if (lowerCaseCommand.contentEquals("help")) {
                 processHelpCommand(lowerCaseCommand, ui, helper);
             } else if (lowerCaseCommand.contentEquals("list")) {
@@ -203,12 +205,12 @@ public class Parser {
     private void processSolutionCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
-
-        // parser command
+        // parse command
         String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER);
         int commandPartsLength = commandParts.length;
         String commandType = commandParts[0];
 
+        // checks validity of command
         if (!commandType.contentEquals("solution")) {
             throw new CustomException("Do you mean \"solution\" instead?");
         }
@@ -240,6 +242,7 @@ public class Parser {
         if (questionNum < 1 || questionNum > qnList.getSize()) {
             throw new CustomException(("No such question"));
         }
+
 
         // checks if attempted topic before
         if (!topicList.get(topicNum - 1).hasAttempted()) {
