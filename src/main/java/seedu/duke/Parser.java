@@ -18,6 +18,8 @@ public class Parser {
     private static final String COMMAND_SPLITTER = " ";
 
     private static final String DETAILS_PARAMETER = "details";
+    private static final String SOLUTION_PARAMETER = "solution";
+    private static final String EXPLAIN_PARAMETER = "explain";
 
     private static final String MESSAGE_NO_RESULTS = "There are no results.";
     private static final String MESSAGE_ERROR = "An error has occurred.";
@@ -201,37 +203,21 @@ public class Parser {
 
     }
 
-    // gets topicNum from String[]
-    private int getTopicOrQuestionNum(String[] commandParts, String commandParameter, int maxSize) throws CustomException {
-
-        int topicNum;
-        try {
-            topicNum = Integer.parseInt(commandParameter);
-        } catch (NumberFormatException e) {
-            throw new CustomException(MESSAGE_INVALID_PARAMETERS);
-        }
-
-        // checks validity of topicNum
-        if (topicNum < 1 || topicNum > maxSize) {
-            throw new CustomException("No such topic or question");
-        }
-        return topicNum;
-    }
     // solution and explain commands
     private void processSolutionCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
         // process command
         String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER);
-        boolean hasTwoParameters = checkIfTwoParameters(commandParts);
+        boolean hasTwoParameters = checkIfTwoParameters(SOLUTION_PARAMETER, commandParts);
 
         // process parameters
         String commandParameterTopic = commandParts[FIRST_PARAMETER];
         String commandParameterQn = hasTwoParameters ? commandParts[SECOND_PARAMETER] : DUMMY_QUESTION_PARAMETER;
 
-        int topicNum = getTopicOrQuestionNum(commandParts, commandParameterTopic, topicList.getSize());
+        int topicNum = getTopicOrQuestionNum(commandParameterTopic, topicList.getSize());
         QuestionsList qnList = questionListByTopic.getQuestionSet(topicNum - 1);
-        int questionNum = getTopicOrQuestionNum(commandParts, commandParameterQn, qnList.getSize());
+        int questionNum = getTopicOrQuestionNum(commandParameterQn, qnList.getSize());
 
         // checks if attempted topic before
         if (!topicList.get(topicNum - 1).hasAttempted()) {
@@ -248,17 +234,46 @@ public class Parser {
             String allSolutions = qnList.getAllSolutions();
             ui.printAllSolutions(allSolutions);
         }
-
     }
 
-    // returns true if 2 parameters, else false (1 param only)
-    private static boolean checkIfTwoParameters(String[] commandParts) throws CustomException {
+    private void processExplainCommand(String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
+            throws CustomException {
+        // process command
+        String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER);
+        boolean hasTwoParameters = checkIfTwoParameters(EXPLAIN_PARAMETER, commandParts);
+
+        // process parameters
+        String commandParameterTopic = commandParts[FIRST_PARAMETER];
+        String commandParameterQn = hasTwoParameters ? commandParts[SECOND_PARAMETER] : DUMMY_QUESTION_PARAMETER;
+
+        int topicNum = getTopicOrQuestionNum(commandParameterTopic, topicList.getSize());
+        QuestionsList qnList = questionListByTopic.getQuestionSet(topicNum - 1);
+        int questionNum = getTopicOrQuestionNum(commandParameterQn, qnList.getSize());
+
+        // checks if attempted topic before
+        if (!topicList.get(topicNum - 1).hasAttempted()) {
+            ui.printNoSolutionAccess(); // has not attempted
+            return;
+        }
+
+        if (hasTwoParameters) {
+            // get specific explanation
+            String explanation = qnList.getOneExplanation(questionNum);
+            ui.printOneSolution(questionNum, explanation);
+        } else {
+            // get all explanations
+            String allExplanations = qnList.getAllExplanations();
+            ui.printAllSolutions(allExplanations);
+        }
+    }
+    // checks valid command type and parameters: returns true if 2 parameters, else false (1 param only)
+    private static boolean checkIfTwoParameters(String expectedCommandType, String[] commandParts) throws CustomException {
         int commandPartsLength = commandParts.length;
-        String commandType = commandParts[0];
+        String actualCommandType = commandParts[0];
 
         // checks validity of command
-        if (!commandType.contentEquals("solution")) {
-            throw new CustomException("Do you mean \"solution\" instead?");
+        if (!actualCommandType.contentEquals(expectedCommandType)) {
+            throw new CustomException("Do you mean " + expectedCommandType + " instead?");
         }
 
         // checks correct number of parameters (1 or 2 only)
@@ -268,13 +283,19 @@ public class Parser {
 
         return (commandPartsLength == TWO_PARAMETER_LENGTH);
     }
-
-    private void processExplainCommand(String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
-            throws CustomException {
-        // process command
-
-        // get 1 explanation
-        // or get all explanations (TODO)
+    // convert String commandParameter to int topicNum/ questionNum and check validity
+    private int getTopicOrQuestionNum(String commandParameter, int maxSize) throws CustomException {
+        int parameterNum;
+        try {
+            parameterNum = Integer.parseInt(commandParameter);
+        } catch (NumberFormatException e) {
+            throw new CustomException(MESSAGE_INVALID_PARAMETERS);
+        }
+        // checks validity
+        if (parameterNum < 1 || parameterNum > maxSize) {
+            throw new CustomException("No such topic or question");
+        }
+        return parameterNum;
     }
 
     public void handleAnswerInputs(String[] inputAnswers, int index, String answer, Question questionUnit,
