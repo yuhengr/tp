@@ -3,6 +3,8 @@ package seedu.duke;
 import seedu.duke.exceptions.CustomException;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Parser {
     private static final int NO_RESULTS = 0;
@@ -22,8 +24,14 @@ public class Parser {
     private static final String MESSAGE_INVALID_PARAMETERS = "Invalid parameters.";
     private static final String MESSAGE_INDEX_OUT_OF_BOUNDS = "Index is out of bounds.";
     private static final String MESSAGE_INVALID_INDEX = "Index must be an integer.";
+
+    private static final String MESSAGE_INVALID_TOPIC_NUM = "Topic number is invalid.";
+
+    private static final String MESSAGE_INVALID_TOPIC_COMMAND_FORMAT = "Topic command format is invalid.";
+
     private static final boolean INCLUDES_DETAILS = true;
     private static final boolean IS_CORRECT_ANSWER = true;
+    private boolean isTimedMode = false;
 
 
     public void parseCommand(
@@ -33,21 +41,30 @@ public class Parser {
     ) throws CustomException {
 
         String lowerCaseCommand = command.toLowerCase();
+        CommandList commandToken = CommandList.getCommandToken(command);
         if (ui.isPlaying) {
 
-            if (lowerCaseCommand.contentEquals("topic")) {
-                processStartCommand(lowerCaseCommand, ui, topicList, questionListByTopic, allResults, userAnswers);
+            if(lowerCaseCommand.contentEquals("timed mode")){
+                ui.printTimedModeSelected();
+                isTimedMode = true;
+            }
+            if (commandToken == CommandList.TOPIC) {
+                // Still under testing.
+                beginStartCommand(command, ui, topicList, questionListByTopic, allResults, userAnswers);
+                /* processStartCommand(lowerCaseCommand, ui, topicList, questionListByTopic,
+                allResults, userAnswers, isTimedMode); */
+                isTimedMode = false;
             } else if (lowerCaseCommand.contentEquals("bye")) {
                 ui.isPlaying = false;
-            } else if (lowerCaseCommand.contentEquals("solution") || lowerCaseCommand.contentEquals("explain")) {
+            } else if (lowerCaseCommand.startsWith("solution") || lowerCaseCommand.startsWith("explain")) {
                 processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
-            } else if (lowerCaseCommand.contentEquals("results")) {
+            } else if (lowerCaseCommand.startsWith("results")) {
                 processResultsCommand(lowerCaseCommand, allResults, ui, questionListByTopic, userAnswers);
             } else if (lowerCaseCommand.contentEquals("help")) {
                 processHelpCommand(lowerCaseCommand, ui, helper);
             } else if (lowerCaseCommand.contentEquals("list")) {
                 processListCommand(topicList, ui);
-            } else {
+            } else if (!lowerCaseCommand.contentEquals("timed mode")){
                 throw new CustomException("-1 HP coz invalid command");
             }
         }
@@ -109,9 +126,45 @@ public class Parser {
         }
     }
 
+    private void beginStartCommand(
+            String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
+            ResultsList allResults, AnswerTracker userAnswers
+    ) throws CustomException {
+
+        Pattern topicPattern = Pattern.compile(CommandList.getTopicPattern());
+        Matcher matcher = topicPattern.matcher(command);
+        boolean foundMatch = matcher.find();
+
+        if(!foundMatch) {
+            throw new CustomException("Can't find a match.");
+        }
+
+        try {
+            int topicNum = Integer.parseInt(matcher.group(1));
+            System.out.println("You've chosen topic number " + topicNum);
+            boolean validTopicNum = (topicNum <= topicList.getSize() + 1) && topicNum != 0;
+
+            if(validTopicNum){
+                ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode);
+                System.out.println("You've finished the topic. What will be your next topic?");
+                topicList.get(topicNum - 1).markAsAttempted();
+                ui.printTopicList(topicList, ui);
+            }
+            else {
+                throw new CustomException(MESSAGE_INVALID_TOPIC_NUM);
+            }
+        }
+        catch(NumberFormatException error) {
+            throw new CustomException(MESSAGE_INVALID_TOPIC_COMMAND_FORMAT);
+        }
+        catch(IllegalStateException error) {
+            throw new CustomException(MESSAGE_INVALID_TOPIC_NUM);
+        }
+    }
+
     private void processStartCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
-            ResultsList allResults, AnswerTracker userAnswers
+            ResultsList allResults, AnswerTracker userAnswers, boolean isTimedMode
     ) throws CustomException {
         assert (topicList.getSize() != NO_RESULTS) : "Size of topicList should never be 0";
 
@@ -137,7 +190,7 @@ public class Parser {
             assert (topicNum != randomTopicNum) : "topicNum should not be randomTopicNum";
 
             // prints questions
-            ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers);
+            ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode);
             System.out.println("You have finished the topic! What will be your next topic?");
             topicList.get(topicNum - 1).markAsAttempted();
             ui.printTopicList(topicList, ui);
