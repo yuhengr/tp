@@ -236,7 +236,8 @@ public class Parser {
         }
     }
 
-    private void processExplainCommand(String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
+    private void processExplainCommand(
+            String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
         // process command
         String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER);
@@ -259,15 +260,16 @@ public class Parser {
         if (hasTwoParameters) {
             // get specific explanation
             String explanation = qnList.getOneExplanation(questionNum);
-            ui.printOneSolution(questionNum, explanation);
+            ui.printOneExplanation(questionNum, explanation);
         } else {
             // get all explanations
             String allExplanations = qnList.getAllExplanations();
-            ui.printAllSolutions(allExplanations);
+            ui.printAllExplanations(allExplanations);
         }
     }
     // checks valid command type and parameters: returns true if 2 parameters, else false (1 param only)
-    private static boolean checkIfTwoParameters(String expectedCommandType, String[] commandParts) throws CustomException {
+    private static boolean checkIfTwoParameters(
+            String expectedCommandType, String[] commandParts) throws CustomException {
         int commandPartsLength = commandParts.length;
         String actualCommandType = commandParts[0];
 
