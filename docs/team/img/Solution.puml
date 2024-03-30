@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Player2113 -> Ui: readCommands()
+Ui -> Parser: readCommand()
+Parser -> Parser: processSolutionCommand()
+
+@enduml
