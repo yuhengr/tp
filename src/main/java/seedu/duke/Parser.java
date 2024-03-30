@@ -18,6 +18,8 @@ public class Parser {
     private static final String COMMAND_SPLITTER = " ";
 
     private static final String DETAILS_PARAMETER = "details";
+    private static final String SOLUTION_PARAMETER = "solution";
+    private static final String EXPLAIN_PARAMETER = "explain";
 
     private static final String MESSAGE_NO_RESULTS = "There are no results.";
     private static final String MESSAGE_ERROR = "An error has occurred.";
@@ -41,10 +43,11 @@ public class Parser {
     ) throws CustomException {
 
         String lowerCaseCommand = command.toLowerCase();
+
         CommandList commandToken = CommandList.getCommandToken(command);
         if (ui.isPlaying) {
 
-            if(lowerCaseCommand.contentEquals("timed mode")){
+            if (lowerCaseCommand.contentEquals("timed mode")) {
                 ui.printTimedModeSelected();
                 isTimedMode = true;
             }
@@ -54,17 +57,19 @@ public class Parser {
                 /* processStartCommand(lowerCaseCommand, ui, topicList, questionListByTopic,
                 allResults, userAnswers, isTimedMode); */
                 isTimedMode = false;
-            } else if (lowerCaseCommand.contentEquals("bye")) {
-                ui.isPlaying = false;
-            } else if (lowerCaseCommand.startsWith("solution") || lowerCaseCommand.startsWith("explain")) {
+            } else if (lowerCaseCommand.startsWith("solution")) {
                 processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
+            } else if (lowerCaseCommand.startsWith("explain")) {
+                processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith("results")) {
                 processResultsCommand(lowerCaseCommand, allResults, ui, questionListByTopic, userAnswers);
+            } else if (lowerCaseCommand.contentEquals("bye")) {
+                ui.isPlaying = false;
             } else if (lowerCaseCommand.contentEquals("help")) {
                 processHelpCommand(lowerCaseCommand, ui, helper);
             } else if (lowerCaseCommand.contentEquals("list")) {
                 processListCommand(topicList, ui);
-            } else if (!lowerCaseCommand.contentEquals("timed mode")){
+            } else if (!lowerCaseCommand.contentEquals("timed mode")) {
                 throw new CustomException("-1 HP coz invalid command");
             }
         }
@@ -135,7 +140,7 @@ public class Parser {
         Matcher matcher = topicPattern.matcher(command);
         boolean foundMatch = matcher.find();
 
-        if(!foundMatch) {
+        if (!foundMatch) {
             throw new CustomException("Can't find a match.");
         }
 
@@ -144,20 +149,17 @@ public class Parser {
             System.out.println("You've chosen topic number " + topicNum);
             boolean validTopicNum = (topicNum <= topicList.getSize() + 1) && topicNum != 0;
 
-            if(validTopicNum){
+            if (validTopicNum) {
                 ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode);
                 System.out.println("You've finished the topic. What will be your next topic?");
                 topicList.get(topicNum - 1).markAsAttempted();
                 ui.printTopicList(topicList, ui);
-            }
-            else {
+            } else {
                 throw new CustomException(MESSAGE_INVALID_TOPIC_NUM);
             }
-        }
-        catch(NumberFormatException error) {
+        } catch (NumberFormatException error) {
             throw new CustomException(MESSAGE_INVALID_TOPIC_COMMAND_FORMAT);
-        }
-        catch(IllegalStateException error) {
+        } catch (IllegalStateException error) {
             throw new CustomException(MESSAGE_INVALID_TOPIC_NUM);
         }
     }
@@ -205,70 +207,97 @@ public class Parser {
     private void processSolutionCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
-        assert (lowerCaseCommand.contentEquals("solution") || lowerCaseCommand.contentEquals("explain"))
-                : "either solution or explain command";
-
-        boolean isSolutionCommand = lowerCaseCommand.contentEquals("solution");
-        String typeOfCommand = isSolutionCommand ? "solution" : "explain";
-
+        // process command
         String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER);
+        boolean hasTwoParameters = checkIfTwoParameters(SOLUTION_PARAMETER, commandParts);
+
+        // process parameters
+        String commandParameterTopic = commandParts[FIRST_PARAMETER];
+        String commandParameterQn = hasTwoParameters ? commandParts[SECOND_PARAMETER] : DUMMY_QUESTION_PARAMETER;
+
+        int topicNum = getTopicOrQuestionNum(commandParameterTopic, topicList.getSize());
+        QuestionsList qnList = questionListByTopic.getQuestionSet(topicNum - 1);
+        int questionNum = getTopicOrQuestionNum(commandParameterQn, qnList.getSize());
+
+        // checks if attempted topic before
+        if (!topicList.get(topicNum - 1).hasAttempted()) {
+            ui.printNoSolutionAccess(); // has not attempted
+            return;
+        }
+
+        if (hasTwoParameters) {
+            // get specific solution
+            String solution = qnList.getOneSolution(questionNum);
+            ui.printOneSolution(questionNum, solution);
+        } else {
+            // get all solutions
+            String allSolutions = qnList.getAllSolutions();
+            ui.printAllSolutions(allSolutions);
+        }
+    }
+
+    private void processExplainCommand(
+            String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
+            throws CustomException {
+        // process command
+        String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER);
+        boolean hasTwoParameters = checkIfTwoParameters(EXPLAIN_PARAMETER, commandParts);
+
+        // process parameters
+        String commandParameterTopic = commandParts[FIRST_PARAMETER];
+        String commandParameterQn = hasTwoParameters ? commandParts[SECOND_PARAMETER] : DUMMY_QUESTION_PARAMETER;
+
+        int topicNum = getTopicOrQuestionNum(commandParameterTopic, topicList.getSize());
+        QuestionsList qnList = questionListByTopic.getQuestionSet(topicNum - 1);
+        int questionNum = getTopicOrQuestionNum(commandParameterQn, qnList.getSize());
+
+        // checks if attempted topic before
+        if (!topicList.get(topicNum - 1).hasAttempted()) {
+            ui.printNoSolutionAccess(); // has not attempted
+            return;
+        }
+
+        if (hasTwoParameters) {
+            // get specific explanation
+            String explanation = qnList.getOneExplanation(questionNum);
+            ui.printOneExplanation(questionNum, explanation);
+        } else {
+            // get all explanations
+            String allExplanations = qnList.getAllExplanations();
+            ui.printAllExplanations(allExplanations);
+        }
+    }
+    // checks valid command type and parameters: returns true if 2 parameters, else false (1 param only)
+    private static boolean checkIfTwoParameters(
+            String expectedCommandType, String[] commandParts) throws CustomException {
         int commandPartsLength = commandParts.length;
+        String actualCommandType = commandParts[0];
+
+        // checks validity of command
+        if (!actualCommandType.contentEquals(expectedCommandType)) {
+            throw new CustomException("Do you mean " + expectedCommandType + " instead?");
+        }
 
         // checks correct number of parameters (1 or 2 only)
         if (commandPartsLength == NO_PARAMETER_LENGTH || commandPartsLength > TWO_PARAMETER_LENGTH) {
             throw new CustomException(MESSAGE_INVALID_PARAMETERS);
         }
-        assert (commandPartsLength == ONE_PARAMETER_LENGTH || commandPartsLength == TWO_PARAMETER_LENGTH);
 
-        boolean hasTwoParameters = (commandPartsLength == TWO_PARAMETER_LENGTH);
-
-        String commandParameterTopic = commandParts[FIRST_PARAMETER];
-        String commandParameterQn = hasTwoParameters ? commandParts[SECOND_PARAMETER] : DUMMY_QUESTION_PARAMETER;
-        int topicNum;
-        int questionNum;
+        return (commandPartsLength == TWO_PARAMETER_LENGTH);
+    }
+    // convert String commandParameter to int topicNum/ questionNum and check validity
+    private int getTopicOrQuestionNum(String commandParameter, int maxSize) throws CustomException {
+        int parameterNum;
         try {
-            topicNum = Integer.parseInt(commandParameterTopic);
-            questionNum = Integer.parseInt(commandParameterQn);
+            parameterNum = Integer.parseInt(commandParameter);
         } catch (NumberFormatException e) {
             throw new CustomException(MESSAGE_INVALID_PARAMETERS);
         }
-        // checks validity of topicNum
-        if (topicNum < 1 || topicNum > topicList.getSize()) {
-            throw new CustomException("No such topic");
+        // checks validity
+        if (parameterNum < 1 || parameterNum > maxSize) {
+            throw new CustomException("No such topic or question");
         }
-        QuestionsList qnList = questionListByTopic.getQuestionSet(topicNum - 1);
-
-        // checks validity of questionNum
-        if (questionNum < 1 || questionNum > qnList.getSize()) {
-            throw new CustomException(("No such question"));
-        }
-
-        if (isSolutionCommand) {
-            if (!hasTwoParameters) {
-                // get all solutions
-                String allSolutions = qnList.getAllSolutions();
-                ui.printAllSolutions(allSolutions);
-                return;
-            }
-            // get specific solution
-            String solution = qnList.getOneSolution(questionNum);
-            if (!topicList.get(topicNum - 1).hasAttempted()) {
-                ui.printNoSolutionAccess(); // has not attempted
-            }
-            ui.printOneSolution(questionNum, solution);
-            return;
-        }
-        // only runs code below if explain command
-        assert typeOfCommand.contentEquals("explain");
-        if (hasTwoParameters) { // explain command only has 1 valid parameter
-            throw new CustomException(MESSAGE_INVALID_PARAMETERS);
-        }
-
-        String explanation = qnList.getOneExplanation(questionNum);
-        if (!topicList.get(topicNum - 1).hasAttempted()) {
-            ui.printNoSolutionAccess(); // has not attempted
-        }
-        ui.printOneSolution(questionNum, explanation);
+        return parameterNum;
     }
 
     public void handleAnswerInputs(String[] inputAnswers, int index, String answer, Question questionUnit,
