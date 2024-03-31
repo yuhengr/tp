@@ -183,13 +183,13 @@ public class Parser {
                 throw new CustomException("No such topic");
             }
             // checks if user wants a random topic num
-            final int randomTopicNum = topicList.getSize() + 1;
-            if (topicNum == randomTopicNum) {
+            final int upperLimit = topicList.getSize() + 1;
+            if (topicNum == upperLimit) {
                 Helper helper = new Helper();
-                topicNum = helper.generateRandomNumber(randomTopicNum);
+                topicNum = helper.generateRandomNumber(upperLimit);
             }
             assert (topicNum != 0) : "topicNum should not be 0";
-            assert (topicNum != randomTopicNum) : "topicNum should not be randomTopicNum";
+            assert (topicNum != upperLimit) : "topicNum should not be upperLimit";
 
             // prints questions
             ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode);

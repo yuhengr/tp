@@ -28,14 +28,22 @@ class TopicListTest {
         assertEquals("topicTest2",topicListTest.getTopic(1));
     }
 
-//    @Test testGetRandomTopic() {
-//        createTopicList();
-//
-//    }
-
     @Test
     void testGetSize(){
         createTopicList();
         assertEquals(2, topicListTest.getSize());
     }
+    // tests getRandomTopic/QuestionSet feature
+    @Test
+    void getTopic_randomTopicNum_validTopic() {
+        createTopicList();
+        int upperLimit = topicListTest.getSize() + 1;
+        Helper helper = new Helper();
+        // generate num btwn 1 to 2 (ie topicListTest.getSize()) inclusive
+        int topicNum = helper.generateRandomNumber(upperLimit);
+        String randomTopic = (topicNum == 1) ? "topicTest1" : "topicTest2";
+
+        assertEquals(randomTopic, topicListTest.getTopic(topicNum - 1));
+    }
 }
+
