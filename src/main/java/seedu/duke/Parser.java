@@ -147,14 +147,21 @@ public class Parser {
         try {
             int topicNum = Integer.parseInt(matcher.group(1));
             System.out.println("You've chosen topic number " + topicNum);
-            boolean validTopicNum = (topicNum <= topicList.getSize() + 1) && topicNum != 0;
+            final int upperLimit = topicList.getSize() + 1;
+            boolean validTopicNum = (topicNum < upperLimit) && topicNum != 0;
+            boolean isRandomTopicNum = topicNum == upperLimit;
 
             if (validTopicNum) {
                 ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode);
                 System.out.println("You've finished the topic. What will be your next topic?");
                 topicList.get(topicNum - 1).markAsAttempted();
                 ui.printTopicList(topicList, ui);
-            } else {
+            }
+            else if (isRandomTopicNum) {
+                Helper helper = new Helper();
+                topicNum = helper.generateRandomNumber(upperLimit);
+            }
+            else {
                 throw new CustomException(MESSAGE_INVALID_TOPIC_NUM);
             }
         } catch (NumberFormatException error) {
