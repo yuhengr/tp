@@ -58,7 +58,8 @@ public class Parser {
                         allResults, userAnswers, isTimedMode);
                 isTimedMode = false;
             } else if (lowerCaseCommand.startsWith("solution")) {
-                processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
+                //processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
+                handleSolutionCommandRegEx(command, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith("explain")) {
                 processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith("results")) {
@@ -241,6 +242,52 @@ public class Parser {
             String allSolutions = qnList.getAllSolutions();
             ui.printAllSolutions(allSolutions);
         }
+    }
+
+    private void handleSolutionCommandRegEx(
+            String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
+            throws CustomException {
+        System.out.println("Now handling solution command.");
+
+        Pattern solutionPattern = Pattern.compile(CommandList.getSolutionPattern());
+        Matcher matcher = solutionPattern.matcher(command);
+        boolean foundMatch = matcher.find();
+
+        if(!foundMatch) {
+            throw new CustomException("Invalid format for solution command.");
+        }
+
+        // Extract the topic number from the command.
+        try {
+            int topicNum = Integer.parseInt(matcher.group(1));
+            System.out.println("You've chosen topic number " + topicNum);
+        }
+        catch (IllegalStateException error) {
+            throw new CustomException("IllegalStateException error for topic number");
+        }
+        catch (IndexOutOfBoundsException error) {
+            throw new CustomException("IndexOutOfBoundsException error for topic number");
+        }
+        catch (NumberFormatException error) {
+            throw new CustomException("NumberFormatException error for topic number");
+        }
+
+        // Extract question number
+        try {
+            int questionNum = Integer.parseInt(matcher.group(2));
+            System.out.println("You've have chosen question number " + questionNum);
+        }
+        catch (IllegalStateException error) {
+            throw new CustomException("IllegalStateException error for question number");
+        }
+        catch (IndexOutOfBoundsException error) {
+            throw new CustomException("IndexOutOfBoundsException error for question number");
+        }
+        catch (NumberFormatException error) {
+            throw new CustomException("NumberFormatException error for question number");
+        }
+
+        System.out.println("End of handling solution command.");
     }
 
     private void processExplainCommand(
