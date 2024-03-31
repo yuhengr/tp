@@ -247,7 +247,6 @@ public class Parser {
     private void handleSolutionCommandRegEx(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
-        System.out.println("Now handling solution command.");
 
         Pattern solutionPattern = Pattern.compile(CommandList.getSolutionPattern());
         Matcher matcher = solutionPattern.matcher(command);
@@ -257,16 +256,31 @@ public class Parser {
             throw new CustomException("Invalid format for solution command.");
         }
 
+        // Keep track of the parameters provided.
+        final int FIRST_PARAMETER = 1;
+        final int SECOND_PARAMETER = 2;
+        int topicNum;
+        int questionNum = 0;
+        boolean emptyQuestionNumParam = false;
+        boolean hasQuestionNum = false;
+        boolean validQuestionNum = false;
+        boolean hasAttemptedTopicBefore = false;
+
+        // For storing the topic to be displayed.
+        QuestionsList qnList;
+
         // Extract the topic number from the command.
         try {
-            int topicNum = Integer.parseInt(matcher.group(1));
-            System.out.println("You've chosen topic number " + topicNum);
-        }
-        catch (IllegalStateException error) {
-            throw new CustomException("IllegalStateException error for topic number");
-        }
-        catch (IndexOutOfBoundsException error) {
-            throw new CustomException("IndexOutOfBoundsException error for topic number");
+            String topicNumParam = matcher.group(FIRST_PARAMETER);
+            topicNum = Integer.parseInt(topicNumParam);
+            if(topicNum == 0) {
+                throw new CustomException("Topic number cannot be 0");
+            }
+            else {
+                hasAttemptedTopicBefore = topicList.get(topicNum - 1).hasAttempted();
+                qnList = questionListByTopic.getQuestionSet(topicNum - 1);
+                System.out.println("You've chosen topic number " + topicNum);
+            }
         }
         catch (NumberFormatException error) {
             throw new CustomException("NumberFormatException error for topic number");
@@ -274,20 +288,43 @@ public class Parser {
 
         // Extract question number
         try {
-            int questionNum = Integer.parseInt(matcher.group(2));
-            System.out.println("You've have chosen question number " + questionNum);
-        }
-        catch (IllegalStateException error) {
-            throw new CustomException("IllegalStateException error for question number");
-        }
-        catch (IndexOutOfBoundsException error) {
-            throw new CustomException("IndexOutOfBoundsException error for question number");
+            String questionNumParameter = matcher.group(SECOND_PARAMETER);
+            boolean questionNumParamProvided = !questionNumParameter.isEmpty();
+            if(questionNumParamProvided) {
+                questionNum = Integer.parseInt(questionNumParameter);
+                if(questionNum <= 0) {
+                    throw new CustomException("Question number is invalid.");
+                }
+                else {
+                    hasQuestionNum = true;
+                    validQuestionNum = true;
+                    System.out.println("You've chosen qn number " + questionNum);
+                }
+            }
+            else {
+                emptyQuestionNumParam = true;
+            }
         }
         catch (NumberFormatException error) {
             throw new CustomException("NumberFormatException error for question number");
         }
 
-        System.out.println("End of handling solution command.");
+        if(hasAttemptedTopicBefore) {
+            if(hasQuestionNum) {
+                String solution = qnList.getOneSolution(questionNum);
+                ui.printOneSolution(questionNum, solution);
+            }
+            else if(emptyQuestionNumParam) {
+                String allSolution = qnList.getAllSolutions();
+                ui.printAllSolutions(allSolution);
+            }
+            else {
+                System.out.println("You've provided an invalid question number.");
+            }
+        }
+        else {
+            ui.printNoSolutionAccess();
+        }
     }
 
     private void processExplainCommand(

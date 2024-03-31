@@ -8,7 +8,7 @@ public enum CommandList {
 
     private static final String PATTERN_BYE = "(?i)bye";
 
-    private static final String PATTERN_SOLUTION = "(?i)solution\\s*(\\d*)\\s*(\\d*)";
+    private static final String PATTERN_SOLUTION = "(?i)solution\\s*(\\d+)\\s*(.*)";
 
     private static final String PATTERN_EXPLANATION = "(?i)explanation\\s*(\\d+)\\s*(\\d+)";
 
