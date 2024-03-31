@@ -53,9 +53,9 @@ public class Parser {
             }
             if (commandToken == CommandList.TOPIC) {
                 // Still under testing.
-                beginStartCommand(command, ui, topicList, questionListByTopic, allResults, userAnswers);
-                /* processStartCommand(lowerCaseCommand, ui, topicList, questionListByTopic,
-                allResults, userAnswers, isTimedMode); */
+//                beginStartCommand(command, ui, topicList, questionListByTopic, allResults, userAnswers);
+                processStartCommand(lowerCaseCommand, ui, topicList, questionListByTopic,
+                allResults, userAnswers, isTimedMode);
                 isTimedMode = false;
             } else if (lowerCaseCommand.startsWith("solution")) {
                 processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);

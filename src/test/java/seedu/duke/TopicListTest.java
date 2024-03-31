@@ -13,7 +13,7 @@ class TopicListTest {
 
     void createTopicList(){
         topicTest1 = new Topic(qnList, "topicTest1", false, "covers topic 1" );
-        topicTest2 = new Topic(qnList2, "topicTest1", false, "covers topic 2" );
+        topicTest2 = new Topic(qnList2, "topicTest2", false, "covers topic 2" );
 
         topicListTest = new TopicList();
 
@@ -24,8 +24,14 @@ class TopicListTest {
     @Test
     void testGetTopic(){
         createTopicList();
-        assertEquals("topicTest1",topicListTest.getTopic(1));
+        assertEquals("topicTest1",topicListTest.getTopic(0));
+        assertEquals("topicTest2",topicListTest.getTopic(1));
     }
+
+//    @Test testGetRandomTopic() {
+//        createTopicList();
+//
+//    }
 
     @Test
     void testGetSize(){
