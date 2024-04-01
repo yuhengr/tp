@@ -149,16 +149,15 @@ public class Parser {
                 System.out.println("You've finished the topic. What will be your next topic?");
                 topicList.get(topicNum - 1).markAsAttempted();
                 ui.printTopicList(topicList, ui);
-            }
-            else {
+            } else {
                 throw new CustomException(MESSAGE_INVALID_TOPIC_NUM);
             }
-        }
-        catch(NumberFormatException error) {
+        } catch(NumberFormatException error) {
             throw new CustomException(MESSAGE_INVALID_TOPIC_COMMAND_FORMAT);
-        }
-        catch(IllegalStateException error) {
+        } catch(IllegalStateException error) {
             throw new CustomException(MESSAGE_INVALID_TOPIC_NUM);
+        } catch(CustomException e) {
+            throw e;
         }
     }
 
