@@ -25,7 +25,8 @@ public class Ui {
 
     public void readCommands(
             Ui ui, TopicList topicList,
-            QuestionListByTopic questionListByTopic, ResultsList allResults, Helper helper, AnswerTracker userAnswers
+            QuestionListByTopic questionListByTopic, ResultsList allResults, Helper helper, AnswerTracker userAnswers,
+            Storage storage
     ) {
         Parser parser = new Parser();
         printLine();
@@ -35,7 +36,7 @@ public class Ui {
             String command = in.nextLine();
             try {
                 parser.parseCommand(command, ui, topicList, questionListByTopic, allResults, helper,
-                        userAnswers);
+                        userAnswers, storage);
             } catch (CustomException e) {
                 ui.handleException(e);
             }
@@ -190,7 +191,7 @@ public class Ui {
         }
     }
 
-    private void handleException(CustomException e) {
+    public void handleException(CustomException e) {
         System.out.println(e.getMessage()); //TODO
     }
     public void printLine() {

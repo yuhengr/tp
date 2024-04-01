@@ -37,7 +37,7 @@ public class Parser {
     public void parseCommand(
 
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
-            ResultsList allResults, Helper helper, AnswerTracker userAnswers
+            ResultsList allResults, Helper helper, AnswerTracker userAnswers, Storage storage
     ) throws CustomException {
 
         String lowerCaseCommand = command.toLowerCase();
@@ -50,11 +50,12 @@ public class Parser {
             }
             if (commandToken == CommandList.TOPIC) {
                 // Still under testing.
-                beginStartCommand(command, ui, topicList, questionListByTopic, allResults, userAnswers);
+                beginStartCommand(command, ui, topicList, questionListByTopic, allResults, userAnswers, storage);
                 /* processStartCommand(lowerCaseCommand, ui, topicList, questionListByTopic,
                 allResults, userAnswers, isTimedMode); */
                 isTimedMode = false;
             } else if (lowerCaseCommand.contentEquals("bye")) {
+                storage.saveProgress(allResults, topicList, userAnswers);
                 ui.isPlaying = false;
             } else if (lowerCaseCommand.startsWith("solution") || lowerCaseCommand.startsWith("explain")) {
                 processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
@@ -128,7 +129,7 @@ public class Parser {
 
     private void beginStartCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
-            ResultsList allResults, AnswerTracker userAnswers
+            ResultsList allResults, AnswerTracker userAnswers, Storage storage
     ) throws CustomException {
 
         Pattern topicPattern = Pattern.compile(CommandList.getTopicPattern());

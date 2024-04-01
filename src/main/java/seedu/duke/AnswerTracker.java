@@ -19,6 +19,14 @@ public class AnswerTracker {
         return isCorrect.get(attemptNumber).get(index);
     }
 
+    public ArrayList<ArrayList<String>> getAllAnswers() {
+        return userAnswers;
+    }
+
+    public ArrayList<ArrayList<Boolean>> getAllCorrectness() {
+        return isCorrect;
+    }
+
     public void addUserAnswers(ArrayList<String> answers) {
         userAnswers.add(answers);
     }
