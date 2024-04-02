@@ -26,23 +26,17 @@ public enum CommandList {
 
         if(mainCommand.contentEquals("topic")) {
             return TOPIC;
-        }
-        else if(mainCommand.contentEquals("help")) {
+        } else if(mainCommand.contentEquals("help")) {
             return HELP;
-        }
-        else if(mainCommand.contentEquals("solution")) {
+        } else if(mainCommand.contentEquals("solution")) {
             return SOLUTION;
-        }
-        else if(mainCommand.contentEquals("explanation")) {
+        } else if(mainCommand.contentEquals("explanation")) {
             return EXPLAIN;
-        }
-        else if(mainCommand.contentEquals("results")) {
+        } else if(mainCommand.contentEquals("results")) {
             return RESULTS;
-        }
-        else if(mainCommand.contentEquals("bye")) {
+        } else if(mainCommand.contentEquals("bye")) {
             return BYE;
-        }
-        else {
+        } else {
             return INVALID;
         }
     }
