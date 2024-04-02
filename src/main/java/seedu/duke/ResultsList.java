@@ -34,12 +34,4 @@ public class ResultsList {
     public void clearResults() {
         sessionResults.clear();
     }
-
-    public ArrayList<Results> getSessionResults() {
-        return sessionResults;
-    }
-
-    public ArrayList<Integer> getTopicsChosen() {
-        return topicsChosen;
-    }
 }

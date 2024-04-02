@@ -18,6 +18,8 @@ public class Parser {
     private static final String COMMAND_SPLITTER = " ";
 
     private static final String DETAILS_PARAMETER = "details";
+    private static final String SOLUTION_PARAMETER = "solution";
+    private static final String EXPLAIN_PARAMETER = "explain";
 
     private static final String MESSAGE_NO_RESULTS = "There are no results.";
     private static final String MESSAGE_ERROR = "An error has occurred.";
@@ -28,10 +30,6 @@ public class Parser {
     private static final String MESSAGE_INVALID_TOPIC_NUM = "Topic number is invalid.";
 
     private static final String MESSAGE_INVALID_TOPIC_COMMAND_FORMAT = "Topic command format is invalid.";
-    private static final String PAUSE_GAME = "pause";
-    private static final String RESUME = "resume";
-    private static final String BYE = "bye";
-    private static final int NORMAL_TERMINATION = 0;
 
     private static final boolean INCLUDES_DETAILS = true;
     private static final boolean IS_CORRECT_ANSWER = true;
@@ -41,35 +39,38 @@ public class Parser {
     public void parseCommand(
 
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
-            ResultsList allResults, Helper helper, AnswerTracker userAnswers, Storage storage
+            ResultsList allResults, Helper helper, AnswerTracker userAnswers
     ) throws CustomException {
 
         String lowerCaseCommand = command.toLowerCase();
+
         CommandList commandToken = CommandList.getCommandToken(command);
         if (ui.isPlaying) {
 
-            if(lowerCaseCommand.contentEquals("timed mode")){
+            if (lowerCaseCommand.contentEquals("timed mode")) {
                 ui.printTimedModeSelected();
                 isTimedMode = true;
             }
             if (commandToken == CommandList.TOPIC) {
                 // Still under testing.
-                beginStartCommand(command, ui, topicList, questionListByTopic, allResults, userAnswers, storage);
-                /* processStartCommand(lowerCaseCommand, ui, topicList, questionListByTopic,
-                allResults, userAnswers, isTimedMode); */
+                // beginStartCommand(command, ui, topicList, questionListByTopic, allResults, userAnswers);
+                processStartCommand(lowerCaseCommand, ui, topicList, questionListByTopic,
+                        allResults, userAnswers, isTimedMode);
                 isTimedMode = false;
-            } else if (lowerCaseCommand.contentEquals("bye")) {
-                storage.saveProgress(allResults, topicList, userAnswers);
-                ui.isPlaying = false;
-            } else if (lowerCaseCommand.startsWith("solution") || lowerCaseCommand.startsWith("explain")) {
-                processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
+            } else if (lowerCaseCommand.startsWith("solution")) {
+                //processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
+                handleSolutionCommandRegEx(command, ui, topicList, questionListByTopic);
+            } else if (lowerCaseCommand.startsWith("explain")) {
+                processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith("results")) {
                 processResultsCommand(lowerCaseCommand, allResults, ui, questionListByTopic, userAnswers);
+            } else if (lowerCaseCommand.contentEquals("bye")) {
+                ui.isPlaying = false;
             } else if (lowerCaseCommand.contentEquals("help")) {
                 processHelpCommand(lowerCaseCommand, ui, helper);
             } else if (lowerCaseCommand.contentEquals("list")) {
                 processListCommand(topicList, ui);
-            } else if (!lowerCaseCommand.contentEquals("timed mode")){
+            } else if (!lowerCaseCommand.contentEquals("timed mode")) {
                 throw new CustomException("-1 HP coz invalid command");
             }
         }
@@ -133,43 +134,47 @@ public class Parser {
 
     private void beginStartCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
-            ResultsList allResults, AnswerTracker userAnswers, Storage storage
+            ResultsList allResults, AnswerTracker userAnswers
     ) throws CustomException {
 
         Pattern topicPattern = Pattern.compile(CommandList.getTopicPattern());
         Matcher matcher = topicPattern.matcher(command);
         boolean foundMatch = matcher.find();
 
-        if(!foundMatch) {
+        if (!foundMatch) {
             throw new CustomException("Can't find a match.");
         }
 
         try {
             int topicNum = Integer.parseInt(matcher.group(1));
             System.out.println("You've chosen topic number " + topicNum);
-            boolean validTopicNum = (topicNum <= topicList.getSize() + 1) && topicNum != 0;
+            final int upperLimit = topicList.getSize() + 1;
+            boolean validTopicNum = (topicNum < upperLimit) && topicNum != 0;
+            boolean isRandomTopicNum = topicNum == upperLimit;
 
-            if(validTopicNum){
-                ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode,
-                        storage, ui);
+            if (validTopicNum) {
+                ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode);
                 System.out.println("You've finished the topic. What will be your next topic?");
                 topicList.get(topicNum - 1).markAsAttempted();
                 ui.printTopicList(topicList, ui);
-            } else {
+            }
+            else if (isRandomTopicNum) {
+                Helper helper = new Helper();
+                topicNum = helper.generateRandomNumber(upperLimit);
+            }
+            else {
                 throw new CustomException(MESSAGE_INVALID_TOPIC_NUM);
             }
-        } catch(NumberFormatException error) {
+        } catch (NumberFormatException error) {
             throw new CustomException(MESSAGE_INVALID_TOPIC_COMMAND_FORMAT);
-        } catch(IllegalStateException error) {
+        } catch (IllegalStateException error) {
             throw new CustomException(MESSAGE_INVALID_TOPIC_NUM);
-        } catch(CustomException e) {
-            throw e;
         }
     }
 
     private void processStartCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
-            ResultsList allResults, AnswerTracker userAnswers, boolean isTimedMode, Storage storage
+            ResultsList allResults, AnswerTracker userAnswers, boolean isTimedMode
     ) throws CustomException {
         assert (topicList.getSize() != NO_RESULTS) : "Size of topicList should never be 0";
 
@@ -186,18 +191,17 @@ public class Parser {
                 throw new CustomException("No such topic");
             }
             // checks if user wants a random topic num
-            final int randomTopicNum = topicList.getSize() + 1;
-            if (topicNum == randomTopicNum) {
+            final int upperLimit = topicList.getSize() + 1;
+            if (topicNum == upperLimit) {
                 Helper helper = new Helper();
-                topicNum = helper.generateRandomNumber(randomTopicNum);
+                topicNum = helper.generateRandomNumber(upperLimit);
             }
             assert (topicNum != 0) : "topicNum should not be 0";
-            assert (topicNum != randomTopicNum) : "topicNum should not be randomTopicNum";
+            assert (topicNum != upperLimit) : "topicNum should not be upperLimit";
 
             // prints questions
-            ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode,
-                    storage, ui);
-            ui.printTopicCompleted();
+            ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode);
+            System.out.println("You have finished the topic! What will be your next topic?");
             topicList.get(topicNum - 1).markAsAttempted();
             ui.printTopicList(topicList, ui);
 
@@ -211,74 +215,185 @@ public class Parser {
     private void processSolutionCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
-        assert (lowerCaseCommand.contentEquals("solution") || lowerCaseCommand.contentEquals("explain"))
-                : "either solution or explain command";
-
-        boolean isSolutionCommand = lowerCaseCommand.contentEquals("solution");
-        String typeOfCommand = isSolutionCommand ? "solution" : "explain";
-
+        // process command
         String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER);
+        boolean hasTwoParameters = checkIfTwoParameters(SOLUTION_PARAMETER, commandParts);
+
+        // process parameters
+        String commandParameterTopic = commandParts[FIRST_PARAMETER];
+        String commandParameterQn = hasTwoParameters ? commandParts[SECOND_PARAMETER] : DUMMY_QUESTION_PARAMETER;
+
+        int topicNum = getTopicOrQuestionNum(commandParameterTopic, topicList.getSize());
+        QuestionsList qnList = questionListByTopic.getQuestionSet(topicNum - 1);
+        int questionNum = getTopicOrQuestionNum(commandParameterQn, qnList.getSize());
+
+        // checks if attempted topic before
+        if (!topicList.get(topicNum - 1).hasAttempted()) {
+            ui.printNoSolutionAccess(); // has not attempted
+            return;
+        }
+
+        if (hasTwoParameters) {
+            // get specific solution
+            String solution = qnList.getOneSolution(questionNum);
+            ui.printOneSolution(questionNum, solution);
+        } else {
+            // get all solutions
+            String allSolutions = qnList.getAllSolutions();
+            ui.printAllSolutions(allSolutions);
+        }
+    }
+
+    private void handleSolutionCommandRegEx(
+            String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
+            throws CustomException {
+
+        Pattern solutionPattern = Pattern.compile(CommandList.getSolutionPattern());
+        Matcher matcher = solutionPattern.matcher(command);
+        boolean foundMatch = matcher.find();
+
+        if(!foundMatch) {
+            throw new CustomException("Invalid format for solution command.");
+        }
+
+        // Keep track of the parameters provided.
+        final int FIRST_PARAMETER = 1;
+        final int SECOND_PARAMETER = 2;
+        int topicNum;
+        int questionNum = 0;
+        boolean emptyQuestionNumParam = false;
+        boolean hasQuestionNum = false;
+        boolean validQuestionNum = false;
+        boolean hasAttemptedTopicBefore = false;
+
+        // For storing the topic to be displayed.
+        QuestionsList qnList;
+
+        // Extract the topic number from the command.
+        try {
+            String topicNumParam = matcher.group(FIRST_PARAMETER);
+            topicNum = Integer.parseInt(topicNumParam);
+            if(topicNum == 0) {
+                throw new CustomException("Topic number cannot be 0");
+            }
+            else {
+                hasAttemptedTopicBefore = topicList.get(topicNum - 1).hasAttempted();
+                qnList = questionListByTopic.getQuestionSet(topicNum - 1);
+                System.out.println("You've chosen topic number " + topicNum);
+            }
+        }
+        catch (NumberFormatException error) {
+            throw new CustomException("NumberFormatException error for topic number");
+        }
+
+        // Extract question number
+        try {
+            String questionNumParameter = matcher.group(SECOND_PARAMETER);
+            boolean questionNumParamProvided = !questionNumParameter.isEmpty();
+            if(questionNumParamProvided) {
+                questionNum = Integer.parseInt(questionNumParameter);
+                if(questionNum <= 0) {
+                    throw new CustomException("Question number is invalid.");
+                }
+                else {
+                    hasQuestionNum = true;
+                    validQuestionNum = true;
+                    System.out.println("You've chosen qn number " + questionNum);
+                }
+            }
+            else {
+                emptyQuestionNumParam = true;
+            }
+        }
+        catch (NumberFormatException error) {
+            throw new CustomException("NumberFormatException error for question number");
+        }
+
+        if(hasAttemptedTopicBefore) {
+            if(hasQuestionNum) {
+                String solution = qnList.getOneSolution(questionNum);
+                ui.printOneSolution(questionNum, solution);
+            }
+            else if(emptyQuestionNumParam) {
+                String allSolution = qnList.getAllSolutions();
+                ui.printAllSolutions(allSolution);
+            }
+            else {
+                System.out.println("You've provided an invalid question number.");
+            }
+        }
+        else {
+            ui.printNoSolutionAccess();
+        }
+    }
+
+    private void processExplainCommand(
+            String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
+            throws CustomException {
+        // process command
+        String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER);
+        boolean hasTwoParameters = checkIfTwoParameters(EXPLAIN_PARAMETER, commandParts);
+
+        // process parameters
+        String commandParameterTopic = commandParts[FIRST_PARAMETER];
+        String commandParameterQn = hasTwoParameters ? commandParts[SECOND_PARAMETER] : DUMMY_QUESTION_PARAMETER;
+
+        int topicNum = getTopicOrQuestionNum(commandParameterTopic, topicList.getSize());
+        QuestionsList qnList = questionListByTopic.getQuestionSet(topicNum - 1);
+        int questionNum = getTopicOrQuestionNum(commandParameterQn, qnList.getSize());
+
+        // checks if attempted topic before
+        if (!topicList.get(topicNum - 1).hasAttempted()) {
+            ui.printNoSolutionAccess(); // has not attempted
+            return;
+        }
+
+        if (hasTwoParameters) {
+            // get specific explanation
+            String explanation = qnList.getOneExplanation(questionNum);
+            ui.printOneExplanation(questionNum, explanation);
+        } else {
+            // get all explanations
+            String allExplanations = qnList.getAllExplanations();
+            ui.printAllExplanations(allExplanations);
+        }
+    }
+    // checks valid command type and parameters: returns true if 2 parameters, else false (1 param only)
+    private static boolean checkIfTwoParameters(
+            String expectedCommandType, String[] commandParts) throws CustomException {
         int commandPartsLength = commandParts.length;
+        String actualCommandType = commandParts[0];
+
+        // checks validity of command
+        if (!actualCommandType.contentEquals(expectedCommandType)) {
+            throw new CustomException("Do you mean " + expectedCommandType + " instead?");
+        }
 
         // checks correct number of parameters (1 or 2 only)
         if (commandPartsLength == NO_PARAMETER_LENGTH || commandPartsLength > TWO_PARAMETER_LENGTH) {
             throw new CustomException(MESSAGE_INVALID_PARAMETERS);
         }
-        assert (commandPartsLength == ONE_PARAMETER_LENGTH || commandPartsLength == TWO_PARAMETER_LENGTH);
 
-        boolean hasTwoParameters = (commandPartsLength == TWO_PARAMETER_LENGTH);
-
-        String commandParameterTopic = commandParts[FIRST_PARAMETER];
-        String commandParameterQn = hasTwoParameters ? commandParts[SECOND_PARAMETER] : DUMMY_QUESTION_PARAMETER;
-        int topicNum;
-        int questionNum;
+        return (commandPartsLength == TWO_PARAMETER_LENGTH);
+    }
+    // convert String commandParameter to int topicNum/ questionNum and check validity
+    private int getTopicOrQuestionNum(String commandParameter, int maxSize) throws CustomException {
+        int parameterNum;
         try {
-            topicNum = Integer.parseInt(commandParameterTopic);
-            questionNum = Integer.parseInt(commandParameterQn);
+            parameterNum = Integer.parseInt(commandParameter);
         } catch (NumberFormatException e) {
             throw new CustomException(MESSAGE_INVALID_PARAMETERS);
         }
-        // checks validity of topicNum
-        if (topicNum < 1 || topicNum > topicList.getSize()) {
-            throw new CustomException("No such topic");
+        // checks validity
+        if (parameterNum < 1 || parameterNum > maxSize) {
+            throw new CustomException("No such topic or question");
         }
-        QuestionsList qnList = questionListByTopic.getQuestionSet(topicNum - 1);
-
-        // checks validity of questionNum
-        if (questionNum < 1 || questionNum > qnList.getSize()) {
-            throw new CustomException(("No such question"));
-        }
-
-        if (isSolutionCommand) {
-            if (!hasTwoParameters) {
-                // get all solutions
-                String allSolutions = qnList.getAllSolutions();
-                ui.printAllSolutions(allSolutions);
-                return;
-            }
-            // get specific solution
-            String solution = qnList.getOneSolution(questionNum);
-            if (!topicList.get(topicNum - 1).hasAttempted()) {
-                ui.printNoSolutionAccess(); // has not attempted
-            }
-            ui.printOneSolution(questionNum, solution);
-            return;
-        }
-        // only runs code below if explain command
-        assert typeOfCommand.contentEquals("explain");
-        if (hasTwoParameters) { // explain command only has 1 valid parameter
-            throw new CustomException(MESSAGE_INVALID_PARAMETERS);
-        }
-
-        String explanation = qnList.getOneExplanation(questionNum);
-        if (!topicList.get(topicNum - 1).hasAttempted()) {
-            ui.printNoSolutionAccess(); // has not attempted
-        }
-        ui.printOneSolution(questionNum, explanation);
+        return parameterNum;
     }
 
     public void handleAnswerInputs(String[] inputAnswers, int index, String answer, Question questionUnit,
                                    Results topicResults, ArrayList<Boolean> correctness) {
+
         inputAnswers[index] = answer;
         String correctAnswer = questionUnit.getSolution();
         if (answer.equals(correctAnswer)) {
@@ -302,32 +417,6 @@ public class Parser {
         } else {
             // TODO: given a command, find and print the detailed usage for that command
         }
-    }
-
-    public boolean checkPause(String answer, ResultsList allResults, TopicList topicList,
-                              AnswerTracker userAnswers, Ui ui, Storage storage, boolean isPaused, boolean isTimedMode,
-                              ArrayList<String> allAnswers, ArrayList<Boolean> answersCorrectness,
-                              Results topicResults, int topicNum, int index)
-            throws CustomException {
-        if (isTimedMode) {
-            ui.showCannotPause();
-            return false;
-        }
-        if (!isPaused && !answer.equalsIgnoreCase(PAUSE_GAME)) {
-            return false;
-        }
-        if (isPaused && answer.equalsIgnoreCase(BYE)) {
-            storage.pauseGame(allResults, topicList, userAnswers, allAnswers, answersCorrectness, topicResults,
-                    topicNum, index);
-            ui.sayBye();
-            System.exit(NORMAL_TERMINATION);
-        }
-        if (isPaused && answer.equalsIgnoreCase(RESUME)) {
-            ui.showResume();
-            return false;
-        }
-        ui.askForResume();
-        return true;
     }
 }
 
