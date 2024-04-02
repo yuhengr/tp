@@ -4,10 +4,12 @@ import seedu.duke.exceptions.CustomException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class Player2113 {
     public static final String SOME_FILE_PATH = "something";
     private static final String FILE_PATH_STORAGE = "data/player2113.txt";
+    private static final String MESSAGE_FILE_ERROR = "There was an error locating the save file.";
 
     private Ui ui;
     private QuestionsList questionsList1;
@@ -56,9 +58,11 @@ public class Player2113 {
   
     public void run() {
 
+        ui.sayHi();
         File saveFile = new File(FILE_PATH_STORAGE);
+        boolean isPaused = false;
         try {
-            storage.loadProgress(saveFile, allResults, topicList, userAnswers);
+            isPaused = storage.loadProgress(saveFile, allResults, topicList, userAnswers);
         } catch (FileNotFoundException e) {
             try {
                 storage.initSaveFile(saveFile);
@@ -66,8 +70,15 @@ public class Player2113 {
                 ui.handleException(exception);
             }
         }
+        if (isPaused) {
+            try {
+                loadQuestion(saveFile);
+                ui.printTopicCompleted();
+            } catch (CustomException e) {
+                ui.handleException(e);
+            }
+        }
 
-        ui.sayHi();
         ui.printTopicList(topicList, ui);
 
         while (ui.isPlaying) {
@@ -75,7 +86,21 @@ public class Player2113 {
         }
 
     }
-  
+
+    private void loadQuestion(File saveFile) throws CustomException {
+        Results topicResults = new Results();
+        ArrayList<String> answers = new ArrayList<>();
+        ArrayList<Boolean> correctness = new ArrayList<>();
+        int[] pausedQuestion;
+        try {
+            pausedQuestion = storage.resumeGame(saveFile, topicResults, answers, correctness);
+        } catch (FileNotFoundException e) {
+            throw new CustomException(MESSAGE_FILE_ERROR);
+        }
+        ui.resumeTopic(pausedQuestion, topicList, questionListByTopic, allResults, userAnswers, storage, ui,
+                answers, correctness, topicResults);
+    }
+
     public static void main(String[] args) {
         new Player2113(SOME_FILE_PATH).run();
     }

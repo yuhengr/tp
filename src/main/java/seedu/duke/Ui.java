@@ -85,7 +85,7 @@ public class Ui {
         System.out.println("Selected topic: " + topicList.getTopic(topicNum - 1));
         System.out.println("Here are the questions: ");
         qnList = questionListByTopic.getQuestionSet(topicNum - 1);
-        alLResults.addQuestions(topicNum - 1);
+        allResults.addQuestions(topicNum - 1);
         int numOfQns = qnList.getSize();
         Question questionUnit;
         String[] inputAnswers = new String[numOfQns];
@@ -144,9 +144,47 @@ public class Ui {
             }
         }
         topicResults.calculateScore();
-        alLResults.addResults(topicResults);
+        allResults.addResults(topicResults);
         userAnswers.addUserAnswers(allAnswers);
         userAnswers.addUserCorrectness(answersCorrectness);
+    }
+
+    public void resumeTopic(int[] pausedQuestion, TopicList topicList, QuestionListByTopic questionListByTopic,
+                            ResultsList allResults, AnswerTracker userAnswers, Storage storage, Ui ui,
+                            ArrayList<String> answers, ArrayList<Boolean> correctness, Results topicResults)
+            throws CustomException {
+        QuestionsList qnList;
+        int topicNum = pausedQuestion[INDEX_TOPIC_NUM];
+        int qnNum = pausedQuestion[INDEX_INDEX];
+        qnList = questionListByTopic.getQuestionSet(topicNum - 1);
+        allResults.addQuestions(topicNum - 1);
+        int numOfQns = qnList.getSize();
+        Question questionUnit;
+        String[] inputAnswers = new String[numOfQns];
+        String answer;
+        for (int index = qnNum; index < numOfQns; index++){ //go through 1 question set
+            questionUnit = qnList.getQuestionUnit(index);
+            System.out.println(questionUnit.getQuestion());
+
+            Parser parser = new Parser();
+            boolean isPaused = false;
+            boolean wasPaused;
+
+            do {
+                wasPaused = isPaused;
+                askForAnswerInput();
+                answer = in.nextLine();
+                isPaused = parser.checkPause(answer, allResults, topicList, userAnswers, ui, storage, isPaused,
+                        !IS_TIMED_MODE, answers, correctness, topicResults, topicNum, index);
+            } while (isPaused || wasPaused);
+
+            parser.handleAnswerInputs(inputAnswers, index, answer, questionUnit, topicResults, correctness);
+            answers.add(answer);
+        }
+        topicResults.calculateScore();
+        allResults.addResults(topicResults);
+        userAnswers.addUserAnswers(answers);
+        userAnswers.addUserCorrectness(correctness);
     }
 
     public void printCongratulatoryMessage(){
