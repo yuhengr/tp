@@ -113,4 +113,9 @@ else
     deactivate QuestionsList
 end
 
+destroy Ui
+destroy TopicList
+destroy QuestionsList
+destroy QuestionsListByTopic
+
 @enduml
