@@ -28,6 +28,10 @@ public class Parser {
     private static final String MESSAGE_INVALID_TOPIC_NUM = "Topic number is invalid.";
 
     private static final String MESSAGE_INVALID_TOPIC_COMMAND_FORMAT = "Topic command format is invalid.";
+    private static final String PAUSE_GAME = "pause";
+    private static final String RESUME = "resume";
+    private static final String BYE = "bye";
+    private static final int NORMAL_TERMINATION = 0;
 
     private static final boolean INCLUDES_DETAILS = true;
     private static final boolean IS_CORRECT_ANSWER = true;
@@ -146,7 +150,8 @@ public class Parser {
             boolean validTopicNum = (topicNum <= topicList.getSize() + 1) && topicNum != 0;
 
             if(validTopicNum){
-                ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode);
+                ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode,
+                        storage, ui);
                 System.out.println("You've finished the topic. What will be your next topic?");
                 topicList.get(topicNum - 1).markAsAttempted();
                 ui.printTopicList(topicList, ui);
@@ -164,7 +169,7 @@ public class Parser {
 
     private void processStartCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
-            ResultsList allResults, AnswerTracker userAnswers, boolean isTimedMode
+            ResultsList allResults, AnswerTracker userAnswers, boolean isTimedMode, Storage storage
     ) throws CustomException {
         assert (topicList.getSize() != NO_RESULTS) : "Size of topicList should never be 0";
 
@@ -190,8 +195,9 @@ public class Parser {
             assert (topicNum != randomTopicNum) : "topicNum should not be randomTopicNum";
 
             // prints questions
-            ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode);
-            System.out.println("You have finished the topic! What will be your next topic?");
+            ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode,
+                    storage, ui);
+            ui.printTopicCompleted();
             topicList.get(topicNum - 1).markAsAttempted();
             ui.printTopicList(topicList, ui);
 
@@ -273,7 +279,6 @@ public class Parser {
 
     public void handleAnswerInputs(String[] inputAnswers, int index, String answer, Question questionUnit,
                                    Results topicResults, ArrayList<Boolean> correctness) {
-
         inputAnswers[index] = answer;
         String correctAnswer = questionUnit.getSolution();
         if (answer.equals(correctAnswer)) {
@@ -297,6 +302,32 @@ public class Parser {
         } else {
             // TODO: given a command, find and print the detailed usage for that command
         }
+    }
+
+    public boolean checkPause(String answer, ResultsList allResults, TopicList topicList,
+                              AnswerTracker userAnswers, Ui ui, Storage storage, boolean isPaused, boolean isTimedMode,
+                              ArrayList<String> allAnswers, ArrayList<Boolean> answersCorrectness,
+                              Results topicResults, int topicNum, int index)
+            throws CustomException {
+        if (isTimedMode) {
+            ui.showCannotPause();
+            return false;
+        }
+        if (!isPaused && !answer.equalsIgnoreCase(PAUSE_GAME)) {
+            return false;
+        }
+        if (isPaused && answer.equalsIgnoreCase(BYE)) {
+            storage.pauseGame(allResults, topicList, userAnswers, allAnswers, answersCorrectness, topicResults,
+                    topicNum, index);
+            ui.sayBye();
+            System.exit(NORMAL_TERMINATION);
+        }
+        if (isPaused && answer.equalsIgnoreCase(RESUME)) {
+            ui.showResume();
+            return false;
+        }
+        ui.askForResume();
+        return true;
     }
 }
 
