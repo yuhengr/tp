@@ -13,18 +13,8 @@ public class Ui {
     private static final Scanner in = new Scanner(System.in);
 
     private static final String HEADER_ALL_RESULTS = "These are all your results so far:\n";
-    private static final String MESSAGE_ASK_RESUME = "The game is paused.\nInput \"resume\" to continue, " +
-            "or \"bye\" to exit.";
-    private static final String MESSAGE_RESUME = "The game has been resumed.";
-    private static final String MESSAGE_CANNOT_PAUSE = "You cannot pause in timed mode!";
-    private static final String MESSAGE_TOPIC_COMPLETED = "You have finished the topic! What will be your " +
-            "next topic?";
-
-    private static final int INDEX_TOPIC_NUM = 0;
-    private static final int INDEX_INDEX = 1;
 
     private static final int NEW_LINE = 48;
-    private static final boolean IS_TIMED_MODE = true;
     public boolean isPlaying = true;
 
     public boolean hasStartedGame = false;
@@ -35,8 +25,7 @@ public class Ui {
 
     public void readCommands(
             Ui ui, TopicList topicList,
-            QuestionListByTopic questionListByTopic, ResultsList allResults, Helper helper, AnswerTracker userAnswers,
-            Storage storage
+            QuestionListByTopic questionListByTopic, ResultsList allResults, Helper helper, AnswerTracker userAnswers
     ) {
         Parser parser = new Parser();
         printLine();
@@ -46,7 +35,7 @@ public class Ui {
             String command = in.nextLine();
             try {
                 parser.parseCommand(command, ui, topicList, questionListByTopic, allResults, helper,
-                        userAnswers, storage);
+                        userAnswers);
             } catch (CustomException e) {
                 ui.handleException(e);
             }
@@ -59,7 +48,7 @@ public class Ui {
         System.out.println("Input a command player!"); // TODO: show possible commands
     }
 
-    public void askForAnswerInput(){
+    private void askForAnswerInput(){
         System.out.print("Enter your answer: ");
     }
 
@@ -74,9 +63,9 @@ public class Ui {
     }
 
     public void printChosenTopic(
-            int topicNum, TopicList topicList, QuestionListByTopic questionListByTopic, ResultsList allResults,
-            AnswerTracker userAnswers, boolean isTimedMode, Storage storage, Ui ui
-    ) throws CustomException {
+            int topicNum, TopicList topicList, QuestionListByTopic questionListByTopic, ResultsList alLResults,
+            AnswerTracker userAnswers, boolean isTimedMode
+    ){
         Results topicResults = new Results();
         QuestionsList qnList;
         boolean[] isTimesUp = {false};
@@ -85,7 +74,7 @@ public class Ui {
         System.out.println("Selected topic: " + topicList.getTopic(topicNum - 1));
         System.out.println("Here are the questions: ");
         qnList = questionListByTopic.getQuestionSet(topicNum - 1);
-        allResults.addQuestions(topicNum - 1);
+        alLResults.addQuestions(topicNum - 1);
         int numOfQns = qnList.getSize();
         Question questionUnit;
         String[] inputAnswers = new String[numOfQns];
@@ -121,21 +110,14 @@ public class Ui {
                     }
                 }
             }
-            Parser parser = new Parser();
-            boolean isPaused = false;
-            boolean wasPaused;
 
-            do {
-                wasPaused = isPaused;
-                askForAnswerInput();
-                answer = in.nextLine();
-                isPaused = parser.checkPause(answer, allResults, topicList, userAnswers, ui, storage, isPaused,
-                        isTimedMode, allAnswers, answersCorrectness, topicResults, topicNum, index[0]);
-            } while (isPaused || wasPaused);
+            askForAnswerInput();
+            Parser parser = new Parser();
+            answer = in.nextLine();
 
             if (!isTimesUp[0]) {
-                parser.handleAnswerInputs(inputAnswers, index[0], answer, questionUnit, topicResults,
-                        answersCorrectness);
+                parser.handleAnswerInputs(inputAnswers, index[0], answer, questionUnit,
+                        topicResults, answersCorrectness);
                 if (index[0] == numOfQns - 1 && isTimedMode){
                     printCongratulatoryMessage();
                     hasCompletedSet[0] = true;
@@ -144,47 +126,9 @@ public class Ui {
             }
         }
         topicResults.calculateScore();
-        allResults.addResults(topicResults);
+        alLResults.addResults(topicResults);
         userAnswers.addUserAnswers(allAnswers);
         userAnswers.addUserCorrectness(answersCorrectness);
-    }
-
-    public void resumeTopic(int[] pausedQuestion, TopicList topicList, QuestionListByTopic questionListByTopic,
-                            ResultsList allResults, AnswerTracker userAnswers, Storage storage, Ui ui,
-                            ArrayList<String> answers, ArrayList<Boolean> correctness, Results topicResults)
-            throws CustomException {
-        QuestionsList qnList;
-        int topicNum = pausedQuestion[INDEX_TOPIC_NUM];
-        int qnNum = pausedQuestion[INDEX_INDEX];
-        qnList = questionListByTopic.getQuestionSet(topicNum - 1);
-        allResults.addQuestions(topicNum - 1);
-        int numOfQns = qnList.getSize();
-        Question questionUnit;
-        String[] inputAnswers = new String[numOfQns];
-        String answer;
-        for (int index = qnNum; index < numOfQns; index++){ //go through 1 question set
-            questionUnit = qnList.getQuestionUnit(index);
-            System.out.println(questionUnit.getQuestion());
-
-            Parser parser = new Parser();
-            boolean isPaused = false;
-            boolean wasPaused;
-
-            do {
-                wasPaused = isPaused;
-                askForAnswerInput();
-                answer = in.nextLine();
-                isPaused = parser.checkPause(answer, allResults, topicList, userAnswers, ui, storage, isPaused,
-                        !IS_TIMED_MODE, answers, correctness, topicResults, topicNum, index);
-            } while (isPaused || wasPaused);
-
-            parser.handleAnswerInputs(inputAnswers, index, answer, questionUnit, topicResults, correctness);
-            answers.add(answer);
-        }
-        topicResults.calculateScore();
-        allResults.addResults(topicResults);
-        userAnswers.addUserAnswers(answers);
-        userAnswers.addUserCorrectness(correctness);
     }
 
     public void printCongratulatoryMessage(){
@@ -208,11 +152,19 @@ public class Ui {
                 + System.lineSeparator() + solution);
     }
 
+    public void printOneExplanation(int questionNum, String explanation) {
+        System.out.println("The explanation for question " + questionNum + ":"
+                + System.lineSeparator() + explanation);
+    }
     public void printAllSolutions(String allSolutions) {
-        System.out.println("The solutions are :"
+        System.out.print("The solutions are :"
                 + System.lineSeparator() + allSolutions);
     }
 
+    public void printAllExplanations(String allExplanations) {
+        System.out.print("The explanations are :"
+                + System.lineSeparator() + allExplanations);
+    }
     public void printOneResult(boolean includesDetails, int topicNum, String score,
                                QuestionListByTopic questionListByTopic, AnswerTracker userAnswers, int index) {
         System.out.println("Your results for Topic " + (topicNum + 1) + ":\n" + score + "\n");
@@ -246,7 +198,7 @@ public class Ui {
         }
     }
 
-    public void handleException(CustomException e) {
+    private void handleException(CustomException e) {
         System.out.println(e.getMessage()); //TODO
     }
     public void printLine() {
@@ -282,19 +234,4 @@ public class Ui {
         System.out.println(ASCIITable.getInstance().getTable(headers, data));
     }
 
-    public void askForResume() {
-        System.out.println(MESSAGE_ASK_RESUME);
-    }
-
-    public void showResume() {
-        System.out.println(MESSAGE_RESUME);
-    }
-
-    public void showCannotPause() {
-        System.out.println(MESSAGE_CANNOT_PAUSE);
-    }
-
-    public void printTopicCompleted() {
-        System.out.println(MESSAGE_TOPIC_COMPLETED);
-    }
 }
