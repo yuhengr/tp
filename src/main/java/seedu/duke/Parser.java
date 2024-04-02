@@ -264,8 +264,6 @@ public class Parser {
         }
 
         // Keep track of the parameters provided.
-        final int FIRST_PARAMETER = 1; //checkstyleError
-        final int SECOND_PARAMETER = 2;
         int topicNum;
         int questionNum = 0;
         boolean emptyQuestionNumParam = false;
