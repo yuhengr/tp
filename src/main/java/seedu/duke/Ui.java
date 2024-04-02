@@ -106,11 +106,12 @@ public class Ui {
                     };
                     timer.schedule(task, 5000);
                     if (isTimesUp[0]) {
+                        assert index[0] == allAnswers.size() : "Number of questions does not match the size of allAnswers list";
+                        assert index[0] == answersCorrectness.size() : "Number of questions does not match the size of answersCorrectness list";
                         break;
                     }
                 }
             }
-
             askForAnswerInput();
             Parser parser = new Parser();
             answer = in.nextLine();
