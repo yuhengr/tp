@@ -24,6 +24,7 @@ class ParserTest {
     private TopicList topicList;
     private Results roundOneResults;
     private Results roundTwoResults;
+    private Storage storage;
 
     void setUp() {
         createFourQuestions();
@@ -38,6 +39,7 @@ class ParserTest {
         helper = new Helper();
         parser = new Parser();
         userAnswers = new AnswerTracker();
+        storage = new Storage();
     }
     void createResultsList() {
         allResults = new ResultsList();
@@ -100,7 +102,7 @@ class ParserTest {
 
     void runParserCommand(String command) throws CustomException {
         parser.parseCommand(command, ui, topicList,
-                questionListByTopic, allResults, helper, userAnswers);
+                questionListByTopic, allResults, helper, userAnswers, storage);
     }
     @Test
     void parseCommand_solutionCommand_noException() throws CustomException {
