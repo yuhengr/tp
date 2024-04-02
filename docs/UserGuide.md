@@ -47,8 +47,9 @@ What is your name?
 7. [bye](#7-exiting-the-game-bye)
 
 ### 1. Starting game: `topic`
-Start the game by selecting a topic from the menu. Afterwards, questions will start appearing.
 There are multiple question banks pre-configured in Player2113.
+Start the game by selecting a topic from the menu. 
+After choosing a topic, questions will start appearing.
 
 Format: `topic [TOPIC_INDEX]`
 
@@ -59,8 +60,8 @@ Format: `topic [TOPIC_INDEX]`
 Example:
 Input index of answer you want to respond with
 Press enter to submit response
-eg “a” to choose option a. Java (below)
-![MCQ question sample](docs/team/img/mcqQuestionType.png)
+eg “a” to choose option "a. Java" (below)
+![MCQ question sample](./team/img/mcqQuestionType.png)
 
 ### 2. Viewing results: `results`
 
@@ -120,7 +121,7 @@ Displays commands for the application (start game, choose topic, revise, clear/r
 Usage: type “help” in the main menu.
 Sample output:
 
-![Help Sample Output](docs/team/img/ug_usage_help.png)
+![Help Sample Output](./team/img/ug_usage_help.png)
 
 ### 7. Exiting the game `bye`
 
