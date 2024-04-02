@@ -74,39 +74,56 @@ The solution feature either prints the solution to 1 question or all questions i
 
 The solution feature is facilitated by ```Parser#processSolutionCommand```, which is called by ```Parser#parseCommand```
 
-Step 1: After user runs the program and keys in the user commands, the commands will be passed to 
-```Parser#parseCommand```.
+> **OVERVIEW:**
+>
+> ![Solution sequence diagram](./team/img/Solution.png)
 
-The command must contain the ```solution``` keyword before being passed into ```Parser#processSolutionCommand```
-![Solution sequence diagram](./team/img/Solution.png)
+Step 1: After user runs the program and keys in the user command, the command will be passed to 
+```Parser#parseCommand```. 
 
-Step 2: ```Parser#processSolutionCommand``` will first check number of parameters.
-First, it will call ```QuestionsList``` class which contains all questions in a topic.
-If there is 1 parameter, ```QuestionsList#getAllSolutions``` will be called to get all solutions in a topic.
-If there are 2 parameters, ```QuestionsList#getOneSolution``` will be called to get one specific solution.
+> **NOTE:** The command must contain the ```solution``` keyword.
 
-Step 3: 
-To get all solutions, ```ui#printAllSolutions``` will be called to print all solutions
-To get one specific solution, ```ui#printOneSolution``` will be called to print that one solution.
+Step 2a: ```Parser#processSolutionCommand``` first checks the number of parameters in the user command 
+by calling ```Parser#checkIfTwoParameters```.
+The, further processing of parameters is done by calling ```Parser#getTopicOrQuestionNum```. 
+This is facilitated by calling ```QuestionsListByTopic#getQuestionSet``` to get all questions in the specified topic.
 
-### [Intended] Explain feature
+Step 2b: Before getting the solution(s), the program first verifies if the topic has been attempted before.
+The program only prints them only if the topic is attempted before.
+The topic is selected by calling ```TopicList#get``` and ```TopicList#hasAttempted``` returns the attempted status.
+
+Step 3:
+Depending on the number of parameters,
+if there is 1 parameter (ie get all solutions):
+```QuestionsList#getAllSolutions``` will get all solutions and ```ui#printAllSolutions``` will print them.
+else if there are 2 parameters (ie get one solution):
+```QuestionsList#getOneSolution``` will get the specified solution and ```ui#printOneSolution``` will print it.
+
+### Explain feature
 The explain feature either prints the explanation to 1 question or all questions in 1 topic.
 
 The explain feature is facilitated by ```Parser#processExplanationCommand```, which is called by ```Parser#parseCommand```
 
-Step 1: After user runs the program and keys in the user commands, the commands will be passed to
+Step 1: After user runs the program and keys in the user command, the command will be passed to
 ```Parser#parseCommand```.
 
-The command must contain the ```explain``` keyword before being passed into ```Parser#processExplainCommand```
+> **NOTE:** The command must contain the ```explain``` keyword.
 
-Step 2: ```Parser#processExplainCommand``` will first check number of parameters.
-First, it will call ```QuestionsList``` class which contains all questions in a topic.
-If there is 1 parameter, ```QuestionsList#getAllExplanations``` will be called to get all explanations in a topic.
-If there are 2 parameters, ```QuestionsList#getOneExplanation``` will be called to get one specific explanation.
+Step 2a: ```Parser#processExplainCommand``` first checks the number of parameters in the user command
+by calling ```Parser#checkIfTwoParameters```.
+The, further processing of parameters is done by calling ```Parser#getTopicOrQuestionNum```.
+This is facilitated by calling ```QuestionsListByTopic#getQuestionSet``` to get all questions in the specified topic.
+
+Step 2b: Before getting the explanation(s), the program first verifies if the topic has been attempted before.
+The program only prints them only if the topic is attempted before.
+The topic is selected by calling ```TopicList#get``` and ```TopicList#hasAttempted``` returns the attempted status.
 
 Step 3:
-To get all explanations, ```ui#printAllExplanation``` will be called to print all explanations
-To get one specific explanation, ```ui#printOneExplanation``` will be called to print that one explanation.
+Depending on the number of parameters,
+if there is 1 parameter (ie get all explanations):
+```QuestionsList#getAllExplanations``` will get all explanations and ```ui#printAllExplanations``` will print them.
+else if there are 2 parameters (ie get one explanation):
+```QuestionsList#getOneExplanation``` will get the specified explanation and ```ui#printOneExplanation``` will print it.
 
 
 ## Product scope
