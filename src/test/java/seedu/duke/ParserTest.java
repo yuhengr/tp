@@ -18,10 +18,10 @@ class ParserTest {
     private Question question4;
     private QuestionsList questionsList1;
     private QuestionsList questionsList2;
-    QuestionListByTopic questionListByTopic;
+    private QuestionListByTopic questionListByTopic;
     private Topic topicOne;
     private Topic topicTwo;
-    TopicList topicList;
+    private TopicList topicList;
     private Results roundOneResults;
     private Results roundTwoResults;
 
