@@ -8,7 +8,7 @@ public enum CommandList {
 
     private static final String PATTERN_BYE = "(?i)bye";
 
-    private static final String PATTERN_SOLUTION = "(?i)solution\\s*(\\d+)\\s*(\\d+)";
+    private static final String PATTERN_SOLUTION = "(?i)solution\\s*(\\d+)\\s*(.*)";
 
     private static final String PATTERN_EXPLANATION = "(?i)explanation\\s*(\\d+)\\s*(\\d+)";
 
@@ -20,21 +20,25 @@ public enum CommandList {
         return PATTERN_TOPIC;
     }
 
+    public static String getSolutionPattern() {
+        return PATTERN_SOLUTION;
+    }
+
     public static CommandList getCommandToken(String command) {
         String[] splitCommand = command.split(" ");
         String mainCommand = splitCommand[0].toLowerCase();
 
-        if(mainCommand.contentEquals("topic")) {
+        if (mainCommand.contentEquals("topic")) {
             return TOPIC;
-        } else if(mainCommand.contentEquals("help")) {
+        } else if (mainCommand.contentEquals("help")) {
             return HELP;
-        } else if(mainCommand.contentEquals("solution")) {
+        } else if (mainCommand.contentEquals("solution")) {
             return SOLUTION;
-        } else if(mainCommand.contentEquals("explanation")) {
+        } else if (mainCommand.contentEquals("explanation")) {
             return EXPLAIN;
-        } else if(mainCommand.contentEquals("results")) {
+        } else if (mainCommand.contentEquals("results")) {
             return RESULTS;
-        } else if(mainCommand.contentEquals("bye")) {
+        } else if (mainCommand.contentEquals("bye")) {
             return BYE;
         } else {
             return INVALID;
