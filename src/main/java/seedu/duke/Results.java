@@ -31,14 +31,6 @@ public class Results {
         logger.log(Level.INFO,"end of calculation");
     }
 
-    public int getNumberOfCorrectAnswers() {
-        return numberOfCorrectAnswers;
-    }
-
-    public int getTotalNumberOfQuestions() {
-        return totalNumberOfQuestions;
-    }
-
     public String getScore() {
         return score;
     }
@@ -49,17 +41,5 @@ public class Results {
 
     public void increaseNumberOfQuestions() {
         totalNumberOfQuestions++;
-    }
-
-    public void setTotalNumberOfQuestions(int totalNumberOfQuestions) {
-        this.totalNumberOfQuestions = totalNumberOfQuestions;
-    }
-
-    public void setNumberOfCorrectAnswers(int numberOfCorrectAnswers) {
-        this.numberOfCorrectAnswers = numberOfCorrectAnswers;
-    }
-
-    public void setScore(String score) {
-        this.score = score;
     }
 }
