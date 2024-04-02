@@ -154,7 +154,7 @@ public class Parser {
 
             if (validTopicNum) {
                 ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode);
-                System.out.println("You've finished the topic. What will be your next topic?");
+                ui.printFinishedTopic();
                 topicList.get(topicNum - 1).markAsAttempted();
                 ui.printTopicList(topicList, ui);
             }
@@ -201,7 +201,7 @@ public class Parser {
 
             // prints questions
             ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode);
-            System.out.println("You have finished the topic! What will be your next topic?");
+            ui.printFinishedTopic();
             topicList.get(topicNum - 1).markAsAttempted();
             ui.printTopicList(topicList, ui);
 
