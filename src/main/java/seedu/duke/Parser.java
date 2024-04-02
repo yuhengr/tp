@@ -58,8 +58,8 @@ public class Parser {
                         allResults, userAnswers, isTimedMode);
                 isTimedMode = false;
             } else if (lowerCaseCommand.startsWith("solution")) {
-                //processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
-                handleSolutionCommandRegEx(command, ui, topicList, questionListByTopic);
+                processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
+                // handleSolutionCommandRegEx(command, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith("explain")) {
                 processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith("results")) {
@@ -157,12 +157,10 @@ public class Parser {
                 System.out.println("You've finished the topic. What will be your next topic?");
                 topicList.get(topicNum - 1).markAsAttempted();
                 ui.printTopicList(topicList, ui);
-            }
-            else if (isRandomTopicNum) {
+            } else if (isRandomTopicNum) {
                 Helper helper = new Helper();
                 topicNum = helper.generateRandomNumber(upperLimit);
-            }
-            else {
+            } else {
                 throw new CustomException(MESSAGE_INVALID_TOPIC_NUM);
             }
         } catch (NumberFormatException error) {
@@ -252,12 +250,12 @@ public class Parser {
         Matcher matcher = solutionPattern.matcher(command);
         boolean foundMatch = matcher.find();
 
-        if(!foundMatch) {
+        if (!foundMatch) {
             throw new CustomException("Invalid format for solution command.");
         }
 
         // Keep track of the parameters provided.
-        final int FIRST_PARAMETER = 1;
+        final int FIRST_PARAMETER = 1; //checkstyleError
         final int SECOND_PARAMETER = 2;
         int topicNum;
         int questionNum = 0;
@@ -273,16 +271,14 @@ public class Parser {
         try {
             String topicNumParam = matcher.group(FIRST_PARAMETER);
             topicNum = Integer.parseInt(topicNumParam);
-            if(topicNum == 0) {
+            if (topicNum == 0) {
                 throw new CustomException("Topic number cannot be 0");
-            }
-            else {
+            } else {
                 hasAttemptedTopicBefore = topicList.get(topicNum - 1).hasAttempted();
                 qnList = questionListByTopic.getQuestionSet(topicNum - 1);
                 System.out.println("You've chosen topic number " + topicNum);
             }
-        }
-        catch (NumberFormatException error) {
+        } catch (NumberFormatException error) {
             throw new CustomException("NumberFormatException error for topic number");
         }
 
@@ -290,39 +286,33 @@ public class Parser {
         try {
             String questionNumParameter = matcher.group(SECOND_PARAMETER);
             boolean questionNumParamProvided = !questionNumParameter.isEmpty();
-            if(questionNumParamProvided) {
+            if (questionNumParamProvided) {
                 questionNum = Integer.parseInt(questionNumParameter);
-                if(questionNum <= 0) {
+                if (questionNum <= 0) {
                     throw new CustomException("Question number is invalid.");
-                }
-                else {
+                } else {
                     hasQuestionNum = true;
                     validQuestionNum = true;
                     System.out.println("You've chosen qn number " + questionNum);
                 }
-            }
-            else {
+            } else {
                 emptyQuestionNumParam = true;
             }
-        }
-        catch (NumberFormatException error) {
+        } catch (NumberFormatException error) {
             throw new CustomException("NumberFormatException error for question number");
         }
 
-        if(hasAttemptedTopicBefore) {
-            if(hasQuestionNum) {
+        if (hasAttemptedTopicBefore) {
+            if (hasQuestionNum) {
                 String solution = qnList.getOneSolution(questionNum);
                 ui.printOneSolution(questionNum, solution);
-            }
-            else if(emptyQuestionNumParam) {
+            } else if (emptyQuestionNumParam) {
                 String allSolution = qnList.getAllSolutions();
                 ui.printAllSolutions(allSolution);
-            }
-            else {
+            } else {
                 System.out.println("You've provided an invalid question number.");
             }
-        }
-        else {
+        } else {
             ui.printNoSolutionAccess();
         }
     }
@@ -358,6 +348,7 @@ public class Parser {
             ui.printAllExplanations(allExplanations);
         }
     }
+
     // checks valid command type and parameters: returns true if 2 parameters, else false (1 param only)
     private static boolean checkIfTwoParameters(
             String expectedCommandType, String[] commandParts) throws CustomException {
@@ -376,9 +367,11 @@ public class Parser {
 
         return (commandPartsLength == TWO_PARAMETER_LENGTH);
     }
+
     // convert String commandParameter to int topicNum/ questionNum and check validity
     private int getTopicOrQuestionNum(String commandParameter, int maxSize) throws CustomException {
         int parameterNum;
+        // check if topic/ questionNum is a number
         try {
             parameterNum = Integer.parseInt(commandParameter);
         } catch (NumberFormatException e) {

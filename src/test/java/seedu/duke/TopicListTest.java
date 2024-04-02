@@ -37,9 +37,10 @@ class TopicListTest {
     @Test
     void getTopic_randomTopicNum_validTopic() {
         createTopicList();
-        int upperLimit = topicListTest.getSize() + 1;
+        int upperLimit = topicListTest.getSize() + 1; // total 2 topics
         Helper helper = new Helper();
-        // generate num btwn 1 to 2 (ie topicListTest.getSize()) inclusive
+
+        // generate num between 1 to 2 (ie topicListTest.getSize()) inclusive
         int topicNum = helper.generateRandomNumber(upperLimit);
         String randomTopic = (topicNum == 1) ? "topicTest1" : "topicTest2";
 
