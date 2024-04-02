@@ -62,7 +62,6 @@ class QuestionsListTest {
 
         assertEquals(expectedOutput, questionsList.getAllSolutions());
     }
-
     @Test
     void getAllExplanations_twoQuestions_twoExplanations() throws CustomException {
         createQuestionList();
@@ -88,7 +87,6 @@ class QuestionsListTest {
         assertThrows(CustomException.class, // expect Exception
                 () -> questionsList.getAllSolutions());
     }
-
     @Test
     void getAllExplanations_noQuestions_customException() {
         createQuestionList(); // empty question List

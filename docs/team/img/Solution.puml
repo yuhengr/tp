@@ -3,51 +3,8 @@
 
 autonumber
 
-participant Parser
-participant QuestionsListByTopic
-participant QuestionsList
-participant TopicList
-participant Ui
-
--> Parser: processSolutionCommand()
--> QuestionsListByTopic: processSolutionCommand()
--> TopicList: processSolutionCommand()
--> Ui: processSolutionCommand()
-
-Parser -> Parser: checkIfTwoParameters()
-
-TopicList -> TopicList: getSize()
-TopicList -> Parser: size
-Parser -> Parser: getTopicOrQuestionNum()
-
-Parser -> QuestionsList: new QuestionsList()
-
-QuestionsListByTopic -> QuestionsListByTopic: getQuestionSet()
-QuestionsListByTopic -> Parser: qnList
-
-QuestionsList -> QuestionsList: getSize()
-QuestionsList -> Parser: size
-Parser -> Parser: getTopicOrQuestionNum()
-
-TopicList -> TopicList: get()
-TopicList -> TopicList: hasAttempted()
-TopicList -> Parser: hasAttemptedStatus
-
-opt (!hasAttempted)
-    Parser -> Ui:
-    Ui -> Ui: printNoSolutionAccess()
-end
-
-alt (2 parameter)
-    QuestionsList -> QuestionsList : getOneSolution()
-    QuestionsList -> Parser: solution
-    Parser -> Ui: solution
-    Ui -> Ui: printOneSolution()
-else
-    QuestionsList -> QuestionsList : getAllSolutions()
-    QuestionsList -> Parser: allSolutions
-    Parser -> Ui: allSolutions
-    Ui -> Ui: printAllSolutions()
-end
+Player2113 -> Ui: readCommands()
+Ui -> Parser: readCommand()
+Parser -> Parser: processSolutionCommand()
 
 @enduml

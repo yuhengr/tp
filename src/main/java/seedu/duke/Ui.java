@@ -208,19 +208,11 @@ public class Ui {
                 + System.lineSeparator() + solution);
     }
 
-    public void printOneExplanation(int questionNum, String explanation) {
-        System.out.println("The explanation for question " + questionNum + ":"
-                + System.lineSeparator() + explanation);
-    }
     public void printAllSolutions(String allSolutions) {
-        System.out.print("The solutions are :"
+        System.out.println("The solutions are :"
                 + System.lineSeparator() + allSolutions);
     }
 
-    public void printAllExplanations(String allExplanations) {
-        System.out.print("The explanations are :"
-                + System.lineSeparator() + allExplanations);
-    }
     public void printOneResult(boolean includesDetails, int topicNum, String score,
                                QuestionListByTopic questionListByTopic, AnswerTracker userAnswers, int index) {
         System.out.println("Your results for Topic " + (topicNum + 1) + ":\n" + score + "\n");
