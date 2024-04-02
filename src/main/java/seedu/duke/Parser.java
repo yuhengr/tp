@@ -58,8 +58,8 @@ public class Parser {
                         allResults, userAnswers, isTimedMode);
                 isTimedMode = false;
             } else if (lowerCaseCommand.startsWith("solution")) {
-                //processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
-                handleSolutionCommandRegEx(command, ui, topicList, questionListByTopic);
+                processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
+                // handleSolutionCommandRegEx(command, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith("explain")) {
                 processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith("results")) {
@@ -379,6 +379,7 @@ public class Parser {
     // convert String commandParameter to int topicNum/ questionNum and check validity
     private int getTopicOrQuestionNum(String commandParameter, int maxSize) throws CustomException {
         int parameterNum;
+        // check if topic/ questionNum is a number
         try {
             parameterNum = Integer.parseInt(commandParameter);
         } catch (NumberFormatException e) {
