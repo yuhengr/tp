@@ -62,8 +62,8 @@ public class Parser {
                         allResults, userAnswers, isTimedMode, storage);
                 isTimedMode = false;
             } else if (lowerCaseCommand.startsWith("solution")) {
-                processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
-                // handleSolutionCommandRegEx(command, ui, topicList, questionListByTopic);
+                // processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
+                handleSolutionCommandRegEx(command, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith("explain")) {
                 processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith("results")) {
@@ -280,8 +280,8 @@ public class Parser {
         try {
             String topicNumParam = matcher.group(FIRST_PARAMETER);
             topicNum = Integer.parseInt(topicNumParam);
-            if (topicNum == 0) {
-                throw new CustomException("Topic number cannot be 0");
+            if (topicNum == 0 || topicNum > topicList.getSize()) {
+                throw new CustomException("Topic number is invalid.");
             } else {
                 hasAttemptedTopicBefore = topicList.get(topicNum - 1).hasAttempted();
                 qnList = questionListByTopic.getQuestionSet(topicNum - 1);
@@ -297,7 +297,7 @@ public class Parser {
             boolean questionNumParamProvided = !questionNumParameter.isEmpty();
             if (questionNumParamProvided) {
                 questionNum = Integer.parseInt(questionNumParameter);
-                if (questionNum <= 0) {
+                if (questionNum <= 0 || questionNum > qnList.getSize()) {
                     throw new CustomException("Question number is invalid.");
                 } else {
                     hasQuestionNum = true;
