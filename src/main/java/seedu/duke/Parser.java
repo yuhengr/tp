@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Parser {
-    private static final int NO_RESULTS = 0;
+    // parameters
     private static final int NO_PARAMETER_LENGTH = 1;
     private static final int ONE_PARAMETER_LENGTH = 2;
     private static final int TWO_PARAMETER_LENGTH = 3;
@@ -19,11 +19,29 @@ public class Parser {
     private static final String DUMMY_QUESTION_PARAMETER = "1";
 
     private static final String COMMAND_SPLITTER = " ";
+    private static final String HELP_PARAMETER = "help";
+    private static final String LIST_PARAMETER = "list";
+    private static final String TIMED_MODE_PARAMETER = "timed mode ";
 
     private static final String DETAILS_PARAMETER = "details";
     private static final String SOLUTION_PARAMETER = "solution";
     private static final String EXPLAIN_PARAMETER = "explain";
+    private static final String RESULTS_PARAMETER = "results";
+    private static final String BYE_PARAMETER = "bye";
 
+    // states
+    private static final int NO_RESULTS = 0;
+    private static final String PAUSE_GAME = "pause";
+    private static final String RESUME = "resume";
+    private static final int NORMAL_TERMINATION = 0;
+
+    private static final boolean INCLUDES_DETAILS = true;
+    private static final boolean IS_CORRECT_ANSWER = true;
+    private boolean isTimedMode = false;
+
+    private int timeLimit = 0;
+
+    // CustomError messages
     private static final String MESSAGE_NO_RESULTS = "There are no results.";
     private static final String MESSAGE_ERROR = "An error has occurred.";
     private static final String MESSAGE_INVALID_PARAMETERS = "Invalid parameters.";
@@ -33,19 +51,10 @@ public class Parser {
     private static final String MESSAGE_INVALID_TOPIC_NUM = "Topic number is invalid.";
 
     private static final String MESSAGE_INVALID_TOPIC_COMMAND_FORMAT = "Topic command format is invalid.";
-    private static final String PAUSE_GAME = "pause";
-    private static final String RESUME = "resume";
-    private static final String BYE = "bye";
+
     private static final String UNSPECIFIED_TIME = "Please specify a time limit";
     private static final String INVALID_TIME = "Time limit must be more than 0 seconds";
     private static final String TIME_NOT_INT = "Please input an integer for time limit.";
-    private static final int NORMAL_TERMINATION = 0;
-
-    private static final boolean INCLUDES_DETAILS = true;
-    private static final boolean IS_CORRECT_ANSWER = true;
-    private boolean isTimedMode = false;
-
-    private int timeLimit = 0;
 
     public void parseCommand(
 
@@ -58,7 +67,7 @@ public class Parser {
         CommandList commandToken = CommandList.getCommandToken(command);
         if (ui.isPlaying) {
 
-            if (lowerCaseCommand.startsWith("timed mode ")) {
+            if (lowerCaseCommand.startsWith(TIMED_MODE_PARAMETER)) {
                 timeLimit = processTimedMode(lowerCaseCommand);
                 isTimedMode = true;
             }
@@ -68,22 +77,22 @@ public class Parser {
                 processStartCommand(lowerCaseCommand, ui, topicList, questionListByTopic,
                         allResults, userAnswers, isTimedMode, storage);
                 isTimedMode = false;
-            } else if (lowerCaseCommand.startsWith("solution")) {
+            } else if (lowerCaseCommand.startsWith(SOLUTION_PARAMETER)) {
                 // processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
                 handleSolutionCommandRegEx(command, ui, topicList, questionListByTopic);
-            } else if (lowerCaseCommand.startsWith("explain")) {
+            } else if (lowerCaseCommand.startsWith(EXPLAIN_PARAMETER)) {
                 processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
-            } else if (lowerCaseCommand.startsWith("results")) {
+            } else if (lowerCaseCommand.startsWith(RESULTS_PARAMETER)) {
                 processResultsCommand(lowerCaseCommand, allResults, ui, questionListByTopic, userAnswers);
-            } else if (lowerCaseCommand.contentEquals("bye")) {
+            } else if (lowerCaseCommand.contentEquals(BYE_PARAMETER)) {
                 storage.saveProgress(allResults, topicList, userAnswers);
                 ui.isPlaying = false;
-            } else if (lowerCaseCommand.contentEquals("help")) {
+            } else if (lowerCaseCommand.contentEquals(HELP_PARAMETER)) {
                 processHelpCommand(lowerCaseCommand, ui, helper);
-            } else if (lowerCaseCommand.contentEquals("list")) {
+            } else if (lowerCaseCommand.contentEquals(LIST_PARAMETER)) {
                 processListCommand(topicList, ui);
-            } else if (!lowerCaseCommand.startsWith("timed mode ")) {
-                throw new CustomException("-1 HP coz invalid command");
+            } else if (!lowerCaseCommand.startsWith(TIMED_MODE_PARAMETER)) {
+                throw new CustomException(MESSAGE_INVALID_TOPIC_COMMAND_FORMAT);
             }
         }
 
@@ -469,7 +478,7 @@ public class Parser {
         if (!isPaused && !answer.equalsIgnoreCase(PAUSE_GAME)) {
             return false;
         }
-        if (isPaused && answer.equalsIgnoreCase(BYE)) {
+        if (isPaused && answer.equalsIgnoreCase(BYE_PARAMETER)) {
             storage.pauseGame(allResults, topicList, userAnswers, allAnswers, answersCorrectness, topicResults,
                     topicNum, index);
             ui.sayBye();
