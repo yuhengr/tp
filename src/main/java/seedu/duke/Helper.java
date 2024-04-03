@@ -43,6 +43,12 @@ public class Helper {
                 "list", "list available topics and their summaries", "list"
             )
         );
+        commandList.add(
+                new Command(
+                        "timed mode", "attempt questions under time limit",
+                        "timed mode"
+                )
+        );
     }
 
     public String[][] listAllCommands() {

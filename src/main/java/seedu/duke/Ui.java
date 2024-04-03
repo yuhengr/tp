@@ -17,7 +17,7 @@ public class Ui {
             "or \"bye\" to exit.";
     private static final String MESSAGE_RESUME = "The game has been resumed.";
     private static final String MESSAGE_CANNOT_PAUSE = "You cannot pause in timed mode!";
-    private static final String MESSAGE_TOPIC_COMPLETED = "You have finished the topic! What will be your " +
+    private static final String MESSAGE_TOPIC_FINISHED = "You have finished the topic! What will be your " +
             "next topic?";
 
     private static final int INDEX_TOPIC_NUM = 0;
@@ -32,6 +32,11 @@ public class Ui {
     public QuestionListByTopic questionListByTopic;
 
     public String[] inputAnswers;
+
+    private  boolean isTimesUp;
+    private boolean hasCompletedSet;
+
+    private int indexGlobal;
 
     public void readCommands(
             Ui ui, TopicList topicList,
@@ -79,48 +84,29 @@ public class Ui {
     ) throws CustomException {
         Results topicResults = new Results();
         QuestionsList qnList;
-        boolean[] isTimesUp = {false};
-        boolean[] hasCompletedSet = {false};
+        hasCompletedSet = false;
 
-        System.out.println("Selected topic: " + topicList.getTopic(topicNum - 1));
-        System.out.println("Here are the questions: ");
-        qnList = questionListByTopic.getQuestionSet(topicNum - 1);
-        allResults.addQuestions(topicNum - 1);
+        printSelectedTopic(topicList, topicNum);
+        int topicNumIndex = topicNum - 1; //-1 due to zero index
+        qnList = questionListByTopic.getQuestionSet(topicNumIndex);
+        alLResults.addQuestions(topicNumIndex);
+
         int numOfQns = qnList.getSize();
         Question questionUnit;
         String[] inputAnswers = new String[numOfQns];
         String answer;
         ArrayList<String> allAnswers = new ArrayList<>();
         ArrayList<Boolean> answersCorrectness = new ArrayList<>();
-        for (final int[] index = {0}; index[0] < numOfQns; index[0]++){//go through 1 question set
-            questionUnit = qnList.getQuestionUnit(index[0]);
+
+        for (indexGlobal = 0; indexGlobal < numOfQns; indexGlobal++){//go through 1 question set
+            questionUnit = qnList.getQuestionUnit(indexGlobal);
             topicResults.increaseNumberOfQuestions();
             System.out.println(questionUnit.getQuestion());
 
             if (isTimedMode) {
-                if (index[0] == 0) {
-                    Timer timer = new Timer();
-
-                    TimerTask task = new TimerTask() {
-                        @Override
-                        public void run() {
-                            if (!hasCompletedSet[0]) {
-                                printTimesUpMessage();
-                                isTimesUp[0] = true;
-                                index[0] = numOfQns;
-                                timer.cancel();
-                            } else {
-                                isTimesUp[0] = true;
-                                timer.cancel();
-                            }
-                        }
-                    };
-                    timer.schedule(task, 5000);
-                    if (isTimesUp[0]) {
-                        break;
-                    }
-                }
+                timerBegin(hasCompletedSet, allAnswers, numOfQns, answersCorrectness);
             }
+
             Parser parser = new Parser();
             boolean isPaused = false;
             boolean wasPaused;
@@ -133,13 +119,12 @@ public class Ui {
                         isTimedMode, allAnswers, answersCorrectness, topicResults, topicNum, index[0]);
             } while (isPaused || wasPaused);
 
-            if (!isTimesUp[0]) {
-                parser.handleAnswerInputs(inputAnswers, index[0], answer, questionUnit, topicResults,
-                        answersCorrectness);
-                if (index[0] == numOfQns - 1 && isTimedMode){
-                    printCongratulatoryMessage();
-                    hasCompletedSet[0] = true;
-                }
+
+            if (!isTimesUp) {
+                parser.handleAnswerInputs(inputAnswers, indexGlobal, answer, questionUnit,
+                        topicResults, answersCorrectness);
+                finishBeforeTimerChecker(numOfQns, isTimedMode);
+
                 allAnswers.add(answer);
             }
         }
@@ -147,6 +132,54 @@ public class Ui {
         allResults.addResults(topicResults);
         userAnswers.addUserAnswers(allAnswers);
         userAnswers.addUserCorrectness(answersCorrectness);
+        isTimesUp = false;
+    }
+
+    public void timerBegin(boolean hasCompletedSet, ArrayList<String> allAnswers, int numOfQns,
+                           ArrayList<Boolean> answersCorrectness){
+        if (indexGlobal == 0) {
+            Timer timer = new Timer();
+
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    synchronized (Ui.class) {
+                        timeOut(allAnswers, numOfQns, answersCorrectness);
+                        timer.cancel();
+                        isTimesUp = true;
+                    }
+                }
+            };
+            timer.schedule(task, 5000);
+        }
+    }
+
+    public void timeOut(ArrayList<String> allAnswers, int numOfQns, ArrayList<Boolean> answersCorrectness){
+        if (!hasCompletedSet) {
+            assert allAnswers.size() <= numOfQns :
+                    "Number of questions answered needs to be <= available number or questions";
+            assert answersCorrectness.size() <= allAnswers.size() :
+                    "Number of questions correct needs to be <= number of answered questions";
+            indexGlobal = numOfQns;
+            printTimesUpMessage();
+        }
+    }
+
+    public void finishBeforeTimerChecker(int numOfQns, boolean isTimedMode){
+        int QnNumberIndex = numOfQns - 1;//-1 due to zero index
+        if (indexGlobal == QnNumberIndex && isTimedMode){
+            printCongratulatoryMessage();
+            hasCompletedSet = true;
+        }
+    }
+
+    public void printFinishedTopic(){
+        System.out.println(MESSAGE_TOPIC_FINIHSED);
+    }
+  
+    public void printSelectedTopic(TopicList topicList, int topicNum){
+        System.out.println("Selected topic: " + topicList.getTopic(topicNum - 1));
+        System.out.println("Here are the questions: ");
     }
 
     public void resumeTopic(int[] pausedQuestion, TopicList topicList, QuestionListByTopic questionListByTopic,
@@ -191,7 +224,7 @@ public class Ui {
         System.out.println("Congrats! You beat the timer!");
     }
 
-    public void printTimesUpMessage(){
+    public static void printTimesUpMessage(){
         System.out.println("Time is up!");
         System.out.println(" Press enter to go back to topic selection. ");
     }
@@ -302,7 +335,4 @@ public class Ui {
         System.out.println(MESSAGE_CANNOT_PAUSE);
     }
 
-    public void printTopicCompleted() {
-        System.out.println(MESSAGE_TOPIC_COMPLETED);
-    }
 }
