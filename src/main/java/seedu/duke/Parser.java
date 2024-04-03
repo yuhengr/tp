@@ -38,9 +38,6 @@ public class Parser {
 
     private static final boolean INCLUDES_DETAILS = true;
     private static final boolean IS_CORRECT_ANSWER = true;
-    private boolean isTimedMode = false;
-
-    private int timeLimit = 0;
 
     // CustomError messages
     private static final String MESSAGE_NO_RESULTS = "There are no results.";
@@ -55,6 +52,11 @@ public class Parser {
 
     private static final String MESSAGE_UNSPECIFIED_TIME = "Please specify a time limit";
     private static final String MESSAGE_INVALID_TIME = "Time limit must be more than 0 seconds";
+
+    // non-constant attributes
+    private boolean isTimedMode = false;
+
+    private int timeLimit = 0;
 
     public void parseCommand(
 
