@@ -362,4 +362,46 @@ public class Ui {
         System.out.println("Results from the incomplete attempt will be discarded :0");
     }
 
+    public void printCustomModeMessage() {
+        System.out.println("You've selected to practise in custom mode.");
+    }
+
+    public int getCustomTopicNum() {
+        System.out.println("Which topic do you want to practise?");
+        String userInput = in.nextLine();
+
+        // Parse the input to get an integer
+        try {
+            int topicNum = Integer.parseInt(userInput);
+            return topicNum;
+        }
+        catch (NumberFormatException error) {
+            final int INVALID_TOPICNUM = -1;
+            return INVALID_TOPICNUM;
+        }
+    }
+
+    public int getCustomNumOfQuestions() {
+        System.out.println("How many questions would you like to practise?");
+        String userInput = in.nextLine();
+
+        try {
+            int numOfQuestions = Integer.parseInt(userInput);
+            return numOfQuestions;
+        }
+        catch (NumberFormatException error) {
+            final int INVALID_NUM_OF_QUESTIONS = -1;
+            return INVALID_NUM_OF_QUESTIONS;
+        }
+    }
+
+    public String getUserAnswerInput() {
+        String userInput = in.nextLine();
+        return userInput;
+    }
+
+    public void displayUserAnswer(String userAnswer) {
+        System.out.println("Your answer: " + userAnswer);
+    }
+
 }

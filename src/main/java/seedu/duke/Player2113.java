@@ -38,8 +38,18 @@ public class Player2113 {
             // Add dummy data (for now)
             Question question1 = new Question("question1", "solution1", "explanation1");
             Question question2 = new Question("question2", "solution2", "explanation2");
+            Question question11 = new Question("question11", "solution11", "explanation11");
+            Question question12 = new Question("question12", "solution12", "explanation12");
+            Question question13 = new Question("question13", "solution13", "explanation13");
+            Question question14 = new Question("question14", "solution14", "explanation14");
+            Question question15 = new Question("question15", "solution15", "explanation15");
             questionsList1.addQuestion(question1);
             questionsList1.addQuestion(question2);
+            questionsList1.addQuestion(question11);
+            questionsList1.addQuestion(question12);
+            questionsList1.addQuestion(question13);
+            questionsList1.addQuestion(question14);
+            questionsList1.addQuestion(question15);
             questionListByTopic.addQuestionSet(questionsList1);
 
             Question question3 = new Question("question3", "solution3", "explanation3");

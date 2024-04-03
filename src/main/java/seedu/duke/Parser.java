@@ -5,6 +5,7 @@ import seedu.duke.exceptions.CustomException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Collections;
 
 public class Parser {
     // parameters
@@ -82,6 +83,8 @@ public class Parser {
             } else if (lowerCaseCommand.startsWith(SOLUTION_PARAMETER)) {
                 // processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
                 handleSolutionCommandRegEx(command, ui, topicList, questionListByTopic);
+            } else if (commandToken == CommandList.CUSTOM) {
+                handleCustomCommand(command, ui, topicList, questionListByTopic, allResults, userAnswers);
             } else if (lowerCaseCommand.startsWith(EXPLAIN_PARAMETER)) {
                 processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith(RESULTS_PARAMETER)) {
@@ -405,6 +408,53 @@ public class Parser {
             String allExplanations = qnList.getAllExplanations();
             ui.printAllExplanations(allExplanations);
         }
+    }
+
+    private void handleCustomCommand(
+            String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
+            ResultsList allResults, AnswerTracker userAnswers)
+            throws CustomException {
+
+        ui.printCustomModeMessage();
+
+        int numOfTopics = topicList.getSize();
+        System.out.println("There are " + numOfTopics + " topics to choose from.");
+        int topicNum = ui.getCustomTopicNum();
+        if(topicNum <= 0 || topicNum > numOfTopics) {
+            throw new CustomException("That topic number does not exist.");
+        }
+
+        QuestionsList chosenQuestionsList = questionListByTopic.getQuestionSet(topicNum - 1);
+        int numOfQnInChosenTopic = chosenQuestionsList.getSize();
+
+        System.out.println("There are " + numOfQnInChosenTopic + " questions in this topic.");
+        int numOfQuestions = ui.getCustomNumOfQuestions();
+        if(numOfQuestions <= 0 || numOfQuestions > numOfQnInChosenTopic) {
+            throw new CustomException("That's not a valid number of questions.");
+        }
+
+        ArrayList<Integer> randomQuestionNumbers = new ArrayList<Integer>();
+        for(int i = 0; i < numOfQuestions; i++) {
+            randomQuestionNumbers.add(i);
+        }
+        Collections.shuffle(randomQuestionNumbers);
+
+        QuestionsList customQuestionsList = new QuestionsList();
+        for(int i = 0; i < numOfQuestions; i++) {
+            int randomQuestionNumber = randomQuestionNumbers.get(i);
+            Question randomQuestion = chosenQuestionsList.getQuestionUnit(randomQuestionNumber);
+            customQuestionsList.addQuestion(randomQuestion);
+        }
+
+        System.out.println("Here are your custom questions.");
+        for(int i = 0; i < numOfQuestions; i++) {
+            ui.printQuestion(customQuestionsList.getQuestionUnit(i));
+            ui.askForAnswerInput();
+            String userAnswerInput = ui.getUserAnswerInput();
+            ui.displayUserAnswer(userAnswerInput);
+        }
+
+        System.out.println("You have completed " + numOfQuestions + " questions from topic " + topicNum);
     }
 
     // checks valid command type and parameters: returns true if 2 parameters, else false (1 param only)
