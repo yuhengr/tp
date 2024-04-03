@@ -43,6 +43,12 @@ class ResultsListTest {
     }
 
     @Test
+    void testGetSizeOfAllResults() throws CustomException{
+        createResultList();
+        assertEquals(2, sessionsResults.getSizeOfAllResults());
+    }
+
+    @Test
     void testStringConversion_twoRoundResults() throws CustomException {
         createResultList();
         assertEquals("1/2 (50%)\n1/1 (100%)\n",
