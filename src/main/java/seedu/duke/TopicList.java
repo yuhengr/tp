@@ -39,4 +39,8 @@ public class TopicList {
         return topicList.get(index);
     }
 
+    public ArrayList<Topic> getTopicList() {
+        return topicList;
+    }
+
 }

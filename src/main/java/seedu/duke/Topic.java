@@ -27,4 +27,7 @@ public class Topic {
         return "[" + status + "]" + topicName;
     }
 
+    public String getTopicName() {
+        return topicName;
+    }
 }

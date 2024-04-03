@@ -1,53 +1,121 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+skinparam ParticipantFontColor #FFFFFF
 
-autonumber
+box processSolutionCommand() #ABCAFA
+participant ":Parser" as Parser #FE2727
+participant "questionListByTopic:QuestionsListByTopic" as QuestionsListByTopic #1162E3
+participant "qnList:QuestionsList" as QuestionsList #1162E3
+participant "topicList:TopicList" as TopicList #1162E3
+participant "ui:Ui" as Ui #FE2727
+end box
 
-participant Parser
-participant QuestionsListByTopic
-participant QuestionsList
-participant TopicList
-participant Ui
+-> Parser:
+activate Parser
 
--> Parser: processSolutionCommand()
--> QuestionsListByTopic: processSolutionCommand()
--> TopicList: processSolutionCommand()
--> Ui: processSolutionCommand()
+Parser -> Parser : checkIfTwoParameters()
+activate Parser
+Parser --> Parser : hasTwoParameters
+deactivate Parser
 
-Parser -> Parser: checkIfTwoParameters()
+Parser -> TopicList
+activate TopicList
+TopicList -> TopicList : getSize()
+activate TopicList
+deactivate TopicList
+TopicList --> Parser
+deactivate TopicList
 
-TopicList -> TopicList: getSize()
-TopicList -> Parser: size
-Parser -> Parser: getTopicOrQuestionNum()
+Parser -> Parser : getTopicOrQuestionNum()
+activate Parser
+Parser --> Parser : topicNum
+deactivate Parser
 
-Parser -> QuestionsList: new QuestionsList()
+Parser -> QuestionsListByTopic
+activate QuestionsListByTopic
+QuestionsListByTopic -> QuestionsListByTopic : getQuestionSet()
+activate QuestionsListByTopic
+deactivate QuestionsListByTopic
 
-QuestionsListByTopic -> QuestionsListByTopic: getQuestionSet()
-QuestionsListByTopic -> Parser: qnList
+QuestionsListByTopic --> Parser : qnList
+deactivate QuestionsListByTopic
 
-QuestionsList -> QuestionsList: getSize()
-QuestionsList -> Parser: size
-Parser -> Parser: getTopicOrQuestionNum()
+Parser -> QuestionsList
+activate QuestionsList
+QuestionsList -> QuestionsList : getSize()
+activate QuestionsList
+deactivate QuestionsList
+QuestionsList--> Parser
+deactivate QuestionsList
 
-TopicList -> TopicList: get()
-TopicList -> TopicList: hasAttempted()
-TopicList -> Parser: hasAttemptedStatus
+Parser -> Parser : getTopicOrQuestionNum()
+activate Parser
+Parser --> Parser : questionNum
+deactivate Parser
+
+Parser -> TopicList
+activate TopicList
+TopicList -> TopicList : get()
+activate TopicList
+deactivate TopicList
+
+TopicList -> TopicList : hasAttended()
+activate TopicList
+deactivate TopicList
+
+TopicList --> Parser : hasAttempted
+deactivate TopicList
 
 opt (!hasAttempted)
-    Parser -> Ui:
+    Parser -> Ui
+    activate Ui
+
     Ui -> Ui: printNoSolutionAccess()
+    activate Ui
+    deactivate Ui
+
+    Ui --> Parser
+    deactivate Ui
 end
 
-alt (2 parameter)
+alt (hasTwoParameters)
+    Parser -> QuestionsList : get specific solution
+    activate QuestionsList
+
     QuestionsList -> QuestionsList : getOneSolution()
-    QuestionsList -> Parser: solution
-    Parser -> Ui: solution
-    Ui -> Ui: printOneSolution()
+    activate QuestionsList
+    deactivate QuestionsList
+
+    QuestionsList -> Ui
+    activate Ui
+    Ui -> Ui : printOneSolution()
+    activate Ui
+    deactivate Ui
+    Ui --> QuestionsList
+    deactivate Ui
+    QuestionsList --> Parser
+    deactivate QuestionsList
 else
+    Parser -> QuestionsList : get all solutions
+    activate QuestionsList
+
     QuestionsList -> QuestionsList : getAllSolutions()
-    QuestionsList -> Parser: allSolutions
-    Parser -> Ui: allSolutions
-    Ui -> Ui: printAllSolutions()
+    activate QuestionsList
+    deactivate QuestionsList
+
+    QuestionsList -> Ui
+    activate Ui
+    Ui -> Ui : printAllSolutions()
+    activate Ui
+    deactivate Ui
+    Ui --> QuestionsList :
+    deactivate Ui
+    QuestionsList --> Parser
+    deactivate QuestionsList
 end
+
+destroy Ui
+destroy TopicList
+destroy QuestionsList
+destroy QuestionsListByTopic
 
 @enduml
