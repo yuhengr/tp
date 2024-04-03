@@ -5,6 +5,7 @@ import seedu.duke.exceptions.CustomException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Collections;
 
 public class Parser {
     private static final int NO_RESULTS = 0;
@@ -409,9 +410,28 @@ public class Parser {
         if(topicNum <= 0 || topicNum > topicList.getSize()) {
             throw new CustomException("That topic number does not exist.");
         }
+
+        QuestionsList chosenQuestionsList = questionListByTopic.getQuestionSet(topicNum - 1);
+        int numOfQnInChosenTopic = chosenQuestionsList.getSize();
+
+        System.out.println("There are " + numOfQnInChosenTopic + " questions in this topic.");
         int numOfQuestions = ui.getCustomNumOfQuestions();
-        if(numOfQuestions <= 0) {
+        if(numOfQuestions <= 0 || numOfQuestions > numOfQnInChosenTopic) {
             throw new CustomException("That's not a valid number of questions.");
+        }
+
+        ArrayList<Integer> randomQuestionNumbers = new ArrayList<Integer>();
+        for(int i = 0; i < numOfQuestions; i++) {
+            randomQuestionNumbers.add(i);
+        }
+        Collections.shuffle(randomQuestionNumbers);
+
+        QuestionsList customQuestionsList = new QuestionsList();
+        for(int i = 0; i < numOfQuestions; i++) {
+            int randomQuestionNumber = randomQuestionNumbers.get(i);
+            Question randomQuestion = chosenQuestionsList.getQuestionUnit(randomQuestionNumber);
+            customQuestionsList.addQuestion(randomQuestion);
+            System.out.println("Added question number " + randomQuestionNumber + " to custom questions.");
         }
 
         System.out.println("You will practise " + numOfQuestions + " questions from topic " + topicNum);
