@@ -71,6 +71,8 @@ public class Parser {
             } else if (lowerCaseCommand.startsWith("solution")) {
                 // processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
                 handleSolutionCommandRegEx(command, ui, topicList, questionListByTopic);
+            } else if (commandToken == CommandList.CUSTOM) {
+                handleCustomCommand(command, ui, topicList, questionListByTopic, allResults, userAnswers);
             } else if (lowerCaseCommand.startsWith("explain")) {
                 processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith("results")) {
@@ -394,6 +396,13 @@ public class Parser {
             String allExplanations = qnList.getAllExplanations();
             ui.printAllExplanations(allExplanations);
         }
+    }
+
+    private void handleCustomCommand(
+            String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
+            ResultsList allResults, AnswerTracker userAnswers)
+            throws CustomException {
+        System.out.println("Handling custom command.");
     }
 
     // checks valid command type and parameters: returns true if 2 parameters, else false (1 param only)
