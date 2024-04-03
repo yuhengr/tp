@@ -160,7 +160,8 @@ public class Parser {
             if (validTopicNum) {
                 ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode,
                         storage, ui);
-                System.out.println("You've finished the topic. What will be your next topic?");
+                ui.printFinishedTopic();
+
                 topicList.get(topicNum - 1).markAsAttempted();
                 ui.printTopicList(topicList, ui);
             } else if (isRandomTopicNum) {
@@ -208,7 +209,8 @@ public class Parser {
             // prints questions
             ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode,
                     storage, ui);
-            ui.printTopicCompleted();
+            ui.printFinishedTopic();
+
             topicList.get(topicNum - 1).markAsAttempted();
             ui.printTopicList(topicList, ui);
 
@@ -313,7 +315,9 @@ public class Parser {
             if (hasQuestionNum) {
                 String solution = qnList.getOneSolution(questionNum);
                 ui.printOneSolution(questionNum, solution);
-            } else if (emptyQuestionNumParam) {
+
+            } else if(emptyQuestionNumParam) {
+
                 String allSolution = qnList.getAllSolutions();
                 ui.printAllSolutions(allSolution);
             } else {
@@ -424,7 +428,6 @@ public class Parser {
                               Results topicResults, int topicNum, int index)
             throws CustomException {
         if (isTimedMode) {
-            ui.showCannotPause();
             return false;
         }
         if (!isPaused && !answer.equalsIgnoreCase(PAUSE_GAME)) {

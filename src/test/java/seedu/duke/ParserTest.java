@@ -104,6 +104,7 @@ class ParserTest {
         parser.parseCommand(command, ui, topicList,
                 questionListByTopic, allResults, helper, userAnswers, storage);
     }
+
     @Test
     void parseCommand_solutionCommand_noException() throws CustomException {
         setUp();
