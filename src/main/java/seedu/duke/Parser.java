@@ -444,10 +444,17 @@ public class Parser {
             int randomQuestionNumber = randomQuestionNumbers.get(i);
             Question randomQuestion = chosenQuestionsList.getQuestionUnit(randomQuestionNumber);
             customQuestionsList.addQuestion(randomQuestion);
-            System.out.println("Added question number " + randomQuestionNumber + " to custom questions.");
         }
 
-        System.out.println("You will practise " + numOfQuestions + " questions from topic " + topicNum);
+        System.out.println("Here are your custom questions.");
+        for(int i = 0; i < numOfQuestions; i++) {
+            ui.printQuestion(customQuestionsList.getQuestionUnit(i));
+            ui.askForAnswerInput();
+            String userAnswerInput = ui.getUserAnswerInput();
+            ui.displayUserAnswer(userAnswerInput);
+        }
+
+        System.out.println("You have completed " + numOfQuestions + " questions from topic " + topicNum);
     }
 
     // checks valid command type and parameters: returns true if 2 parameters, else false (1 param only)

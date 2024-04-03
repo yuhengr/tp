@@ -395,4 +395,13 @@ public class Ui {
         }
     }
 
+    public String getUserAnswerInput() {
+        String userInput = in.nextLine();
+        return userInput;
+    }
+
+    public void displayUserAnswer(String userAnswer) {
+        System.out.println("Your answer: " + userAnswer);
+    }
+
 }
