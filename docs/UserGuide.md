@@ -42,9 +42,10 @@ What is your name?
 2. [results](#2-viewing-results-results)
 3. [solution](#3-get-solutions-for-a-question--topic-solution)
 4. [explain](#4-get-explanations-for-a-question--topic-explain)
-5. [list](#5-list---list-all-available-topics-and-their-summaries)
-6. [help](#6-viewing-help-help)
-7. [bye](#7-exiting-the-game-bye)
+5. [timed mode](#5-timed-mode---attempt-the-questions-under-a-time-limit)
+6. [list](#5-list---list-all-available-topics-and-their-summaries)
+7. [help](#6-viewing-help-help)
+8. [bye](#7-exiting-the-game-bye)
 
 ### 1. Starting game: `topic`
 There are multiple question banks pre-configured in Player2113.
@@ -101,7 +102,14 @@ Examples:
 ` explain 1 1` shows the explanation for topic 1 question 1
 ` explain  ` will be ignored
 
-### 5. `list` - List all available topics and their summaries
+### 5. `timed mode ` - Attempt the questions under a time limit
+
+Format: `timed mode [TIME_LIMIT]`
+
+- `[TIME_LIMIT]` represents the time limit set for the question set in seconds
+- `[TIME_LIMIT]` is an integer 
+
+### 6. `list` - List all available topics and their summaries
 
 Example of usage: `list`.
 
@@ -116,14 +124,14 @@ Sample output:
 +-------+--------+-------------------------------------------------+-----------+
 ```
 
-### 6. Viewing help: `help`
+### 7. Viewing help: `help`
 Displays commands for the application (start game, choose topic, revise, clear/reset progress). Shows developer credits information.
 Usage: type “help” in the main menu.
 Sample output:
 
 ![Help Sample Output](./team/img/ug_usage_help.png)
 
-### 7. Exiting the game `bye`
+### 8. Exiting the game `bye`
 
 Example of usage: `bye`.
 
@@ -147,4 +155,5 @@ bye bye, get more sleep zzz
 * Show Results `results [details] [TOPIC_NUM]` eg results details 2
 * Show Solution `solution TOPIC_NUM [QUESTION_NUM]` eg solution 1 1
 * Show Explanation `explain TOPIC_NUM [QUESTION_NUM]` eg explain 1 1
+* Timed Mode `timed mode [TIME_LIMIT]` eg timed mode 5
 * Exit `bye`

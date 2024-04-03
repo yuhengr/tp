@@ -34,6 +34,7 @@ public class Ui {
     public String[] inputAnswers;
 
     private  boolean isTimesUp;
+    private boolean isActivated;
     private boolean hasCompletedSet;
 
     private int indexGlobal;
@@ -80,13 +81,16 @@ public class Ui {
 
     public void printChosenTopic(
             int topicNum, TopicList topicList, QuestionListByTopic questionListByTopic, ResultsList allResults,
-            AnswerTracker userAnswers, boolean isTimedMode, Storage storage, Ui ui
+            AnswerTracker userAnswers, boolean isTimedMode, Storage storage, Ui ui, int timeLimit
     ) throws CustomException {
         Results topicResults = new Results();
         QuestionsList qnList;
         hasCompletedSet = false;
 
         printSelectedTopic(topicList, topicNum);
+        if (isTimedMode) {
+            printTimeLimit(timeLimit);
+        }
         int topicNumIndex = topicNum - 1; //-1 due to zero index
         qnList = questionListByTopic.getQuestionSet(topicNumIndex);
         allResults.addQuestions(topicNumIndex);
@@ -101,10 +105,10 @@ public class Ui {
         for (indexGlobal = 0; indexGlobal < numOfQns; indexGlobal++){//go through 1 question set
             questionUnit = qnList.getQuestionUnit(indexGlobal);
             topicResults.increaseNumberOfQuestions();
-            System.out.println(questionUnit.getQuestion());
+            printQuestion(questionUnit);
 
             if (isTimedMode) {
-                timerBegin(hasCompletedSet, allAnswers, numOfQns, answersCorrectness);
+                timerBegin(hasCompletedSet, allAnswers, numOfQns, answersCorrectness, timeLimit);
             }
 
             Parser parser = new Parser();
@@ -118,7 +122,6 @@ public class Ui {
                 isPaused = parser.checkPause(answer, allResults, topicList, userAnswers, ui, storage, isPaused,
                         isTimedMode, allAnswers, answersCorrectness, topicResults, topicNum, indexGlobal);
             } while (isPaused || wasPaused);
-
 
             if (!isTimesUp) {
                 parser.handleAnswerInputs(inputAnswers, indexGlobal, answer, questionUnit,
@@ -136,7 +139,8 @@ public class Ui {
     }
 
     public void timerBegin(boolean hasCompletedSet, ArrayList<String> allAnswers, int numOfQns,
-                           ArrayList<Boolean> answersCorrectness){
+                           ArrayList<Boolean> answersCorrectness, int timeLimit){
+        
         if (indexGlobal == 0) {
             Timer timer = new Timer();
 
@@ -150,7 +154,8 @@ public class Ui {
                     }
                 }
             };
-            timer.schedule(task, 5000);
+            int timeLimitInMilliSec = timeLimit * 1000;
+            timer.schedule(task, timeLimitInMilliSec);
         }
     }
 
@@ -171,6 +176,14 @@ public class Ui {
             printCongratulatoryMessage();
             hasCompletedSet = true;
         }
+    }
+
+    public void printRemainingTime(int timeLeft){
+        System.out.println(timeLeft);
+    }
+
+    public void printTimeLimit(int timeLimit){
+        System.out.println("timeLimit: " + timeLimit + "seconds");
     }
 
     public void printFinishedTopic(){
@@ -228,13 +241,17 @@ public class Ui {
         System.out.println("Time is up!");
         System.out.println("Press enter to go back to topic selection. ");
     }
-    public void printTimedModeSelected(){
+    public static void printTimedModeSelected(){
         System.out.println("Timed mode selected. Please enter the topic you would like to try. ");
         showCannotPause();
     }
 
     public void printNoSolutionAccess(){
         System.out.println("Attempt the topic first!");
+    }
+
+    public void printQuestion(Question questionUnit){
+        System.out.println(questionUnit.getQuestion());
     }
 
     public void printOneSolution(int questionNum, String solution) {
@@ -332,8 +349,17 @@ public class Ui {
         System.out.println(MESSAGE_RESUME);
     }
 
-    public void showCannotPause() {
+    public static void showCannotPause() {
         System.out.println(MESSAGE_CANNOT_PAUSE);
+    }
+
+    public void askResumeSessionPrompt(){
+        System.out.println("Continue from previous paused session? (yes/no)");
+    }
+
+    public void confirmSelection() {
+        System.out.println("Are you sure you don't want to continue the session? (yes/no) ");
+        System.out.println("Results from the incomplete attempt will be discarded :0");
     }
 
 }
