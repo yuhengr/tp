@@ -166,8 +166,8 @@ public class Ui {
     }
 
     public void finishBeforeTimerChecker(int numOfQns, boolean isTimedMode){
-        int QnNumberIndex = numOfQns - 1;//-1 due to zero index
-        if (indexGlobal == QnNumberIndex && isTimedMode){
+        int qnNumberIndex = numOfQns - 1;//-1 due to zero index
+        if (indexGlobal == qnNumberIndex && isTimedMode){
             printCongratulatoryMessage();
             hasCompletedSet = true;
         }
