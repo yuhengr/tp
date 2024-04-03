@@ -5,6 +5,7 @@ import seedu.duke.exceptions.CustomException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Player2113 {
     public static final String SOME_FILE_PATH = "something";
@@ -57,7 +58,6 @@ public class Player2113 {
     }
   
     public void run() {
-
         ui.sayHi();
         File saveFile = new File(FILE_PATH_STORAGE);
         boolean isPaused = false;
@@ -72,8 +72,32 @@ public class Player2113 {
         }
         if (isPaused) {
             try {
-                loadQuestion(saveFile);
-                ui.printFinishedTopic();
+                ui.askResumeSessionPrompt();
+                String decision;
+                do {
+                    Scanner in = new Scanner(System.in);
+                    Parser parser = new Parser();
+                    decision = in.nextLine();
+
+                } while (!(decision.equals("yes")) && ! (decision.equals("no")));
+                if (decision.equals("yes")) {
+                    loadQuestion(saveFile);
+                    ui.printFinishedTopic();
+                } else if (decision.equals("no")){
+                    ui.confirmSelection();
+                    String confirmDecision;
+                    do {
+                        Scanner input = new Scanner(System.in);
+                        Parser parser = new Parser();
+                        confirmDecision = input.nextLine();
+
+                    } while (!(confirmDecision.equals("yes")) && ! (confirmDecision.equals("no")));
+                    if (confirmDecision.equals("no")){
+                        ui.showResume();
+                        loadQuestion(saveFile);
+                        ui.printFinishedTopic();
+                    }
+                }
             } catch (CustomException e) {
                 ui.handleException(e);
             }
@@ -97,6 +121,7 @@ public class Player2113 {
         } catch (FileNotFoundException e) {
             throw new CustomException(MESSAGE_FILE_ERROR);
         }
+
         ui.resumeTopic(pausedQuestion, topicList, questionListByTopic, allResults, userAnswers, storage, ui,
                 answers, correctness, topicResults);
     }

@@ -11,8 +11,11 @@ public class Parser {
     private static final int NO_PARAMETER_LENGTH = 1;
     private static final int ONE_PARAMETER_LENGTH = 2;
     private static final int TWO_PARAMETER_LENGTH = 3;
+    private static final int TIMER_ONE_PARAMETER_LENGTH = 3;
     private static final int FIRST_PARAMETER = 1;
     private static final int SECOND_PARAMETER = 2;
+    private static final int THIRD_PARAMETER = 3;
+    private static final int THIRD_PARAMETER_INDEX = THIRD_PARAMETER - 1; //due to index 0
     private static final String DUMMY_QUESTION_PARAMETER = "1";
 
     private static final String COMMAND_SPLITTER = " ";
@@ -33,12 +36,16 @@ public class Parser {
     private static final String PAUSE_GAME = "pause";
     private static final String RESUME = "resume";
     private static final String BYE = "bye";
+    private static final String UNSPECIFIED_TIME = "Please specify a time limit";
+    private static final String INVALID_TIME = "Time limit must be more than 0 seconds";
+    private static final String TIME_NOT_INT = "Please input an integer for time limit.";
     private static final int NORMAL_TERMINATION = 0;
 
     private static final boolean INCLUDES_DETAILS = true;
     private static final boolean IS_CORRECT_ANSWER = true;
     private boolean isTimedMode = false;
 
+    private int timeLimit = 0;
 
     public void parseCommand(
 
@@ -51,8 +58,8 @@ public class Parser {
         CommandList commandToken = CommandList.getCommandToken(command);
         if (ui.isPlaying) {
 
-            if (lowerCaseCommand.contentEquals("timed mode")) {
-                ui.printTimedModeSelected();
+            if (lowerCaseCommand.startsWith("timed mode ")) {
+                timeLimit = processTimedMode(lowerCaseCommand);
                 isTimedMode = true;
             }
             if (commandToken == CommandList.TOPIC) {
@@ -75,7 +82,7 @@ public class Parser {
                 processHelpCommand(lowerCaseCommand, ui, helper);
             } else if (lowerCaseCommand.contentEquals("list")) {
                 processListCommand(topicList, ui);
-            } else if (!lowerCaseCommand.contentEquals("timed mode")) {
+            } else if (!lowerCaseCommand.startsWith("timed mode ")) {
                 throw new CustomException("-1 HP coz invalid command");
             }
         }
@@ -159,7 +166,7 @@ public class Parser {
 
             if (validTopicNum) {
                 ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode,
-                        storage, ui);
+                        storage, ui, timeLimit);
                 ui.printFinishedTopic();
 
                 topicList.get(topicNum - 1).markAsAttempted();
@@ -179,6 +186,35 @@ public class Parser {
         }
     }
 
+    private int processTimedMode(String lowerCaseCommand) throws CustomException{
+        checkTimingValidity(lowerCaseCommand);
+        String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER, TIMER_ONE_PARAMETER_LENGTH);
+
+        int timeLimit = Integer.parseInt(commandParts[THIRD_PARAMETER_INDEX]);
+        Ui.printTimedModeSelected();
+        return timeLimit;
+    }
+
+    private static void checkTimingValidity(String lowerCaseCommand) throws CustomException {
+        String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER, TIMER_ONE_PARAMETER_LENGTH);
+
+        try {
+            int timeLimit = Integer.parseInt(commandParts[THIRD_PARAMETER_INDEX]);
+        } catch (NumberFormatException e){
+            throw new CustomException(TIME_NOT_INT);
+        }
+
+        try {
+            if (commandParts.length < TIMER_ONE_PARAMETER_LENGTH || commandParts[THIRD_PARAMETER_INDEX].equals("")) {
+                throw new CustomException(UNSPECIFIED_TIME);
+            } else if (Integer.parseInt(commandParts[THIRD_PARAMETER_INDEX]) <= 0) {
+                throw new CustomException(INVALID_TIME);
+            }
+        } catch (NumberFormatException e) {
+            throw new CustomException(MESSAGE_INVALID_PARAMETERS);
+        }
+    }
+
     private void processStartCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
             ResultsList allResults, AnswerTracker userAnswers, boolean isTimedMode, Storage storage
@@ -186,7 +222,7 @@ public class Parser {
         assert (topicList.getSize() != NO_RESULTS) : "Size of topicList should never be 0";
 
         String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER);
-        if (commandParts.length != 2) {
+        if (commandParts.length != ONE_PARAMETER_LENGTH) {
             throw new CustomException("invalid " + lowerCaseCommand + " command");
         }
         String commandParameter = commandParts[FIRST_PARAMETER];
@@ -208,7 +244,7 @@ public class Parser {
 
             // prints questions
             ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode,
-                    storage, ui);
+                    storage, ui, timeLimit);
             ui.printFinishedTopic();
 
             topicList.get(topicNum - 1).markAsAttempted();
