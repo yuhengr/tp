@@ -102,14 +102,14 @@ Examples:
 ` explain 1 1` shows the explanation for topic 1 question 1
 ` explain  ` will be ignored
 
-### 5. `timed mode ` - Attempt the questions under a time limit
+### 5. Attempt the questions under a time limit: `timed mode`
 
 Format: `timed mode [TIME_LIMIT]`
 
-- `[TIME_LIMIT]` represents the time limit set for the question set in seconds
-- `[TIME_LIMIT]` is an integer 
+- `TIME_LIMIT` represents the time limit set for the question set in seconds
+- The`TIME_LIMIT` must be a non-zero positive integer (e.g. 1, 2, 3, …).
 
-### 6. `list` - List all available topics and their summaries
+### 6. List all available topics and their summaries: `list`
 
 Example of usage: `list`.
 
@@ -131,7 +131,7 @@ Sample output:
 
 ![Help Sample Output](./team/img/ug_usage_help.png)
 
-### 8. Exiting the game `bye`
+### 8. Exiting the game: `bye`
 
 Example of usage: `bye`.
 
@@ -151,9 +151,9 @@ bye bye, get more sleep zzz
 ## Command Summary
 
 * help `help`
-* Start game `topic TOPIC_NUM` eg `topic 1`
-* Show Results `results [details] [TOPIC_NUM]` eg results details 2
-* Show Solution `solution TOPIC_NUM [QUESTION_NUM]` eg solution 1 1
-* Show Explanation `explain TOPIC_NUM [QUESTION_NUM]` eg explain 1 1
-* Timed Mode `timed mode [TIME_LIMIT]` eg timed mode 5
+* Start game `topic TOPIC_NUM` e.g. `topic 1`
+* Show Results `results [details] [TOPIC_NUM]` e.g. `results details 2`
+* Show Solution `solution TOPIC_NUM [QUESTION_NUM]` e.g. `solution 1 1`
+* Show Explanation `explain TOPIC_NUM [QUESTION_NUM]` e.g. `explain 1 1`
+* Timed Mode `timed mode [TIME_LIMIT]` e.g. `timed mode 5`
 * Exit `bye`
