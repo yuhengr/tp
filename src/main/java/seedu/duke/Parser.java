@@ -402,7 +402,19 @@ public class Parser {
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
             ResultsList allResults, AnswerTracker userAnswers)
             throws CustomException {
-        System.out.println("Handling custom command.");
+
+        ui.printCustomModeMessage();
+
+        int topicNum = ui.getCustomTopicNum();
+        if(topicNum <= 0 || topicNum > topicList.getSize()) {
+            throw new CustomException("That topic number does not exist.");
+        }
+        int numOfQuestions = ui.getCustomNumOfQuestions();
+        if(numOfQuestions <= 0) {
+            throw new CustomException("That's not a valid number of questions.");
+        }
+
+        System.out.println("You will practise " + numOfQuestions + " questions from topic " + topicNum);
     }
 
     // checks valid command type and parameters: returns true if 2 parameters, else false (1 param only)
