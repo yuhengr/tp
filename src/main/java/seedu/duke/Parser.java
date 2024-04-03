@@ -2,7 +2,6 @@ package seedu.duke;
 
 import seedu.duke.exceptions.CustomException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +15,7 @@ public class Parser {
     private static final int FIRST_PARAMETER = 1;
     private static final int SECOND_PARAMETER = 2;
     private static final int THIRD_PARAMETER = 3;
+    private static final int THIRD_PARAMETER_INDEX = THIRD_PARAMETER - 1; //due to index 0
     private static final String DUMMY_QUESTION_PARAMETER = "1";
 
     private static final String COMMAND_SPLITTER = " ";
@@ -189,20 +189,19 @@ public class Parser {
     private int processTimedMode(String lowerCaseCommand) throws CustomException{
         checkTimingValidity(lowerCaseCommand);
         String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER, TIMER_ONE_PARAMETER_LENGTH);
-        int THIRD_PARAMETER_INDEX = THIRD_PARAMETER - 1;
+
         int timeLimit = Integer.parseInt(commandParts[THIRD_PARAMETER_INDEX]);
         Ui.printTimedModeSelected();
         return timeLimit;
     }
 
     private static void checkTimingValidity(String lowerCaseCommand) throws CustomException {
-        int THIRD_PARAMETER_INDEX = THIRD_PARAMETER - 1;//due to index 0
         String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER, TIMER_ONE_PARAMETER_LENGTH);
 
         try {
             int timeLimit = Integer.parseInt(commandParts[THIRD_PARAMETER_INDEX]);
         } catch (NumberFormatException e){
-        throw new CustomException(TIME_NOT_INT);
+            throw new CustomException(TIME_NOT_INT);
         }
 
         try {
