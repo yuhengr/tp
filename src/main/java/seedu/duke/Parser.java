@@ -417,8 +417,10 @@ public class Parser {
 
         ui.printCustomModeMessage();
 
+        int numOfTopics = topicList.getSize();
+        System.out.println("There are " + numOfTopics + " topics to choose from.");
         int topicNum = ui.getCustomTopicNum();
-        if(topicNum <= 0 || topicNum > topicList.getSize()) {
+        if(topicNum <= 0 || topicNum > numOfTopics) {
             throw new CustomException("That topic number does not exist.");
         }
 
