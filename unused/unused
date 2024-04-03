@@ -1,0 +1,38 @@
+public class Unused {
+    // for the wonderful but forgetten code
+
+    //@@author ngxzs--unused
+    // replaced by handleSolutionCommandRegEx() in Parser.java
+    // after adding in regEx feature
+    private void processSolutionCommand(
+            String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
+            throws CustomException {
+        // process command
+        String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER);
+        boolean hasTwoParameters = checkIfTwoParameters(SOLUTION_PARAMETER, commandParts);
+
+        // process parameters
+        String commandParameterTopic = commandParts[FIRST_PARAMETER];
+        String commandParameterQn = hasTwoParameters ? commandParts[SECOND_PARAMETER] : DUMMY_QUESTION_PARAMETER;
+
+        int topicNum = getTopicOrQuestionNum(commandParameterTopic, topicList.getSize());
+        QuestionsList qnList = questionListByTopic.getQuestionSet(topicNum - 1);
+        int questionNum = getTopicOrQuestionNum(commandParameterQn, qnList.getSize());
+
+        // checks if attempted topic before
+        if (!topicList.get(topicNum - 1).hasAttempted()) {
+            ui.printNoSolutionAccess(); // has not attempted
+            return;
+        }
+
+        if (hasTwoParameters) {
+            // get specific solution
+            String solution = qnList.getOneSolution(questionNum);
+            ui.printOneSolution(questionNum, solution);
+        } else {
+            // get all solutions
+            String allSolutions = qnList.getAllSolutions();
+            ui.printAllSolutions(allSolutions);
+        }
+    }
+}

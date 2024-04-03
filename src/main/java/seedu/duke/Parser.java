@@ -265,7 +265,7 @@ public class Parser {
 
     }
 
-    // solution and explain commands
+    // solution command
     private void processSolutionCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
