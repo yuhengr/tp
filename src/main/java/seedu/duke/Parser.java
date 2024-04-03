@@ -44,19 +44,17 @@ public class Parser {
 
     // CustomError messages
     private static final String MESSAGE_NO_RESULTS = "There are no results.";
-    private static final String MESSAGE_ERROR = "An error has occurred.";
     private static final String MESSAGE_INVALID_PARAMETERS = "Invalid parameters.";
     private static final String MESSAGE_INDEX_OUT_OF_BOUNDS = "Index is out of bounds.";
-    private static final String MESSAGE_INVALID_INDEX = "Index must be an integer.";
+    private static final String MESSAGE_INDEX_NOT_INTEGER = "Index must be an integer.";
 
     private static final String MESSAGE_INVALID_TOPIC_NUM = "Topic number is invalid.";
     private static final String MESSAGE_INVALID_QUESTION_NUM = "Question number is invalid.";
 
     private static final String MESSAGE_INVALID_COMMAND_FORMAT = "command format is invalid.";
 
-    private static final String UNSPECIFIED_TIME = "Please specify a time limit";
-    private static final String INVALID_TIME = "Time limit must be more than 0 seconds";
-    private static final String TIME_NOT_INT = "Please input an integer for time limit.";
+    private static final String MESSAGE_UNSPECIFIED_TIME = "Please specify a time limit";
+    private static final String MESSAGE_INVALID_TIME = "Time limit must be more than 0 seconds";
 
     public void parseCommand(
 
@@ -146,12 +144,12 @@ public class Parser {
                 ui.printOneResult(INCLUDES_DETAILS, topicNum, score, questionListByTopic, userAnswers, index);
                 break;
             } catch (NumberFormatException e) {
-                throw new CustomException(MESSAGE_INVALID_INDEX);
+                throw new CustomException(MESSAGE_INDEX_NOT_INTEGER);
             } catch (IndexOutOfBoundsException e) {
                 throw new CustomException(MESSAGE_INDEX_OUT_OF_BOUNDS);
             }
         default:
-            throw new CustomException(MESSAGE_ERROR);
+            throw new CustomException(MESSAGE_NO_RESULTS);
         }
     }
 
@@ -212,14 +210,14 @@ public class Parser {
         try {
             int timeLimit = Integer.parseInt(commandParts[THIRD_PARAMETER_INDEX]);
         } catch (NumberFormatException e){
-            throw new CustomException(TIME_NOT_INT);
+            throw new CustomException(MESSAGE_INDEX_NOT_INTEGER);
         }
 
         try {
             if (commandParts.length < TIMER_ONE_PARAMETER_LENGTH || commandParts[THIRD_PARAMETER_INDEX].equals("")) {
-                throw new CustomException(UNSPECIFIED_TIME);
+                throw new CustomException(MESSAGE_UNSPECIFIED_TIME);
             } else if (Integer.parseInt(commandParts[THIRD_PARAMETER_INDEX]) <= 0) {
-                throw new CustomException(INVALID_TIME);
+                throw new CustomException(MESSAGE_INVALID_TIME);
             }
         } catch (NumberFormatException e) {
             throw new CustomException(MESSAGE_INVALID_PARAMETERS);
