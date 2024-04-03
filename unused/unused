@@ -4,6 +4,7 @@ public class Unused {
     //@@author ngxzs--unused
     // replaced by handleSolutionCommandRegEx() in Parser.java
     // after adding in regEx feature
+    // shows refactoring of code after code review
     private void processSolutionCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
