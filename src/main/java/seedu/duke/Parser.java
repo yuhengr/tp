@@ -157,12 +157,10 @@ public class Parser {
                 ui.printFinishedTopic();
                 topicList.get(topicNum - 1).markAsAttempted();
                 ui.printTopicList(topicList, ui);
-            }
-            else if (isRandomTopicNum) {
+            } else if (isRandomTopicNum) {
                 Helper helper = new Helper();
                 topicNum = helper.generateRandomNumber(upperLimit);
-            }
-            else {
+            } else {
                 throw new CustomException(MESSAGE_INVALID_TOPIC_NUM);
             }
         } catch (NumberFormatException error) {
@@ -275,14 +273,12 @@ public class Parser {
             topicNum = Integer.parseInt(topicNumParam);
             if(topicNum == 0) {
                 throw new CustomException("Topic number cannot be 0");
-            }
-            else {
+            } else {
                 hasAttemptedTopicBefore = topicList.get(topicNum - 1).hasAttempted();
                 qnList = questionListByTopic.getQuestionSet(topicNum - 1);
                 System.out.println("You've chosen topic number " + topicNum);
             }
-        }
-        catch (NumberFormatException error) {
+        } catch (NumberFormatException error) {
             throw new CustomException("NumberFormatException error for topic number");
         }
 
@@ -294,18 +290,15 @@ public class Parser {
                 questionNum = Integer.parseInt(questionNumParameter);
                 if(questionNum <= 0) {
                     throw new CustomException("Question number is invalid.");
-                }
-                else {
+                } else {
                     hasQuestionNum = true;
                     validQuestionNum = true;
                     System.out.println("You've chosen qn number " + questionNum);
                 }
-            }
-            else {
+            } else {
                 emptyQuestionNumParam = true;
             }
-        }
-        catch (NumberFormatException error) {
+        } catch (NumberFormatException error) {
             throw new CustomException("NumberFormatException error for question number");
         }
 
@@ -313,16 +306,13 @@ public class Parser {
             if(hasQuestionNum) {
                 String solution = qnList.getOneSolution(questionNum);
                 ui.printOneSolution(questionNum, solution);
-            }
-            else if(emptyQuestionNumParam) {
+            } else if(emptyQuestionNumParam) {
                 String allSolution = qnList.getAllSolutions();
                 ui.printAllSolutions(allSolution);
-            }
-            else {
+            } else {
                 System.out.println("You've provided an invalid question number.");
             }
-        }
-        else {
+        } else {
             ui.printNoSolutionAccess();
         }
     }

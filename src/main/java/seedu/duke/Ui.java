@@ -26,7 +26,7 @@ public class Ui {
     private  boolean isTimesUp;
     private boolean hasCompletedSet;
 
-    private static int indexGlobal;
+    private int indexGlobal;
 
     public void readCommands(
             Ui ui, TopicList topicList,
@@ -92,26 +92,7 @@ public class Ui {
             System.out.println(questionUnit.getQuestion());
 
             if (isTimedMode) {
-                if (indexGlobal == 0) {
-                    Timer timer = new Timer();
-
-                    TimerTask task = new TimerTask() {
-                        @Override
-                        public void run() {
-                            synchronized (Ui.class) {
-                                if (!hasCompletedSet) {
-                                    assert allAnswers.size() <= numOfQns : "Number of questions answered needs to be less than or equal to available number or questions";
-                                    assert answersCorrectness.size() <= allAnswers.size(): "Number of questions correct needs to be less than or equal to number of answered questions";
-                                    indexGlobal = numOfQns;
-                                    printTimesUpMessage();
-                                }
-                                timer.cancel();
-                                isTimesUp = true;
-                            }
-                        }
-                    };
-                    timer.schedule(task, 5000);
-                }
+                timerBegin(hasCompletedSet, allAnswers, numOfQns, answersCorrectness);
             }
             askForAnswerInput();
             Parser parser = new Parser();
@@ -120,11 +101,7 @@ public class Ui {
             if (!isTimesUp) {
                 parser.handleAnswerInputs(inputAnswers, indexGlobal, answer, questionUnit,
                         topicResults, answersCorrectness);
-                int QnNumberIndex = numOfQns - 1;//-1 due to zero index
-                if (indexGlobal == QnNumberIndex && isTimedMode){
-                    printCongratulatoryMessage();
-                    hasCompletedSet = true;
-                }
+                finishBeforeTimerChecker(numOfQns, isTimedMode);
                 allAnswers.add(answer);
             }
         }
@@ -133,6 +110,44 @@ public class Ui {
         userAnswers.addUserAnswers(allAnswers);
         userAnswers.addUserCorrectness(answersCorrectness);
         isTimesUp = false;
+    }
+
+    public void timerBegin(boolean hasCompletedSet, ArrayList<String> allAnswers, int numOfQns,
+                           ArrayList<Boolean> answersCorrectness){
+        if (indexGlobal == 0) {
+            Timer timer = new Timer();
+
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    synchronized (Ui.class) {
+                        timeOut(allAnswers, numOfQns, answersCorrectness);
+                        timer.cancel();
+                        isTimesUp = true;
+                    }
+                }
+            };
+            timer.schedule(task, 5000);
+        }
+    }
+
+    public void timeOut(ArrayList<String> allAnswers, int numOfQns, ArrayList<Boolean> answersCorrectness){
+        if (!hasCompletedSet) {
+            assert allAnswers.size() <= numOfQns :
+                    "Number of questions answered needs to be <= available number or questions";
+            assert answersCorrectness.size() <= allAnswers.size() :
+                    "Number of questions correct needs to be <= number of answered questions";
+            indexGlobal = numOfQns;
+            printTimesUpMessage();
+        }
+    }
+
+    public void finishBeforeTimerChecker(int numOfQns, boolean isTimedMode){
+        int QnNumberIndex = numOfQns - 1;//-1 due to zero index
+        if (indexGlobal == QnNumberIndex && isTimedMode){
+            printCongratulatoryMessage();
+            hasCompletedSet = true;
+        }
     }
 
     public void printFinishedTopic(){
@@ -147,7 +162,7 @@ public class Ui {
         System.out.println("Congrats! You beat the timer!");
     }
 
-    public void printTimesUpMessage(){
+    public static void printTimesUpMessage(){
         System.out.println("Time is up!");
         System.out.println(" Press enter to go back to topic selection. ");
     }
