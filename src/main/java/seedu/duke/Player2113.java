@@ -73,7 +73,7 @@ public class Player2113 {
         if (isPaused) {
             try {
                 loadQuestion(saveFile);
-                ui.printTopicCompleted();
+                ui.printFinishedTopic();
             } catch (CustomException e) {
                 ui.handleException(e);
             }

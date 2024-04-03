@@ -428,7 +428,6 @@ public class Parser {
                               Results topicResults, int topicNum, int index)
             throws CustomException {
         if (isTimedMode) {
-            ui.showCannotPause();
             return false;
         }
         if (!isPaused && !answer.equalsIgnoreCase(PAUSE_GAME)) {

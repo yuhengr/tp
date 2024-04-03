@@ -89,7 +89,7 @@ public class Ui {
         printSelectedTopic(topicList, topicNum);
         int topicNumIndex = topicNum - 1; //-1 due to zero index
         qnList = questionListByTopic.getQuestionSet(topicNumIndex);
-        alLResults.addQuestions(topicNumIndex);
+        allResults.addQuestions(topicNumIndex);
 
         int numOfQns = qnList.getSize();
         Question questionUnit;
@@ -116,7 +116,7 @@ public class Ui {
                 askForAnswerInput();
                 answer = in.nextLine();
                 isPaused = parser.checkPause(answer, allResults, topicList, userAnswers, ui, storage, isPaused,
-                        isTimedMode, allAnswers, answersCorrectness, topicResults, topicNum, index[0]);
+                        isTimedMode, allAnswers, answersCorrectness, topicResults, topicNum, indexGlobal);
             } while (isPaused || wasPaused);
 
 
@@ -174,7 +174,7 @@ public class Ui {
     }
 
     public void printFinishedTopic(){
-        System.out.println(MESSAGE_TOPIC_FINIHSED);
+        System.out.println(MESSAGE_TOPIC_FINISHED);
     }
   
     public void printSelectedTopic(TopicList topicList, int topicNum){
@@ -226,10 +226,11 @@ public class Ui {
 
     public static void printTimesUpMessage(){
         System.out.println("Time is up!");
-        System.out.println(" Press enter to go back to topic selection. ");
+        System.out.println("Press enter to go back to topic selection. ");
     }
     public void printTimedModeSelected(){
         System.out.println("Timed mode selected. Please enter the topic you would like to try. ");
+        showCannotPause();
     }
 
     public void printNoSolutionAccess(){
