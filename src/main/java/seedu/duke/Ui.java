@@ -10,10 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Ui {
-
-    private ProgressBar questionProgressBar = new ProgressBar(0);
     private static final Scanner in = new Scanner(System.in);
-
     private static final String HEADER_ALL_RESULTS = "These are all your results so far:\n";
     private static final String MESSAGE_ASK_RESUME = "The game is paused.\nInput \"resume\" to continue, " +
             "or \"bye\" to exit.";
@@ -40,6 +37,7 @@ public class Ui {
     private boolean hasCompletedSet;
 
     private int indexGlobal;
+    private ProgressBar questionProgressBar = new ProgressBar(0);
 
     public void displayProgressBar(int current, int total) {
         questionProgressBar = new ProgressBar(total, current);
@@ -385,8 +383,7 @@ public class Ui {
             int topicNum = Integer.parseInt(userInput);
             return topicNum;
         } catch (NumberFormatException error) {
-            final int INVALID_TOPICNUM = -1;
-            return INVALID_TOPICNUM;
+            return -1;
         }
     }
 
@@ -398,8 +395,7 @@ public class Ui {
             int numOfQuestions = Integer.parseInt(userInput);
             return numOfQuestions;
         } catch (NumberFormatException error) {
-            final int INVALID_NUM_OF_QUESTIONS = -1;
-            return INVALID_NUM_OF_QUESTIONS;
+            return -1;
         }
     }
 
@@ -417,13 +413,9 @@ public class Ui {
         String userInput = in.nextLine();
 
         try {
-            int checkpointGoal = Integer.parseInt(userInput);
-            return checkpointGoal;
-        }
-        catch (NumberFormatException error) {
-            final int INVALID_CHECKPOINT_GOAL = -1;
-            return INVALID_CHECKPOINT_GOAL;
+            return Integer.parseInt(userInput);
+        } catch (NumberFormatException error) {
+            return -1;
         }
     }
-
 }

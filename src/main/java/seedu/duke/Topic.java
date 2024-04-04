@@ -1,7 +1,5 @@
 package seedu.duke;
 
-import javax.swing.*;
-
 public class Topic {
 
     protected QuestionsList chosenQuestionsList;
