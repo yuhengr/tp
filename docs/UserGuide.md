@@ -156,7 +156,8 @@ Format: `resume`
 
 All results will be saved to a local save file, which will be loaded up when the application is opened next time.
 
-- If exited after pausing the game, opening the application will automatically resume with where the user left off.
+- If exited after pausing the game, you can choose whether to continue from where you left off or 
+discard the results for that topic.
 
 Example of usage: `bye`.
 
