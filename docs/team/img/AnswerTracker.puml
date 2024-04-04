@@ -1,0 +1,89 @@
+@startuml
+
+skinparam ParticipantFontColor #FFFFFF
+
+box Logic #ABCAFA
+participant "ui:Ui" as Ui #1162E3
+participant "parser:Parser" as Parser #1162E3
+end box
+
+box Answers #EB9999
+participant "allAnswers:ArrayList<String>" as allAnswers #FE2727
+participant "answersCorrectness:ArrayList<Boolean>" as answersCorrectness #FE2727
+participant "userAnswers:AnswerTracker" as AnswerTracker #FE2727
+end box
+
+[-> Ui : printChosenTopic(topicNum: int)
+activate Ui
+
+create allAnswers
+Ui -> allAnswers : new ArrayList<>()
+activate allAnswers
+allAnswers --> Ui
+deactivate allAnswers
+
+create answersCorrectness
+Ui -> answersCorrectness : new ArrayList<>()
+activate answersCorrectness
+answersCorrectness --> Ui
+deactivate answersCorrectness
+
+ref over Ui : get question set
+
+loop until all questions
+
+ref over Ui
+ask question and
+receive user input
+end ref
+
+create Parser
+Ui -> Parser : new Parser()
+activate Parser
+Parser --> Ui
+deactivate Parser
+
+Ui -> Parser : handleAnswerInputs(answer: String)
+activate Parser
+
+ref over Parser : get correct answer
+
+alt answer.equals(correctAnswer)
+Parser -> answersCorrectness : add(IS_CORRECT_ANSWER: boolean)
+activate answersCorrectness
+answersCorrectness --> Parser
+deactivate answersCorrectness
+
+else else
+Parser -> answersCorrectness : add(!IS_CORRECT_ANSWER: boolean)
+activate answersCorrectness
+answersCorrectness --> Parser
+deactivate answersCorrectness
+end
+
+Parser --> Ui
+deactivate Parser
+end
+
+Ui -> allAnswers : add(answer: String)
+activate allAnswers
+allAnswers --> Ui
+deactivate allAnswers
+
+Ui -> AnswerTracker : addUserAnswers(allAnswers: ArrayList<String>)
+activate AnswerTracker
+AnswerTracker --> Ui
+deactivate AnswerTracker
+
+Ui -> AnswerTracker : addUserCorrectness(answersCorrectness: ArrayList<Boolean>)
+activate AnswerTracker
+AnswerTracker --> Ui
+deactivate AnswerTracker
+
+Ui -->[
+
+destroy allAnswers
+destroy answersCorrectness
+destroy Parser
+
+@enduml

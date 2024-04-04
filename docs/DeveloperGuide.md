@@ -27,7 +27,11 @@ one question set is added to the `ResultsList`:
 
 Similarly, the following sequence diagram shows how the
 `AnswerTracker` stores all the user answer inputs:  
-![AnswerTracker sequence diagram](https://via.placeholder.com/100.png?text=Photo)
+![AnswerTracker sequence diagram](./team/img/AnswerTracker.png)
+> **Note:** The lifeline for Parser, allAnswers, and answersCorrectness
+> should end
+> at the destroy marker (X) but due to a limitation of PlantUML,
+> the lifeline reaches the end of the diagram.
 
 Step 2. The user may repeat Step 1 with other question sets.  
 
@@ -36,7 +40,7 @@ and `AnswerTracker` are the same as the ones shown in Step 1.
 
 Step 3. The user now wants to view their results by executing
 the `results` command.  
-![Results command sequence diagram](https://via.placeholder.com/100.png?text=Photo)
+![Results command sequence diagram](./team/img/ViewResults.png)
 
 > **Note:** If the user uses the results feature before
 > attempting any questions, the application will instead 
