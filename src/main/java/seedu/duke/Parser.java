@@ -85,9 +85,11 @@ public class Parser {
                 // processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
                 handleSolutionCommandRegEx(command, ui, topicList, questionListByTopic);
             } else if (commandToken == CommandList.CUSTOM) {
-                handleCustomCommand(command, ui, topicList, questionListByTopic, allResults, userAnswers);
+                handleCustomCommand(command, ui, topicList, questionListByTopic, allResults,
+                        userAnswers, progressManager);
             } else if (commandToken == CommandList.CHECKPOINT) {
-                handleCheckpointCommand(command, ui, topicList, questionListByTopic, allResults, userAnswers);
+                handleCheckpointCommand(command, ui, topicList, questionListByTopic, allResults,
+                        userAnswers, progressManager);
             } else if (lowerCaseCommand.startsWith(EXPLAIN_PARAMETER)) {
                 processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith(RESULTS_PARAMETER)) {
@@ -415,7 +417,7 @@ public class Parser {
 
     private void handleCustomCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
-            ResultsList allResults, AnswerTracker userAnswers)
+            ResultsList allResults, AnswerTracker userAnswers, ProgressManager progressManager)
             throws CustomException {
 
         ui.printCustomModeMessage();
@@ -462,11 +464,12 @@ public class Parser {
 
     private void handleCheckpointCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
-            ResultsList allResults, AnswerTracker userAnswers)
+            ResultsList allResults, AnswerTracker userAnswers, ProgressManager progressManager)
             throws CustomException {
-        System.out.println("Handling checkpoint command.");
+        // For now, checkpoint command is only for custom mode.
 
         int checkpointGoal = ui.getCheckpointGoal();
+        
         int totalNumOfTopics = topicList.getSize();
         int totalNumOfQuestions = 0;
         for(int i = 0; i < totalNumOfTopics; i++) {
@@ -482,7 +485,9 @@ public class Parser {
             System.out.println("That is an invalid goal.");
         }
         else {
-            System.out.println("You've chosen a goal of " + checkpointGoal + " questions.");
+            progressManager.setCustomMode();
+            progressManager.setCustomModeGoal(checkpointGoal);
+            System.out.println("You've chosen a goal of " + progressManager.getCustomModeGoal() + " questions.");
         }
     }
 
