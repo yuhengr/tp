@@ -7,16 +7,19 @@ public class ProgressManager {
 
     private ResultsList sessionResults;
 
-    private int customModeGoal;
+    private int checkpointModeGoal;
 
-    private boolean inCustomMode;
+    private boolean inCheckpointMode;
+
+    private int numOfAttemptedCustomQuestions;
 
     private Logger logger = Logger.getLogger("ProgressManagerLogger");
 
     public ProgressManager(ResultsList sessionResults) {
         this.sessionResults = sessionResults;
-        this.customModeGoal = 0;
-        this.inCustomMode = false;
+        this.checkpointModeGoal = 0;
+        this.inCheckpointMode = false;
+        this.numOfAttemptedCustomQuestions = 0;
     }
 
     public ResultsList clearProgress() {
@@ -25,27 +28,39 @@ public class ProgressManager {
         return sessionResults;
     }
 
-    public void setCustomMode() {
-        inCustomMode = true;
+    public void setCheckpointMode() {
+        inCheckpointMode = true;
     }
 
-    public void clearCustomMode() {
-        inCustomMode = false;
+    public void clearCheckpointMode() {
+        inCheckpointMode = false;
     }
 
-    public boolean isInCustomMode() {
-        return inCustomMode;
+    public boolean isInCheckpointMode() {
+        return inCheckpointMode;
     }
 
-    public void setCustomModeGoal(int goal) {
-        customModeGoal = goal;
+    public void setCheckpointModeGoal(int goal) {
+        checkpointModeGoal = goal;
     }
 
-    public void clearCustomModeGoal() {
-        customModeGoal = 0;
+    public void clearCheckpointModeGoal() {
+        checkpointModeGoal = 0;
     }
 
-    public int getCustomModeGoal() {
-        return customModeGoal;
+    public int getCheckpointModeGoal() {
+        return checkpointModeGoal;
+    }
+
+    public void incrementNumOfAttemptedCustomQuestions() {
+        numOfAttemptedCustomQuestions++;
+    }
+
+    public int getNumOfAttemptedCustomQuestions() {
+        return numOfAttemptedCustomQuestions;
+    }
+
+    public void clearNumOfAttemptedCustomQuestions() {
+        numOfAttemptedCustomQuestions = 0;
     }
 }

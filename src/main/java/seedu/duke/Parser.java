@@ -452,14 +452,31 @@ public class Parser {
         }
 
         System.out.println("Here are your custom questions.");
+        boolean isInCheckpointMode = progressManager.isInCheckpointMode();
         for(int i = 0; i < numOfQuestions; i++) {
             ui.printQuestion(customQuestionsList.getQuestionUnit(i));
             ui.askForAnswerInput();
             String userAnswerInput = ui.getUserAnswerInput();
             ui.displayUserAnswer(userAnswerInput);
+
+            if(isInCheckpointMode) {
+                progressManager.incrementNumOfAttemptedCustomQuestions();
+            }
         }
 
         System.out.println("You have completed " + numOfQuestions + " questions from topic " + topicNum);
+
+        if(isInCheckpointMode) {
+            int checkpointModeGoal = progressManager.getCheckpointModeGoal();
+            int numOfAttemptedCustomQuestions = progressManager.getNumOfAttemptedCustomQuestions();
+
+            if(numOfAttemptedCustomQuestions >= checkpointModeGoal) {
+                System.out.println("Congrats, you've reached your checkpoint goal.");
+                progressManager.clearCheckpointModeGoal();
+                progressManager.clearNumOfAttemptedCustomQuestions();
+                progressManager.clearCheckpointMode();
+            }
+        }
     }
 
     private void handleCheckpointCommand(
@@ -468,8 +485,19 @@ public class Parser {
             throws CustomException {
         // For now, checkpoint command is only for custom mode.
 
+        boolean isAlreadyInCheckpointMode = progressManager.isInCheckpointMode();
+        if(isAlreadyInCheckpointMode) {
+            int goal = progressManager.getCheckpointModeGoal();
+            int numOfAttemptedCustomQuestions = progressManager.getNumOfAttemptedCustomQuestions();
+            int numOfQuestionsToHitGoal = goal - numOfAttemptedCustomQuestions;
+            System.out.println("You're already in checkpoint mode.");
+            System.out.println("Your goal is to attempt " + goal + " questions.");
+            System.out.println("You have " + numOfQuestionsToHitGoal + " more to go.");
+            return;
+        }
+
         int checkpointGoal = ui.getCheckpointGoal();
-        
+
         int totalNumOfTopics = topicList.getSize();
         int totalNumOfQuestions = 0;
         for(int i = 0; i < totalNumOfTopics; i++) {
@@ -485,9 +513,9 @@ public class Parser {
             System.out.println("That is an invalid goal.");
         }
         else {
-            progressManager.setCustomMode();
-            progressManager.setCustomModeGoal(checkpointGoal);
-            System.out.println("You've chosen a goal of " + progressManager.getCustomModeGoal() + " questions.");
+            progressManager.setCheckpointMode();
+            progressManager.setCheckpointModeGoal(checkpointGoal);
+            System.out.println("You've chosen a goal of " + progressManager.getCheckpointModeGoal() + " questions.");
         }
     }
 
