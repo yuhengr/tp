@@ -10,6 +10,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Ui {
+
+    private ProgressBar questionProgressBar = new ProgressBar(0);
     private static final Scanner in = new Scanner(System.in);
 
     private static final String HEADER_ALL_RESULTS = "These are all your results so far:\n";
@@ -38,6 +40,13 @@ public class Ui {
     private boolean hasCompletedSet;
 
     private int indexGlobal;
+
+    public void displayProgressBar(int current, int total) {
+        questionProgressBar = new ProgressBar(total, current);
+        questionProgressBar.display();
+        System.out.print(" " + current + "/" + total + " questions attempted");
+        System.out.println();
+    }
 
     public void readCommands(
             Ui ui, TopicList topicList,
@@ -103,6 +112,7 @@ public class Ui {
         ArrayList<Boolean> answersCorrectness = new ArrayList<>();
 
         for (indexGlobal = 0; indexGlobal < numOfQns; indexGlobal++){//go through 1 question set
+            displayProgressBar(indexGlobal, numOfQns);
             questionUnit = qnList.getQuestionUnit(indexGlobal);
             topicResults.increaseNumberOfQuestions();
             printQuestion(questionUnit);

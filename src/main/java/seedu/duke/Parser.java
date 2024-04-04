@@ -59,6 +59,8 @@ public class Parser {
 
     private int timeLimit = 0;
 
+
+
     public void parseCommand(
 
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
@@ -186,10 +188,12 @@ public class Parser {
             if (validTopicNum) {
                 ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode,
                         storage, ui, timeLimit);
-                ui.printFinishedTopic();
 
                 topicList.get(topicNum - 1).markAsAttempted();
+                topicList.displayProgressBar();
+                ui.printFinishedTopic();
                 ui.printTopicList(topicList, ui);
+
             } else if (isRandomTopicNum) {
                 Helper helper = new Helper();
                 topicNum = helper.generateRandomNumber(upperLimit);
@@ -264,9 +268,10 @@ public class Parser {
             // prints questions
             ui.printChosenTopic(topicNum, topicList, questionListByTopic, allResults, userAnswers, isTimedMode,
                     storage, ui, timeLimit);
-            ui.printFinishedTopic();
 
             topicList.get(topicNum - 1).markAsAttempted();
+
+            ui.printFinishedTopic();
             ui.printTopicList(topicList, ui);
 
         } catch (NumberFormatException e) {
@@ -454,6 +459,7 @@ public class Parser {
         System.out.println("Here are your custom questions.");
         boolean isInCheckpointMode = progressManager.isInCheckpointMode();
         for(int i = 0; i < numOfQuestions; i++) {
+
             ui.printQuestion(customQuestionsList.getQuestionUnit(i));
             ui.askForAnswerInput();
             String userAnswerInput = ui.getUserAnswerInput();
