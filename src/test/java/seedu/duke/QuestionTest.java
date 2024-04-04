@@ -6,13 +6,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class QuestionTest {
 
+    private static final String OPTION_A = "a. ";
+    private static final String OPTION_B = "b. ";
+    private static final String OPTION_C = "c. ";
+    private static final String OPTION_D = "d. ";
+
     Question oneQuestion;
     final String question1 = "question1";
     final String solution1 = "solution1";
     final String explanation1 = "explanation1";
+    final String[] options1 = new String[]{"optionA","optionB","optionC","optionD"};
 
     void createQuestion() {
-        oneQuestion = new Question(question1, solution1, explanation1);
+        oneQuestion = new Question(question1, solution1, explanation1,options1);
     }
 
     // 3 part format
@@ -29,7 +35,9 @@ class QuestionTest {
     void getQuestion_oneQuestion_expectQuestion() {
         createQuestion();
 
-        assertEquals(question1, oneQuestion.getQuestion());
+        assertEquals(question1 + System.lineSeparator() + OPTION_A + "optionA" + System.lineSeparator()
+                + OPTION_B + "optionB" + System.lineSeparator() + OPTION_C + "optionC" + System.lineSeparator()
+                + OPTION_D + "optionD", oneQuestion.getQuestion());
     }
 
     @Test

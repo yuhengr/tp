@@ -18,8 +18,10 @@ public class ProgressManagerTest {
 
         ResultsList sessionResults = new ResultsList();
         Results results = new Results();
-        Question questionOne = new Question("Question 1", "Solution 1", "Explanation 1");
-        Question questionTwo = new Question("Question 2", "Solution 2", "Explanation 2");
+        Question questionOne = new Question("Question 1", "Solution 1", "Explanation 1",
+                new String[]{"optionA","optionB","optionC","optionD"});
+        Question questionTwo = new Question("Question 2", "Solution 2", "Explanation 2",
+                new String[]{"optionA","optionB","optionC","optionD"});
         QuestionsList questions = new QuestionsList();
 
         questions.addQuestion(questionOne);

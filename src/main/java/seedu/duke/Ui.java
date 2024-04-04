@@ -374,8 +374,7 @@ public class Ui {
         try {
             int topicNum = Integer.parseInt(userInput);
             return topicNum;
-        }
-        catch (NumberFormatException error) {
+        } catch (NumberFormatException error) {
             final int INVALID_TOPICNUM = -1;
             return INVALID_TOPICNUM;
         }
@@ -388,8 +387,7 @@ public class Ui {
         try {
             int numOfQuestions = Integer.parseInt(userInput);
             return numOfQuestions;
-        }
-        catch (NumberFormatException error) {
+        } catch (NumberFormatException error) {
             final int INVALID_NUM_OF_QUESTIONS = -1;
             return INVALID_NUM_OF_QUESTIONS;
         }
