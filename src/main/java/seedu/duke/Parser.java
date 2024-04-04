@@ -85,6 +85,8 @@ public class Parser {
                 handleSolutionCommandRegEx(command, ui, topicList, questionListByTopic);
             } else if (commandToken == CommandList.CUSTOM) {
                 handleCustomCommand(command, ui, topicList, questionListByTopic, allResults, userAnswers);
+            } else if (commandToken == CommandList.CHECKPOINT) {
+                handleCheckpointCommand(command, ui, topicList, questionListByTopic, allResults, userAnswers);
             } else if (lowerCaseCommand.startsWith(EXPLAIN_PARAMETER)) {
                 processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith(RESULTS_PARAMETER)) {
@@ -455,6 +457,32 @@ public class Parser {
         }
 
         System.out.println("You have completed " + numOfQuestions + " questions from topic " + topicNum);
+    }
+
+    private void handleCheckpointCommand(
+            String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
+            ResultsList allResults, AnswerTracker userAnswers)
+            throws CustomException {
+        System.out.println("Handling checkpoint command.");
+
+        int checkpointGoal = ui.getCheckpointGoal();
+        int totalNumOfTopics = topicList.getSize();
+        int totalNumOfQuestions = 0;
+        for(int i = 0; i < totalNumOfTopics; i++) {
+            QuestionsList currentQuestionsList = questionListByTopic.getQuestionSet(i);
+            int numOfQuestions = currentQuestionsList.getSize();
+            totalNumOfQuestions += numOfQuestions;
+        }
+        if(checkpointGoal > totalNumOfQuestions) {
+            System.out.println("There aren't that many questions available.");
+            System.out.println("Pick a goal that is lesser or equals to " + totalNumOfQuestions);
+        }
+        else if (checkpointGoal <= 0) {
+            System.out.println("That is an invalid goal.");
+        }
+        else {
+            System.out.println("You've chosen a goal of " + checkpointGoal + " questions.");
+        }
     }
 
     // checks valid command type and parameters: returns true if 2 parameters, else false (1 param only)

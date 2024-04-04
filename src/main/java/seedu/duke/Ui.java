@@ -404,4 +404,18 @@ public class Ui {
         System.out.println("Your answer: " + userAnswer);
     }
 
+    public int getCheckpointGoal() {
+        System.out.println("How many custom questions would you like to complete?");
+        String userInput = in.nextLine();
+
+        try {
+            int checkpointGoal = Integer.parseInt(userInput);
+            return checkpointGoal;
+        }
+        catch (NumberFormatException error) {
+            final int INVALID_CHECKPOINT_GOAL = -1;
+            return INVALID_CHECKPOINT_GOAL;
+        }
+    }
+
 }
