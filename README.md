@@ -26,16 +26,19 @@ ______ _                       _____  __   __   _____
                |___/
 What is your name?
 ```
+
 ## Usage
 
 > [!IMPORTANT]
 > The current release of Player2113 is a MVP preview version with various proposed functions unimplemented. Please strictly follow this user's guide.
 
+Please refer to [User Guide](./docs/UserGuide.md) for complete usage instructions.
+
 ## Command Summary
 
-* help `help`
-* Start game `topic TOPIC_NUM` eg `topic 1`
-* Show Results `results [details] [TOPIC_NUM]` eg results details 2
-* Show Solution `solution TOPIC_NUM [QUESTION_NUM]` eg solution 1 1
-* Show Explanation `explain TOPIC_NUM [QUESTION_NUM]` eg explain 1 1
-* Exit `bye`
+- help `help`
+- Start game `topic TOPIC_NUM` eg `topic 1`
+- Show Results `results [details] [TOPIC_NUM]` eg results details 2
+- Show Solution `solution TOPIC_NUM [QUESTION_NUM]` eg solution 1 1
+- Show Explanation `explain TOPIC_NUM [QUESTION_NUM]` eg explain 1 1
+- Exit `bye`
