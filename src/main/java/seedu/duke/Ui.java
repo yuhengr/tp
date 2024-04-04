@@ -243,7 +243,7 @@ public class Ui {
     }
     public static void printTimedModeSelected(){
         System.out.println("Timed mode selected. Please enter the topic you would like to try. ");
-        showCannotPause();
+        System.out.println(MESSAGE_RESUME);
     }
 
     public void printNoSolutionAccess(){
@@ -349,7 +349,7 @@ public class Ui {
         System.out.println(MESSAGE_RESUME);
     }
 
-    public static void showCannotPause() {
+    public void showCannotPause() {
         System.out.println(MESSAGE_CANNOT_PAUSE);
     }
 
@@ -374,8 +374,7 @@ public class Ui {
         try {
             int topicNum = Integer.parseInt(userInput);
             return topicNum;
-        }
-        catch (NumberFormatException error) {
+        } catch (NumberFormatException error) {
             final int INVALID_TOPICNUM = -1;
             return INVALID_TOPICNUM;
         }
@@ -388,8 +387,7 @@ public class Ui {
         try {
             int numOfQuestions = Integer.parseInt(userInput);
             return numOfQuestions;
-        }
-        catch (NumberFormatException error) {
+        } catch (NumberFormatException error) {
             final int INVALID_NUM_OF_QUESTIONS = -1;
             return INVALID_NUM_OF_QUESTIONS;
         }

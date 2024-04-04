@@ -44,10 +44,14 @@ public class AnswerTrackerTest {
     }
 
     void createFourQuestions() {
-        question1 = new Question("question1", "solution1", "explanation1");
-        question2 = new Question("question2", "solution2", "explanation2");
-        question3 = new Question("question3", "solution3", "explanation3");
-        question4 = new Question("question4", "solution4", "explanation4");
+        question1 = new Question("question1", "solution1", "explanation1",
+                new String[]{"optionA","optionB","optionC","optionD"});
+        question2 = new Question("question2", "solution2", "explanation2",
+                new String[]{"optionA","optionB","optionC","optionD"});
+        question3 = new Question("question3", "solution3", "explanation3",
+                new String[]{"optionA","optionB","optionC","optionD"});
+        question4 = new Question("question4", "solution4", "explanation4",
+                new String[]{"optionA","optionB","optionC","optionD"});
     }
 
     void createTwoUserAnswers() {

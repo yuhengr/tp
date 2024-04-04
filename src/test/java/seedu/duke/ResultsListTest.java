@@ -23,16 +23,19 @@ class ResultsListTest {
         sessionsResults = new ResultsList();
 
 
-        roundOneQuestionOne = new Question("question 1-1","solution 1-1","explanation 1-1");
+        roundOneQuestionOne = new Question("question 1-1","solution 1-1","explanation 1-1",
+                new String[]{"optionA","optionB","optionC","optionD"});
         roundOneQuestions.addQuestion(roundOneQuestionOne);
         roundOneResults.increaseNumberOfQuestions();
-        roundOneQuestionTwo = new Question("question 1-1","solution 1-1","explanation 1-1");
+        roundOneQuestionTwo = new Question("question 1-1","solution 1-1","explanation 1-1",
+                new String[]{"optionA","optionB","optionC","optionD"});
         roundOneQuestions.addQuestion(roundOneQuestionTwo);
         roundOneResults.increaseNumberOfQuestions();
         roundOneResults.increaseCorrectAnswers();
         roundOneResults.calculateScore(); // 1 out of 2 correct
 
-        roundTwoQuestionOne = new Question("question 2-1","solution 2-1", "explanation 2-1");
+        roundTwoQuestionOne = new Question("question 2-1","solution 2-1", "explanation 2-1",
+                new String[]{"optionA","optionB","optionC","optionD"});
         roundTwoQuestions.addQuestion(roundTwoQuestionOne);
         roundTwoResults.increaseNumberOfQuestions();
         roundTwoResults.increaseCorrectAnswers();

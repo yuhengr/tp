@@ -1,0 +1,104 @@
+@startuml
+
+skinparam ParticipantFontColor #FFFFFF
+
+box Logic #ABCAFA
+participant "parser:Parser" as Parser #1162E3
+participant "ui:Ui" as Ui #1162E3
+end box
+
+box Results #EB9999
+participant "allResults:ResultsList" as ResultsList #FE2727
+participant "sessionResults:ArrayList<Results>" as sessionResults #FE2727
+participant ":Results" as Results #FE2727
+participant "userAnswers:AnswerTracker" as AnswerTracker #FE2727
+participant "questionListByTopic:QuestionListByTopic" as QuestionListByTopic #FE2727
+participant "questionList:QuestionList" as QuestionList #FE2727
+end box
+
+[-> Parser : processResultsCommandCommand(command: String)
+activate Parser
+
+ref over Parser
+split command into
+commandParts: String[]
+end ref
+
+alt commandParts.length == 1
+ref over Parser
+print without details
+for all results
+end ref
+
+else commandParts.length == 2
+
+alt parameter == DETAILS
+Parser -> Ui : printAllResults()
+activate Ui
+Ui -> ResultsList : getSizeOfAllResults()
+activate ResultsList
+ResultsList --> Ui : numberOfResults
+deactivate ResultsList
+
+loop until all Results
+Ui -> ResultsList : getTopicNum()
+activate ResultsList
+ResultsList --> Ui : topicNum
+deactivate ResultsList
+Ui -> ResultsList : getSpecifiedResult()
+activate ResultsList
+ResultsList -> sessionResults : get()
+activate sessionResults
+sessionResults --> ResultsList : :Results
+deactivate sessionResults
+ResultsList --> Ui : :Results
+deactivate ResultsList
+Ui -> Results : getScore()
+activate Results
+Results --> Ui : :String
+deactivate Results
+ref over Ui
+print score
+end ref
+opt INCLUDES_DETAILS
+Ui -> Ui : printResultDetails()
+activate Ui
+Ui -> QuestionListByTopic : getQuestionSet(topicNum)
+activate QuestionListByTopic
+QuestionListByTopic --> Ui : listOfQuestions
+deactivate QuestionListByTopic
+loop until all Questions
+Ui -> QuestionList : getQuestionUnit()
+activate QuestionList
+QuestionList --> Ui : :Question
+deactivate QuestionList
+Ui -> AnswerTracker : getIsCorrect()
+activate AnswerTracker
+AnswerTracker --> Ui : isCorrect
+deactivate AnswerTracker
+ref over Ui
+print question
+and correctness
+end ref
+end
+Ui --> Ui
+deactivate Ui
+end
+end
+Ui --> Parser
+deactivate Ui
+else parameter == INDEX
+ref over Parser
+print without details
+for one result only
+end ref
+end
+
+else commandParts.length == 3
+ref over Parser
+print with details
+for one result only
+end ref
+end
+
+@enduml

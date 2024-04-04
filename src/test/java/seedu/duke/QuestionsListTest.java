@@ -20,8 +20,10 @@ class QuestionsListTest {
     }
 
     void createTwoQuestions() {
-        question1 = new Question("question1", "solution1", "explanation1");
-        question2 = new Question("question2", "solution2", "explanation2");
+        question1 = new Question("question1", "solution1", "explanation1",
+                new String[]{"optionA","optionB","optionC","optionD"});
+        question2 = new Question("question2", "solution2", "explanation2",
+                new String[]{"optionA","optionB","optionC","optionD"});
     }
 
     // 3 part format

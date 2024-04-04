@@ -45,7 +45,9 @@ What is your name?
 5. [timed mode](#5-timed-mode---attempt-the-questions-under-a-time-limit)
 6. [list](#5-list---list-all-available-topics-and-their-summaries)
 7. [help](#6-viewing-help-help)
-8. [bye](#7-exiting-the-game-bye)
+8. [pause](#8-pausing-the-game-pause)
+9. [resume](#9-resuming-the-game-resume)
+10. [bye](#10-exiting-the-game-bye)
 
 ### 1. Starting game: `topic`
 There are multiple question banks pre-configured in Player2113.
@@ -67,12 +69,15 @@ eg “a” to choose option "a. Java" (below)
 ### 2. Viewing results: `results`
 
 You may check your answer accuracy after attempting a question set. The result is separated from practicing session for concentration consideration.
+
 Format: `results [details] [INDEX]`
 
 - Shows scores from the game round at that specified INDEX. The index must be a  non-zero positive integer (e.g. 1, 2, 3, …).
 - If `[INDEX]` is omitted, the results will be listed in chronological order of the rounds.
 - Adding `[details]` will allow you to view the questions and your answers from the round. Omitting it will result in showing only the score.
 - Anything after `[INDEX]` will be ignored.
+
+Example usage: `results details 2`
 
 ### 3. Get solution(s) for a question / topic: `solution`
 Shows solution(s) for a specific question or all questions of a topic
@@ -131,7 +136,28 @@ Sample output:
 
 ![Help Sample Output](./team/img/ug_usage_help.png)
 
-### 8. Exiting the game: `bye`
+### 8. Pausing the game: `pause`
+
+Pauses the game so that the user may choose to exit the game in the middle of answering the questions.
+
+Format: `pause`
+
+- This command is valid only when the user is answering the topic questions.
+
+### 9. Resuming the game: `resume`
+
+Resumes the game when the game is paused.
+
+Format: `resume`
+
+- This command is valid only when the game is paused.
+
+### 10. Exiting the game: `bye`
+
+All results will be saved to a local save file, which will be loaded up when the application is opened next time.
+
+- If exited after pausing the game, you can choose whether to continue from where you left off or 
+discard the results for that topic.
 
 Example of usage: `bye`.
 
@@ -150,9 +176,11 @@ bye bye, get more sleep zzz
 
 ## Command Summary
 
-* help `help`
+* View help `help`
 * Start game `topic TOPIC_NUM` e.g. `topic 1`
-* Show Results `results [details] [TOPIC_NUM]` e.g. `results details 2`
+* Pause game `pause`
+* Resume game `resume`
+* Show Results `results [details] [ATTEMPT_INDEX]` e.g. `results details 2`
 * Show Solution `solution TOPIC_NUM [QUESTION_NUM]` e.g. `solution 1 1`
 * Show Explanation `explain TOPIC_NUM [QUESTION_NUM]` e.g. `explain 1 1`
 * Timed Mode `timed mode [TIME_LIMIT]` e.g. `timed mode 5`
