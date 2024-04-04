@@ -514,11 +514,9 @@ public class Parser {
         if(checkpointGoal > totalNumOfQuestions) {
             System.out.println("There aren't that many questions available.");
             System.out.println("Pick a goal that is lesser or equals to " + totalNumOfQuestions);
-        }
-        else if (checkpointGoal <= 0) {
+        } else if (checkpointGoal <= 0) {
             System.out.println("That is an invalid goal.");
-        }
-        else {
+        } else {
             progressManager.setCheckpointMode();
             progressManager.setCheckpointModeGoal(checkpointGoal);
             System.out.println("You've chosen a goal of " + progressManager.getCheckpointModeGoal() + " questions.");
