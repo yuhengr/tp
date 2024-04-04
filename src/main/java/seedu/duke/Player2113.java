@@ -117,6 +117,7 @@ public class Player2113 {
                     if (confirmDecision.equals("no")){
                         ui.showResume();
                         loadQuestion(saveFile);
+                        topicList.displayProgressBar();
                         ui.printFinishedTopic();
                     }
                 }
