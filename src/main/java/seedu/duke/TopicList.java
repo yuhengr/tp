@@ -6,8 +6,11 @@ import java.util.ArrayList;
 public class TopicList {
     private ArrayList<Topic> topicList;
 
+    private ProgressBar topicProgressBar;
+
     public TopicList() {
         topicList = new ArrayList<>();
+        topicProgressBar = new ProgressBar(0);
     }
     public void addTopic(Topic topic){
         topicList.add(topic);
@@ -41,6 +44,19 @@ public class TopicList {
 
     public ArrayList<Topic> getTopicList() {
         return topicList;
+    }
+
+    public void displayProgressBar() {
+        int attempted = 0;
+        for (Topic t : topicList) {
+            if (t.hasAttempted()) {
+                attempted += 1;
+            }
+        }
+        topicProgressBar = new ProgressBar(topicList.size(), attempted);
+        topicProgressBar.display();
+        System.out.print(" " + attempted + "/" + topicList.size() + " topics attempted");
+        System.out.println();
     }
 
 }

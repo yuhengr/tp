@@ -103,6 +103,7 @@ public class Player2113 {
                 } while (!(decision.equals("yes")) && ! (decision.equals("no")));
                 if (decision.equals("yes")) {
                     loadQuestion(saveFile);
+                    topicList.displayProgressBar();
                     ui.printFinishedTopic();
                 } else if (decision.equals("no")){
                     ui.confirmSelection();
@@ -124,7 +125,9 @@ public class Player2113 {
             }
         }
 
+        topicList.displayProgressBar();
         ui.printTopicList(topicList, ui);
+
 
         while (ui.isPlaying) {
             ui.readCommands(ui, topicList, questionListByTopic, allResults, helper,
