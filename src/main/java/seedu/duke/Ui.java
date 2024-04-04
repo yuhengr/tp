@@ -17,7 +17,7 @@ public class Ui {
             "or \"bye\" to exit.";
     private static final String MESSAGE_RESUME = "The game has been resumed.";
     private static final String MESSAGE_CANNOT_PAUSE = "You cannot pause in timed mode!";
-    private static final String MESSAGE_TOPIC_COMPLETED = "You have finished the topic! What will be your " +
+    private static final String MESSAGE_TOPIC_FINISHED = "You have finished the topic! What will be your " +
             "next topic?";
 
     private static final int INDEX_TOPIC_NUM = 0;
@@ -32,6 +32,12 @@ public class Ui {
     public QuestionListByTopic questionListByTopic;
 
     public String[] inputAnswers;
+
+    private  boolean isTimesUp;
+    private boolean isActivated;
+    private boolean hasCompletedSet;
+
+    private int indexGlobal;
 
     public void readCommands(
             Ui ui, TopicList topicList,
@@ -75,52 +81,36 @@ public class Ui {
 
     public void printChosenTopic(
             int topicNum, TopicList topicList, QuestionListByTopic questionListByTopic, ResultsList allResults,
-            AnswerTracker userAnswers, boolean isTimedMode, Storage storage, Ui ui
+            AnswerTracker userAnswers, boolean isTimedMode, Storage storage, Ui ui, int timeLimit
     ) throws CustomException {
         Results topicResults = new Results();
         QuestionsList qnList;
-        boolean[] isTimesUp = {false};
-        boolean[] hasCompletedSet = {false};
+        hasCompletedSet = false;
 
-        System.out.println("Selected topic: " + topicList.getTopic(topicNum - 1));
-        System.out.println("Here are the questions: ");
-        qnList = questionListByTopic.getQuestionSet(topicNum - 1);
-        allResults.addQuestions(topicNum - 1);
+        printSelectedTopic(topicList, topicNum);
+        if (isTimedMode) {
+            printTimeLimit(timeLimit);
+        }
+        int topicNumIndex = topicNum - 1; //-1 due to zero index
+        qnList = questionListByTopic.getQuestionSet(topicNumIndex);
+        allResults.addQuestions(topicNumIndex);
+
         int numOfQns = qnList.getSize();
         Question questionUnit;
         String[] inputAnswers = new String[numOfQns];
         String answer;
         ArrayList<String> allAnswers = new ArrayList<>();
         ArrayList<Boolean> answersCorrectness = new ArrayList<>();
-        for (final int[] index = {0}; index[0] < numOfQns; index[0]++){//go through 1 question set
-            questionUnit = qnList.getQuestionUnit(index[0]);
+
+        for (indexGlobal = 0; indexGlobal < numOfQns; indexGlobal++){//go through 1 question set
+            questionUnit = qnList.getQuestionUnit(indexGlobal);
             topicResults.increaseNumberOfQuestions();
-            System.out.println(questionUnit.getQuestion());
+            printQuestion(questionUnit);
 
             if (isTimedMode) {
-                if (index[0] == 0) {
-                    Timer timer = new Timer();
-
-                    TimerTask task = new TimerTask() {
-                        @Override
-                        public void run() {
-                            if (!hasCompletedSet[0]) {
-                                printTimesUpMessage();
-                                isTimesUp[0] = true;
-                                index[0] = numOfQns;
-                                timer.cancel();
-                            } else {
-                                isTimesUp[0] = true;
-                                timer.cancel();
-                            }
-                        }
-                    };
-                    timer.schedule(task, 5000);
-                    if (isTimesUp[0]) {
-                        break;
-                    }
-                }
+                timerBegin(hasCompletedSet, allAnswers, numOfQns, answersCorrectness, timeLimit);
             }
+
             Parser parser = new Parser();
             boolean isPaused = false;
             boolean wasPaused;
@@ -130,16 +120,14 @@ public class Ui {
                 askForAnswerInput();
                 answer = in.nextLine();
                 isPaused = parser.checkPause(answer, allResults, topicList, userAnswers, ui, storage, isPaused,
-                        isTimedMode, allAnswers, answersCorrectness, topicResults, topicNum, index[0]);
+                        isTimedMode, allAnswers, answersCorrectness, topicResults, topicNum, indexGlobal);
             } while (isPaused || wasPaused);
 
-            if (!isTimesUp[0]) {
-                parser.handleAnswerInputs(inputAnswers, index[0], answer, questionUnit, topicResults,
-                        answersCorrectness);
-                if (index[0] == numOfQns - 1 && isTimedMode){
-                    printCongratulatoryMessage();
-                    hasCompletedSet[0] = true;
-                }
+            if (!isTimesUp) {
+                parser.handleAnswerInputs(inputAnswers, indexGlobal, answer, questionUnit,
+                        topicResults, answersCorrectness);
+                finishBeforeTimerChecker(numOfQns, isTimedMode);
+
                 allAnswers.add(answer);
             }
         }
@@ -147,6 +135,64 @@ public class Ui {
         allResults.addResults(topicResults);
         userAnswers.addUserAnswers(allAnswers);
         userAnswers.addUserCorrectness(answersCorrectness);
+        isTimesUp = false;
+    }
+
+    public void timerBegin(boolean hasCompletedSet, ArrayList<String> allAnswers, int numOfQns,
+                           ArrayList<Boolean> answersCorrectness, int timeLimit){
+        
+        if (indexGlobal == 0) {
+            Timer timer = new Timer();
+
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    synchronized (Ui.class) {
+                        timeOut(allAnswers, numOfQns, answersCorrectness);
+                        timer.cancel();
+                        isTimesUp = true;
+                    }
+                }
+            };
+            int timeLimitInMilliSec = timeLimit * 1000;
+            timer.schedule(task, timeLimitInMilliSec);
+        }
+    }
+
+    public void timeOut(ArrayList<String> allAnswers, int numOfQns, ArrayList<Boolean> answersCorrectness){
+        if (!hasCompletedSet) {
+            assert allAnswers.size() <= numOfQns :
+                    "Number of questions answered needs to be <= available number or questions";
+            assert answersCorrectness.size() <= allAnswers.size() :
+                    "Number of questions correct needs to be <= number of answered questions";
+            indexGlobal = numOfQns;
+            printTimesUpMessage();
+        }
+    }
+
+    public void finishBeforeTimerChecker(int numOfQns, boolean isTimedMode){
+        int qnNumberIndex = numOfQns - 1;//-1 due to zero index
+        if (indexGlobal == qnNumberIndex && isTimedMode){
+            printCongratulatoryMessage();
+            hasCompletedSet = true;
+        }
+    }
+
+    public void printRemainingTime(int timeLeft){
+        System.out.println(timeLeft);
+    }
+
+    public void printTimeLimit(int timeLimit){
+        System.out.println("timeLimit: " + timeLimit + "seconds");
+    }
+
+    public void printFinishedTopic(){
+        System.out.println(MESSAGE_TOPIC_FINISHED);
+    }
+  
+    public void printSelectedTopic(TopicList topicList, int topicNum){
+        System.out.println("Selected topic: " + topicList.getTopic(topicNum - 1));
+        System.out.println("Here are the questions: ");
     }
 
     public void resumeTopic(int[] pausedQuestion, TopicList topicList, QuestionListByTopic questionListByTopic,
@@ -191,16 +237,21 @@ public class Ui {
         System.out.println("Congrats! You beat the timer!");
     }
 
-    public void printTimesUpMessage(){
+    public static void printTimesUpMessage(){
         System.out.println("Time is up!");
-        System.out.println(" Press enter to go back to topic selection. ");
+        System.out.println("Press enter to go back to topic selection. ");
     }
-    public void printTimedModeSelected(){
+    public static void printTimedModeSelected(){
         System.out.println("Timed mode selected. Please enter the topic you would like to try. ");
+        showCannotPause();
     }
 
     public void printNoSolutionAccess(){
         System.out.println("Attempt the topic first!");
+    }
+
+    public void printQuestion(Question questionUnit){
+        System.out.println(questionUnit.getQuestion());
     }
 
     public void printOneSolution(int questionNum, String solution) {
@@ -298,11 +349,59 @@ public class Ui {
         System.out.println(MESSAGE_RESUME);
     }
 
-    public void showCannotPause() {
+    public static void showCannotPause() {
         System.out.println(MESSAGE_CANNOT_PAUSE);
     }
 
-    public void printTopicCompleted() {
-        System.out.println(MESSAGE_TOPIC_COMPLETED);
+    public void askResumeSessionPrompt(){
+        System.out.println("Continue from previous paused session? (yes/no)");
     }
+
+    public void confirmSelection() {
+        System.out.println("Are you sure you don't want to continue the session? (yes/no) ");
+        System.out.println("Results from the incomplete attempt will be discarded :0");
+    }
+
+    public void printCustomModeMessage() {
+        System.out.println("You've selected to practise in custom mode.");
+    }
+
+    public int getCustomTopicNum() {
+        System.out.println("Which topic do you want to practise?");
+        String userInput = in.nextLine();
+
+        // Parse the input to get an integer
+        try {
+            int topicNum = Integer.parseInt(userInput);
+            return topicNum;
+        }
+        catch (NumberFormatException error) {
+            final int INVALID_TOPICNUM = -1;
+            return INVALID_TOPICNUM;
+        }
+    }
+
+    public int getCustomNumOfQuestions() {
+        System.out.println("How many questions would you like to practise?");
+        String userInput = in.nextLine();
+
+        try {
+            int numOfQuestions = Integer.parseInt(userInput);
+            return numOfQuestions;
+        }
+        catch (NumberFormatException error) {
+            final int INVALID_NUM_OF_QUESTIONS = -1;
+            return INVALID_NUM_OF_QUESTIONS;
+        }
+    }
+
+    public String getUserAnswerInput() {
+        String userInput = in.nextLine();
+        return userInput;
+    }
+
+    public void displayUserAnswer(String userAnswer) {
+        System.out.println("Your answer: " + userAnswer);
+    }
+
 }

@@ -2,13 +2,15 @@ package seedu.duke;
 
 public enum CommandList {
 
-    TOPIC, HELP, SOLUTION, EXPLAIN, RESULTS, BYE, INVALID;
+    TOPIC, HELP, SOLUTION, EXPLAIN, RESULTS, TIMED_MODE, BYE, CUSTOM, INVALID;
 
     private static final String PATTERN_TOPIC = "(?i)topic\\s*(\\d*)";
 
     private static final String PATTERN_BYE = "(?i)bye";
 
     private static final String PATTERN_SOLUTION = "(?i)solution\\s*(\\d+)\\s*(.*)";
+
+    private static final String PATTERN_CUSTOM = "(?i)custom";
 
     private static final String PATTERN_EXPLANATION = "(?i)explanation\\s*(\\d+)\\s*(\\d+)";
 
@@ -34,10 +36,14 @@ public enum CommandList {
             return HELP;
         } else if (mainCommand.contentEquals("solution")) {
             return SOLUTION;
+        } else if (mainCommand.contentEquals("custom")) {
+            return CUSTOM;
         } else if (mainCommand.contentEquals("explanation")) {
             return EXPLAIN;
         } else if (mainCommand.contentEquals("results")) {
             return RESULTS;
+        } else if (mainCommand.contentEquals("timed mode")) {
+            return TIMED_MODE;
         } else if (mainCommand.contentEquals("bye")) {
             return BYE;
         } else {

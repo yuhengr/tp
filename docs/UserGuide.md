@@ -28,27 +28,29 @@ What is your name?
 ```
 ## Usage
 
-> [!IMPORTANT]
+> **IMPORTANT**
 > The current release of Player2113 is a MVP preview version with various proposed functions unimplemented. Please strictly follow this user's guide.
 
 ## Features
 > **NOTE:**
-> + Words in UPPER_CASE are the parameters to be supplied by the user.
-    e.g. in `results INDEX`, `INDEX` is a compulsory parameter like `results 1`.
-> + Items in square brackets are optional.
-    e.g. `results [INDEX] [+questions]` can be used as `results +questions` or `results`.
+> + Words in UPPER_CASE are COMPULSORY parameters to be supplied by the user.
+> + Items in square brackets are optional
+    e.g. in `solution TOPIC_NUM [INDEX]`, `TOPIC_NUM` is a compulsory parameter like `solution 1 1`,
+>   while `INDEX` is an optional parameter like `solution 1`
 
-- [topic](#starting-game-topic)
-- [results](#viewing-results-results)
-- [solution](#get-solutions-for-a-question--topic-solution)
-- [explain](#get-explanations-for-a-question--topic-explain)
-- [list](#list---list-all-available-topics-and-their-summaries)
-- [help](#viewing-help-help)
-- [bye](#exiting-the-game-bye)
+1. [topic](#1-starting-game-topic)
+2. [results](#2-viewing-results-results)
+3. [solution](#3-get-solutions-for-a-question--topic-solution)
+4. [explain](#4-get-explanations-for-a-question--topic-explain)
+5. [timed mode](#5-timed-mode---attempt-the-questions-under-a-time-limit)
+6. [list](#5-list---list-all-available-topics-and-their-summaries)
+7. [help](#6-viewing-help-help)
+8. [bye](#7-exiting-the-game-bye)
 
-### Starting game: `topic`
-Start the game by selecting a topic from the menu. Afterwards, questions will start appearing.
+### 1. Starting game: `topic`
 There are multiple question banks pre-configured in Player2113.
+Start the game by selecting a topic from the menu. 
+After choosing a topic, questions will start appearing.
 
 Format: `topic [TOPIC_INDEX]`
 
@@ -59,10 +61,10 @@ Format: `topic [TOPIC_INDEX]`
 Example:
 Input index of answer you want to respond with
 Press enter to submit response
-eg “a” to choose option a. Java (below)
-![MCQ question sample](docs/team/img/mcqQuestionType.png)
+eg “a” to choose option "a. Java" (below)
+![MCQ question sample](./team/img/mcqQuestionType.png)
 
-### Viewing results: `results`
+### 2. Viewing results: `results`
 
 You may check your answer accuracy after attempting a question set. The result is separated from practicing session for concentration consideration.
 Format: `results [details] [INDEX]`
@@ -72,7 +74,7 @@ Format: `results [details] [INDEX]`
 - Adding `[details]` will allow you to view the questions and your answers from the round. Omitting it will result in showing only the score.
 - Anything after `[INDEX]` will be ignored.
 
-### Get solution(s) for a question / topic: `solution`
+### 3. Get solution(s) for a question / topic: `solution`
 Shows solution(s) for a specific question or all questions of a topic
 Only possible after attempting topic/ question
 
@@ -86,7 +88,7 @@ Examples:
 ` solution 1 1` shows the solution for topic 1 question 1
 ` solution  ` will be ignored
 
-### Get explanation(s) for a question / topic: `explain`
+### 4. Get explanation(s) for a question / topic: `explain`
 Shows explanation(s) for a specific question or all questions of a topic
 Only possible after attempting topic/ question
 
@@ -100,7 +102,14 @@ Examples:
 ` explain 1 1` shows the explanation for topic 1 question 1
 ` explain  ` will be ignored
 
-### `list` - List all available topics and their summaries
+### 5. Attempt the questions under a time limit: `timed mode`
+
+Format: `timed mode [TIME_LIMIT]`
+
+- `TIME_LIMIT` represents the time limit set for the question set in seconds
+- The`TIME_LIMIT` must be a non-zero positive integer (e.g. 1, 2, 3, …).
+
+### 6. List all available topics and their summaries: `list`
 
 Example of usage: `list`.
 
@@ -115,14 +124,14 @@ Sample output:
 +-------+--------+-------------------------------------------------+-----------+
 ```
 
-### Viewing help: `help`
+### 7. Viewing help: `help`
 Displays commands for the application (start game, choose topic, revise, clear/reset progress). Shows developer credits information.
 Usage: type “help” in the main menu.
 Sample output:
 
-![Help Sample Output](docs/team/img/ug_usage_help.png)
+![Help Sample Output](./team/img/ug_usage_help.png)
 
-### Exiting the game `bye`
+### 8. Exiting the game: `bye`
 
 Example of usage: `bye`.
 
@@ -142,8 +151,9 @@ bye bye, get more sleep zzz
 ## Command Summary
 
 * help `help`
-* Start game `topic TOPIC_NUM` eg `topic 1`
-* Show Results `results [details] [TOPIC_NUM]` eg results details 2
-* Show Solution `solution TOPIC_NUM [QUESTION_NUM]` eg solution 1 1
-* Show Explanation `explain TOPIC_NUM [QUESTION_NUM]` eg explain 1 1
+* Start game `topic TOPIC_NUM` e.g. `topic 1`
+* Show Results `results [details] [TOPIC_NUM]` e.g. `results details 2`
+* Show Solution `solution TOPIC_NUM [QUESTION_NUM]` e.g. `solution 1 1`
+* Show Explanation `explain TOPIC_NUM [QUESTION_NUM]` e.g. `explain 1 1`
+* Timed Mode `timed mode [TIME_LIMIT]` e.g. `timed mode 5`
 * Exit `bye`
