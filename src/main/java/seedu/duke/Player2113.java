@@ -20,6 +20,7 @@ public class Player2113 {
     private ResultsList allResults;
     private AnswerTracker userAnswers;
     private Storage storage;
+    private ProgressManager progressManager;
     private final Helper helper;
 
     public Player2113(String someFilePath) {
@@ -32,6 +33,7 @@ public class Player2113 {
         helper = new Helper();
         storage = new Storage();
         ui = new Ui();
+        progressManager = new ProgressManager(allResults);
 
         if (someFilePath.contentEquals("something")) {
             // TODO: load data from file
@@ -116,7 +118,8 @@ public class Player2113 {
         ui.printTopicList(topicList, ui);
 
         while (ui.isPlaying) {
-            ui.readCommands(ui, topicList, questionListByTopic, allResults, helper, userAnswers, storage);
+            ui.readCommands(ui, topicList, questionListByTopic, allResults, helper,
+                    userAnswers, storage, progressManager);
         }
 
     }

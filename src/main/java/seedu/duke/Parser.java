@@ -62,7 +62,8 @@ public class Parser {
     public void parseCommand(
 
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
-            ResultsList allResults, Helper helper, AnswerTracker userAnswers, Storage storage
+            ResultsList allResults, Helper helper, AnswerTracker userAnswers, Storage storage,
+            ProgressManager progressManager
     ) throws CustomException {
 
         String lowerCaseCommand = command.toLowerCase();

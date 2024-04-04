@@ -12,6 +12,8 @@ class ParserTest {
     Helper helper;
     Parser parser;
     AnswerTracker userAnswers;
+
+    ProgressManager progressManager;
     private Question question1;
     private Question question2;
     private Question question3;
@@ -40,6 +42,7 @@ class ParserTest {
         parser = new Parser();
         userAnswers = new AnswerTracker();
         storage = new Storage();
+        progressManager = new ProgressManager(allResults);
     }
     void createResultsList() {
         allResults = new ResultsList();
@@ -102,7 +105,7 @@ class ParserTest {
 
     void runParserCommand(String command) throws CustomException {
         parser.parseCommand(command, ui, topicList,
-                questionListByTopic, allResults, helper, userAnswers, storage);
+                questionListByTopic, allResults, helper, userAnswers, storage, progressManager);
     }
 
     @Test

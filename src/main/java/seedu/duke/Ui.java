@@ -42,7 +42,7 @@ public class Ui {
     public void readCommands(
             Ui ui, TopicList topicList,
             QuestionListByTopic questionListByTopic, ResultsList allResults, Helper helper, AnswerTracker userAnswers,
-            Storage storage
+            Storage storage, ProgressManager progressManager
     ) {
         Parser parser = new Parser();
         printLine();
@@ -52,7 +52,7 @@ public class Ui {
             String command = in.nextLine();
             try {
                 parser.parseCommand(command, ui, topicList, questionListByTopic, allResults, helper,
-                        userAnswers, storage);
+                        userAnswers, storage, progressManager);
             } catch (CustomException e) {
                 ui.handleException(e);
             }
