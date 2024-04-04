@@ -38,7 +38,7 @@ public class ProgressBar {
             bareDone.append(icon);
         }
         String bareRemain = bare.substring(remainProcent, bare.length());
-        System.out.print("\r" + bareDone + bareRemain + " " + remainProcent * 10 + "%");
+        System.out.print(bareDone + bareRemain + " " + remainProcent * 10 + "%");
         if (remain == total) {
             System.out.print("\n");
         }
