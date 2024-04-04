@@ -62,7 +62,8 @@ public class Parser {
     public void parseCommand(
 
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
-            ResultsList allResults, Helper helper, AnswerTracker userAnswers, Storage storage
+            ResultsList allResults, Helper helper, AnswerTracker userAnswers, Storage storage,
+            ProgressManager progressManager
     ) throws CustomException {
 
         String lowerCaseCommand = command.toLowerCase();
@@ -84,7 +85,11 @@ public class Parser {
                 // processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
                 handleSolutionCommandRegEx(command, ui, topicList, questionListByTopic);
             } else if (commandToken == CommandList.CUSTOM) {
-                handleCustomCommand(command, ui, topicList, questionListByTopic, allResults, userAnswers);
+                handleCustomCommand(command, ui, topicList, questionListByTopic, allResults,
+                        userAnswers, progressManager);
+            } else if (commandToken == CommandList.CHECKPOINT) {
+                handleCheckpointCommand(command, ui, topicList, questionListByTopic, allResults,
+                        userAnswers, progressManager);
             } else if (lowerCaseCommand.startsWith(EXPLAIN_PARAMETER)) {
                 processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith(RESULTS_PARAMETER)) {
@@ -412,7 +417,7 @@ public class Parser {
 
     private void handleCustomCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
-            ResultsList allResults, AnswerTracker userAnswers)
+            ResultsList allResults, AnswerTracker userAnswers, ProgressManager progressManager)
             throws CustomException {
 
         ui.printCustomModeMessage();
@@ -447,14 +452,71 @@ public class Parser {
         }
 
         System.out.println("Here are your custom questions.");
+        boolean isInCheckpointMode = progressManager.isInCheckpointMode();
         for(int i = 0; i < numOfQuestions; i++) {
             ui.printQuestion(customQuestionsList.getQuestionUnit(i));
             ui.askForAnswerInput();
             String userAnswerInput = ui.getUserAnswerInput();
             ui.displayUserAnswer(userAnswerInput);
+
+            if(isInCheckpointMode) {
+                progressManager.incrementNumOfAttemptedCustomQuestions();
+            }
         }
 
         System.out.println("You have completed " + numOfQuestions + " questions from topic " + topicNum);
+
+        if(isInCheckpointMode) {
+            int checkpointModeGoal = progressManager.getCheckpointModeGoal();
+            int numOfAttemptedCustomQuestions = progressManager.getNumOfAttemptedCustomQuestions();
+
+            if(numOfAttemptedCustomQuestions >= checkpointModeGoal) {
+                System.out.println("Congrats, you've reached your checkpoint goal.");
+                progressManager.clearCheckpointModeGoal();
+                progressManager.clearNumOfAttemptedCustomQuestions();
+                progressManager.clearCheckpointMode();
+            }
+        }
+    }
+
+    private void handleCheckpointCommand(
+            String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
+            ResultsList allResults, AnswerTracker userAnswers, ProgressManager progressManager)
+            throws CustomException {
+        // For now, checkpoint command is only for custom mode.
+
+        boolean isAlreadyInCheckpointMode = progressManager.isInCheckpointMode();
+        if(isAlreadyInCheckpointMode) {
+            int goal = progressManager.getCheckpointModeGoal();
+            int numOfAttemptedCustomQuestions = progressManager.getNumOfAttemptedCustomQuestions();
+            int numOfQuestionsToHitGoal = goal - numOfAttemptedCustomQuestions;
+            System.out.println("You're already in checkpoint mode.");
+            System.out.println("Your goal is to attempt " + goal + " questions.");
+            System.out.println("You have " + numOfQuestionsToHitGoal + " more to go.");
+            return;
+        }
+
+        int checkpointGoal = ui.getCheckpointGoal();
+
+        int totalNumOfTopics = topicList.getSize();
+        int totalNumOfQuestions = 0;
+        for(int i = 0; i < totalNumOfTopics; i++) {
+            QuestionsList currentQuestionsList = questionListByTopic.getQuestionSet(i);
+            int numOfQuestions = currentQuestionsList.getSize();
+            totalNumOfQuestions += numOfQuestions;
+        }
+        if(checkpointGoal > totalNumOfQuestions) {
+            System.out.println("There aren't that many questions available.");
+            System.out.println("Pick a goal that is lesser or equals to " + totalNumOfQuestions);
+        }
+        else if (checkpointGoal <= 0) {
+            System.out.println("That is an invalid goal.");
+        }
+        else {
+            progressManager.setCheckpointMode();
+            progressManager.setCheckpointModeGoal(checkpointGoal);
+            System.out.println("You've chosen a goal of " + progressManager.getCheckpointModeGoal() + " questions.");
+        }
     }
 
     // checks valid command type and parameters: returns true if 2 parameters, else false (1 param only)

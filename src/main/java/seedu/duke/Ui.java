@@ -42,7 +42,7 @@ public class Ui {
     public void readCommands(
             Ui ui, TopicList topicList,
             QuestionListByTopic questionListByTopic, ResultsList allResults, Helper helper, AnswerTracker userAnswers,
-            Storage storage
+            Storage storage, ProgressManager progressManager
     ) {
         Parser parser = new Parser();
         printLine();
@@ -52,7 +52,7 @@ public class Ui {
             String command = in.nextLine();
             try {
                 parser.parseCommand(command, ui, topicList, questionListByTopic, allResults, helper,
-                        userAnswers, storage);
+                        userAnswers, storage, progressManager);
             } catch (CustomException e) {
                 ui.handleException(e);
             }
@@ -400,6 +400,20 @@ public class Ui {
 
     public void displayUserAnswer(String userAnswer) {
         System.out.println("Your answer: " + userAnswer);
+    }
+
+    public int getCheckpointGoal() {
+        System.out.println("How many custom questions would you like to complete?");
+        String userInput = in.nextLine();
+
+        try {
+            int checkpointGoal = Integer.parseInt(userInput);
+            return checkpointGoal;
+        }
+        catch (NumberFormatException error) {
+            final int INVALID_CHECKPOINT_GOAL = -1;
+            return INVALID_CHECKPOINT_GOAL;
+        }
     }
 
 }
