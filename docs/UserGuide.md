@@ -116,7 +116,7 @@ Format: `timed mode [TIME_LIMIT]`
 
 ### 6. List all available topics and their summaries: `list`
 
-Example of usage: `list`.
+Example of usage: `list`
 
 Sample output:
 
@@ -159,7 +159,7 @@ All results will be saved to a local save file, which will be loaded up when the
 - If exited after pausing the game, you can choose whether to continue from where you left off or 
 discard the results for that topic.
 
-Example of usage: `bye`.
+Example of usage: `bye`
 
 A goodbye message will be displayed:
 
