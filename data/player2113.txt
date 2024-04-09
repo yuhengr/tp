@@ -1,7 +1,0 @@
-result 2 + 7 + 2/7 (28%) | 0
-result 1 + 7 + 1/7 (14%) | 0
-topic topic1
-answer b | b | solution11 | solution12 |  | dd | 
-correctness false | false | true | true | false | false | false
-answer bye | solution2 | e |  | e | e | e
-correctness false | true | false | false | false | false | false

@@ -11,6 +11,9 @@ public class Player2113 {
     public static final String SOME_FILE_PATH = "something";
     private static final String FILE_PATH_STORAGE = "data/player2113.txt";
     private static final String MESSAGE_FILE_ERROR = "There was an error locating the save file.";
+    private static final String QUESTIONS_LIST_1 = "data/questionsList1.txt";
+    private static final String QUESTIONS_LIST_2 = "data/questionsList2.txt";
+
 
     private Ui ui;
     private QuestionsList questionsList1;
@@ -35,20 +38,11 @@ public class Player2113 {
         ui = new Ui();
         progressManager = new ProgressManager(allResults);
 
-
-        // load questions data from file
-        storage.generateQuestionsList("data/questionsList1.txt", questionsList1);
-
+        // load questions from data folder
+        storage.generateQuestionsList(QUESTIONS_LIST_1, questionsList1);
+        storage.generateQuestionsList(QUESTIONS_LIST_2, questionsList2);
 
         questionListByTopic.addQuestionSet(questionsList1);
-
-        // create questionsList2
-        Question question3 = new Question("question3", "solution3", "explanation3",
-                new String[]{"optionA", "optionB", "optionC", "optionD"});
-        Question question4 = new Question("question4", "solution4", "explanation4",
-                new String[]{"optionA", "optionB", "optionC", "optionD"});
-        questionsList2.addQuestion(question3);
-        questionsList2.addQuestion(question4);
         questionListByTopic.addQuestionSet(questionsList2);
 
         Topic topic1 = new Topic(questionsList1, "topic1", false, "Covers topic 1 notions mentioned in lecture 1-2");

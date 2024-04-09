@@ -317,46 +317,18 @@ public class Storage {
             Question currentQuestion = new Question(question, solution, explanation, options);
             currentQuestionsList.addQuestion(currentQuestion);
         }
-
-
-        // create questionsList1
-
-
-//        Question question1 = new Question("question1", "solution1", "explanation1",
-//                new String[]{"optionA", "optionB", "optionC", "optionD"});
-//        Question question2 = new Question("question2", "solution2", "explanation2",
-//                new String[]{"optionA", "optionB", "optionC", "optionD"});
-//        Question question11 = new Question("question11", "solution11", "explanation11",
-//                new String[]{"optionA", "optionB", "optionC", "optionD"});
-//        Question question12 = new Question("question12", "solution12", "explanation12",
-//                new String[]{"optionA", "optionB", "optionC", "optionD"});
-//        Question question13 = new Question("question13", "solution13", "explanation13",
-//                new String[]{"optionA", "optionB", "optionC", "optionD"});
-//        Question question14 = new Question("question14", "solution14", "explanation14",
-//                new String[]{"optionA", "optionB", "optionC", "optionD"});
-//        Question question15 = new Question("question15", "solution15", "explanation15",
-//                new String[]{"optionA", "optionB", "optionC", "optionD"});
-//        questionsList1.addQuestion(question1);
-//        questionsList1.addQuestion(question2);
-//        questionsList1.addQuestion(question11);
-//        questionsList1.addQuestion(question12);
-//        questionsList1.addQuestion(question13);
-//        questionsList1.addQuestion(question14);
-//        questionsList1.addQuestion(question15);
-
-
     }
 
     /**
-     * Gets absolute file path to FILE_NAME
+     * Gets absolute file path to localFilePath
      *
-     * @param FILE_NAME to store tasks in
+     * @param localFilePath to store tasks in
      * @return absolute file path
      */
-    public static String getAbsoluteFilePath(String FILE_NAME) {
+    public static String getAbsoluteFilePath(String localFilePath) {
         String currentDirectory = System.getProperty("user.dir");
         java.nio.file.Path directoryPath = java.nio.file.Paths.get(currentDirectory);
-        return directoryPath + "\\" + FILE_NAME;
+        return directoryPath + "\\" + localFilePath;
     }
 
 }
