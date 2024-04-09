@@ -38,6 +38,12 @@ public class Storage {
     private static final int INDEX_TOPIC_NUM = 0;
     private static final int INDEX_INDEX = 1;
     private static final int TWO_PARAMETERS = 2;
+    private static final int TOTAL_QUESTIONS_PARAMETERS = 7;
+    private static final int TOTAL_OPTIONS = 4;
+    private static final int QUESTION_PARAMETER = 0;
+    private static final int SOLUTION_PARAMETER = 1;
+    private static final int EXPLANATION_PARAMETER = 2;
+    private static final int OPTIONS_START_PARAMETER = 3;
     private static final String RESULTS_SEPARATOR = "\\+";
     private static final String ARG_SEPARATOR = "\\|";
     private static final String FILE_PATH = "data/player2113.txt";
@@ -68,7 +74,7 @@ public class Storage {
     private static void processLine(String line, ResultsList results, TopicList topics, AnswerTracker answers) {
         if (line.startsWith(RESULTS_HEADER)) {
             String[] processedLine = line.substring(STARTING_INDEX_RESULT).split(ARG_SEPARATOR);
-            
+
             String result = processedLine[RESULTS_INDEX].trim();
             Results temp = createResults(result);
             results.addResults(temp);
@@ -104,7 +110,7 @@ public class Storage {
     }
 
     public int[] resumeGame(File file, Results topicResults, ArrayList<String> userAnswers,
-                           ArrayList<Boolean> correctness)
+                            ArrayList<Boolean> correctness)
             throws FileNotFoundException {
         Scanner scanner = new Scanner(file);
         int[] pausedQuestion = new int[TWO_PARAMETERS];
@@ -271,4 +277,86 @@ public class Storage {
             fileWriter.write("correctness " + listOfCorrectness + System.lineSeparator());
         }
     }
+
+
+    // read from questionList.txt, generate questionsList
+    public void generateQuestionsList(String textFile, QuestionsList questionsList1) {
+        String absolutePath = getAbsoluteFilePath(textFile);
+        File f = new File(absolutePath);
+
+        try {
+            processQuestionsFile(f, questionsList1);
+        } catch (CustomException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void processQuestionsFile(File f, QuestionsList currentQuestionsList) throws CustomException {
+        Scanner s;
+        try {
+            s = new Scanner(f);
+        } catch (FileNotFoundException e) {
+            throw new CustomException(MESSAGE_ERROR_INIT);
+        }
+
+        while (s.hasNext()) {
+            String currentLineInFile = s.nextLine();
+            String[] lineInParts = currentLineInFile.split(ARG_SEPARATOR); // rmb do trim()
+            String[] parameters = new String[7];
+            for (int i = 0; i < TOTAL_QUESTIONS_PARAMETERS; i += 1) {
+                parameters[i] = lineInParts[i].trim();
+            }
+            // creating parameters for new Question()
+            String question = parameters[QUESTION_PARAMETER];
+            String solution = parameters[SOLUTION_PARAMETER];
+            String explanation = parameters[EXPLANATION_PARAMETER];
+            String[] options = new String[TOTAL_OPTIONS];
+            for (int j = 0; j < TOTAL_OPTIONS; j++) {
+                options[j] = parameters[OPTIONS_START_PARAMETER + j];
+            }
+            Question currentQuestion = new Question(question, solution, explanation, options);
+            currentQuestionsList.addQuestion(currentQuestion);
+        }
+
+
+        // create questionsList1
+
+
+//        Question question1 = new Question("question1", "solution1", "explanation1",
+//                new String[]{"optionA", "optionB", "optionC", "optionD"});
+//        Question question2 = new Question("question2", "solution2", "explanation2",
+//                new String[]{"optionA", "optionB", "optionC", "optionD"});
+//        Question question11 = new Question("question11", "solution11", "explanation11",
+//                new String[]{"optionA", "optionB", "optionC", "optionD"});
+//        Question question12 = new Question("question12", "solution12", "explanation12",
+//                new String[]{"optionA", "optionB", "optionC", "optionD"});
+//        Question question13 = new Question("question13", "solution13", "explanation13",
+//                new String[]{"optionA", "optionB", "optionC", "optionD"});
+//        Question question14 = new Question("question14", "solution14", "explanation14",
+//                new String[]{"optionA", "optionB", "optionC", "optionD"});
+//        Question question15 = new Question("question15", "solution15", "explanation15",
+//                new String[]{"optionA", "optionB", "optionC", "optionD"});
+//        questionsList1.addQuestion(question1);
+//        questionsList1.addQuestion(question2);
+//        questionsList1.addQuestion(question11);
+//        questionsList1.addQuestion(question12);
+//        questionsList1.addQuestion(question13);
+//        questionsList1.addQuestion(question14);
+//        questionsList1.addQuestion(question15);
+
+
+    }
+
+    /**
+     * Gets absolute file path to FILE_NAME
+     *
+     * @param FILE_NAME to store tasks in
+     * @return absolute file path
+     */
+    public static String getAbsoluteFilePath(String FILE_NAME) {
+        String currentDirectory = System.getProperty("user.dir");
+        java.nio.file.Path directoryPath = java.nio.file.Paths.get(currentDirectory);
+        return directoryPath + "\\" + FILE_NAME;
+    }
+
 }

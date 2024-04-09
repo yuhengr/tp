@@ -18,6 +18,7 @@ public class Ui {
     private static final String MESSAGE_CANNOT_PAUSE = "You cannot pause in timed mode!";
     private static final String MESSAGE_TOPIC_FINISHED = "You have finished the topic! What will be your " +
             "next topic?";
+    private static final String MESSAGE_GENERAL_ERROR = "An error occurred. Please try again!";
 
     private static final int INDEX_TOPIC_NUM = 0;
     private static final int INDEX_INDEX = 1;
@@ -61,7 +62,7 @@ public class Ui {
                 parser.parseCommand(command, ui, topicList, questionListByTopic, allResults, helper,
                         userAnswers, storage, progressManager);
             } catch (CustomException e) {
-                ui.handleException(e);
+                ui.handleException();
             }
         }
 
@@ -313,8 +314,8 @@ public class Ui {
         }
     }
 
-    public void handleException(CustomException e) {
-        System.out.println(e.getMessage()); //TODO
+    public void handleException() {
+        System.out.println(MESSAGE_GENERAL_ERROR);
     }
     public void printLine() {
         for (int i = 0; i < NEW_LINE; i += 1) {
