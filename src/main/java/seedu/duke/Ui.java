@@ -62,8 +62,7 @@ public class Ui {
                 parser.parseCommand(command, ui, topicList, questionListByTopic, allResults, helper,
                         userAnswers, storage, progressManager);
             } catch (CustomException e) {
-                ui.handleException();
-                System.out.println("loc 3");
+                ui.handleException(e);
             }
         }
 
@@ -315,8 +314,8 @@ public class Ui {
         }
     }
 
-    public void handleException() {
-        System.out.println(MESSAGE_GENERAL_ERROR);
+    public void handleException(CustomException e) {
+        System.out.println(e.getMessage());
     }
     public void printLine() {
         for (int i = 0; i < NEW_LINE; i += 1) {
