@@ -42,15 +42,6 @@ public class Player2113 {
         storage.generateQuestionsList(QUESTIONS_LIST_1, questionsList1);
         storage.generateQuestionsList(QUESTIONS_LIST_2, questionsList2);
 
-//        // testing
-//        Question question1 = new Question("question1", "solution1", "explain1", new String[]{"optionA", "optionB", "optionC", "optionD"});
-//        Question question2 = new Question("question1", "solution1", "explain1", new String[]{"optionA", "optionB", "optionC", "optionD"});
-//        Question question3 = new Question("question1", "solution1", "explain1", new String[]{"optionA", "optionB", "optionC", "optionD"});
-//        questionsList1.addQuestion(question1);
-//        questionsList1.addQuestion(question2);
-//        questionsList2.addQuestion(question3);
-//        // end of testing code
-
         questionListByTopic.addQuestionSet(questionsList1);
         questionListByTopic.addQuestionSet(questionsList2);
 
