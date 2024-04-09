@@ -63,6 +63,7 @@ public class Ui {
                         userAnswers, storage, progressManager);
             } catch (CustomException e) {
                 ui.handleException();
+                System.out.println("loc 3");
             }
         }
 

@@ -283,6 +283,10 @@ public class Storage {
     public void generateQuestionsList(String textFile, QuestionsList questionsList1) {
         String absolutePath = getAbsoluteFilePath(textFile);
         File f = new File(absolutePath);
+        // testing
+        System.out.println("absoluteFilePath is: " + absolutePath);
+        System.out.println("File object full path: " + f.getAbsolutePath());
+        System.out.println("file exists?: " + f.exists());
 
         try {
             processQuestionsFile(f, questionsList1);
