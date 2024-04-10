@@ -11,7 +11,6 @@ import java.util.TimerTask;
 
 public class Ui {
     private static final Scanner in = new Scanner(System.in);
-
     private static final String HEADER_ALL_RESULTS = "These are all your results so far:\n";
     private static final String MESSAGE_ASK_RESUME = "The game is paused.\nInput \"resume\" to continue, " +
             "or \"bye\" to exit.";
@@ -38,11 +37,19 @@ public class Ui {
     private boolean hasCompletedSet;
 
     private int indexGlobal;
+    private ProgressBar questionProgressBar = new ProgressBar(0);
+
+    public void displayProgressBar(int current, int total) {
+        questionProgressBar = new ProgressBar(total, current);
+        questionProgressBar.display();
+        System.out.print(" " + current + "/" + total + " questions attempted");
+        System.out.println();
+    }
 
     public void readCommands(
             Ui ui, TopicList topicList,
             QuestionListByTopic questionListByTopic, ResultsList allResults, Helper helper, AnswerTracker userAnswers,
-            Storage storage
+            Storage storage, ProgressManager progressManager
     ) {
         Parser parser = new Parser();
         printLine();
@@ -52,7 +59,7 @@ public class Ui {
             String command = in.nextLine();
             try {
                 parser.parseCommand(command, ui, topicList, questionListByTopic, allResults, helper,
-                        userAnswers, storage);
+                        userAnswers, storage, progressManager);
             } catch (CustomException e) {
                 ui.handleException(e);
             }
@@ -103,6 +110,7 @@ public class Ui {
         ArrayList<Boolean> answersCorrectness = new ArrayList<>();
 
         for (indexGlobal = 0; indexGlobal < numOfQns; indexGlobal++){//go through 1 question set
+            displayProgressBar(indexGlobal, numOfQns);
             questionUnit = qnList.getQuestionUnit(indexGlobal);
             topicResults.increaseNumberOfQuestions();
             printQuestion(questionUnit);
@@ -375,8 +383,7 @@ public class Ui {
             int topicNum = Integer.parseInt(userInput);
             return topicNum;
         } catch (NumberFormatException error) {
-            final int INVALID_TOPICNUM = -1;
-            return INVALID_TOPICNUM;
+            return -1;
         }
     }
 
@@ -388,8 +395,7 @@ public class Ui {
             int numOfQuestions = Integer.parseInt(userInput);
             return numOfQuestions;
         } catch (NumberFormatException error) {
-            final int INVALID_NUM_OF_QUESTIONS = -1;
-            return INVALID_NUM_OF_QUESTIONS;
+            return -1;
         }
     }
 
@@ -402,4 +408,14 @@ public class Ui {
         System.out.println("Your answer: " + userAnswer);
     }
 
+    public int getCheckpointGoal() {
+        System.out.println("How many custom questions would you like to complete?");
+        String userInput = in.nextLine();
+
+        try {
+            return Integer.parseInt(userInput);
+        } catch (NumberFormatException error) {
+            return -1;
+        }
+    }
 }

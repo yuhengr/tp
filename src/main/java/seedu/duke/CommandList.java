@@ -2,7 +2,7 @@ package seedu.duke;
 
 public enum CommandList {
 
-    TOPIC, HELP, SOLUTION, EXPLAIN, RESULTS, TIMED_MODE, BYE, CUSTOM, INVALID;
+    TOPIC, HELP, SOLUTION, EXPLAIN, RESULTS, TIMED_MODE, BYE, CUSTOM, CHECKPOINT, INVALID;
 
     private static final String PATTERN_TOPIC = "(?i)topic\\s*(\\d*)";
 
@@ -38,6 +38,8 @@ public enum CommandList {
             return SOLUTION;
         } else if (mainCommand.contentEquals("custom")) {
             return CUSTOM;
+        } else if (mainCommand.contentEquals("checkpoint")) {
+            return CHECKPOINT;
         } else if (mainCommand.contentEquals("explanation")) {
             return EXPLAIN;
         } else if (mainCommand.contentEquals("results")) {
