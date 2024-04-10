@@ -148,6 +148,8 @@ public class Parser {
         case (TWO_PARAMETER_LENGTH):
             if (!commandParts[FIRST_PARAMETER].equals(DETAILS_PARAMETER)) {
                 throw new CustomException(MESSAGE_INVALID_PARAMETERS);
+            } else if (commandParts[SECOND_PARAMETER].isEmpty()) {
+                ui.printAllResults(INCLUDES_DETAILS, allResults, questionListByTopic, userAnswers);
             }
             try {
                 int index = Integer.parseInt(commandParts[SECOND_PARAMETER]);
