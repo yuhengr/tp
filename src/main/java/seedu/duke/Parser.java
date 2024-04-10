@@ -170,8 +170,8 @@ public class Parser {
             throw new CustomException(MESSAGE_NO_RESULTS);
         }
     }
-    //@@author
 
+    //@@author
     private void beginStartCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
             ResultsList allResults, AnswerTracker userAnswers, Storage storage
@@ -216,6 +216,7 @@ public class Parser {
         }
     }
 
+    //@@author hongyijie06
     private int processTimedMode(String lowerCaseCommand) throws CustomException{
         checkTimingValidity(lowerCaseCommand);
         String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER, TIMER_ONE_PARAMETER_LENGTH);
@@ -225,6 +226,7 @@ public class Parser {
         return timeLimit;
     }
 
+    //@@author hongyijie06
     private static void checkTimingValidity(String lowerCaseCommand) throws CustomException {
         String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER, TIMER_ONE_PARAMETER_LENGTH);
 
@@ -245,6 +247,7 @@ public class Parser {
         }
     }
 
+    //@@author hongyijie06
     private void processStartCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
             ResultsList allResults, AnswerTracker userAnswers, boolean isTimedMode, Storage storage
@@ -600,8 +603,8 @@ public class Parser {
                               ArrayList<String> allAnswers, ArrayList<Boolean> answersCorrectness,
                               Results topicResults, int topicNum, int index)
             throws CustomException {
-        if (answer.equalsIgnoreCase(PAUSE_GAME) && isTimedMode) {
-            ui.showCannotPause();
+        if (isTimedMode && answer.equalsIgnoreCase(PAUSE_GAME)) {
+            Ui.showCannotPause();
             return false;
         }
         if (!isPaused && !answer.equalsIgnoreCase(PAUSE_GAME)) {
