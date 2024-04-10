@@ -114,6 +114,9 @@ Format: `timed mode [TIME_LIMIT]`
 - `TIME_LIMIT` represents the time limit set for the question set in seconds
 - The`TIME_LIMIT` must be a non-zero positive integer (e.g. 1, 2, 3, …).
 
+Examples:
+` timed mode 5` sets time limit to 5s
+
 ### 6. List all available topics and their summaries: `list`
 
 Example of usage: `list`
