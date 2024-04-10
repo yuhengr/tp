@@ -35,8 +35,7 @@ public enum CommandList {
 
         try {
             mainCommand = splitCommand[FIRST_COMMAND_PARAM_INDEX].toLowerCase();
-        }
-        catch (ArrayIndexOutOfBoundsException error) {
+        } catch (ArrayIndexOutOfBoundsException error) {
             throw new CustomException("That's an invalid command");
         }
 
