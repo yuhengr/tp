@@ -53,6 +53,7 @@ public class Parser {
 
     private static final String MESSAGE_UNSPECIFIED_TIME = "Please specify a time limit";
     private static final String MESSAGE_INVALID_TIME = "Time limit must be more than 0 seconds";
+    private static final String MESSAGE_INVALID_COMMAND = "That's an invalid command.";
 
     // non-constant attributes
     private boolean isTimedMode = false;
@@ -105,6 +106,8 @@ public class Parser {
                 processListCommand(topicList, ui);
             } else if (!lowerCaseCommand.startsWith(TIMED_MODE_PARAMETER)) {
                 throw new CustomException(MESSAGE_INVALID_COMMAND_FORMAT);
+            } else {
+                throw new CustomException(MESSAGE_INVALID_COMMAND);
             }
         }
 
