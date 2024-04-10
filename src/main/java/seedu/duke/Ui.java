@@ -18,6 +18,7 @@ public class Ui {
     private static final String MESSAGE_CANNOT_PAUSE = "You cannot pause in timed mode!";
     private static final String MESSAGE_TOPIC_FINISHED = "You have finished the topic! What will be your " +
             "next topic?";
+    private static final String ANSWER_TIMEOUT = "You ran out of time!";
 
     private static final int INDEX_TOPIC_NUM = 0;
     private static final int INDEX_INDEX = 1;
@@ -169,6 +170,8 @@ public class Ui {
 
     public void timeOut(ArrayList<String> allAnswers, int numOfQns, ArrayList<Boolean> answersCorrectness){
         if (!hasCompletedSet) {
+            allAnswers.add(ANSWER_TIMEOUT);
+            answersCorrectness.add(false);
             assert allAnswers.size() <= numOfQns :
                     "Number of questions answered needs to be <= available number or questions";
             assert answersCorrectness.size() <= allAnswers.size() :
@@ -305,11 +308,13 @@ public class Ui {
     private void printResultDetails(QuestionListByTopic questionListByTopic, int topicNum, int index,
                                     AnswerTracker userAnswers) {
         QuestionsList listOfQuestions = questionListByTopic.getQuestionSet(topicNum);
-        for (int i = 0; i < listOfQuestions.getSize(); i++) {
+        for (int i = 0; i < userAnswers.getAllAnswers().get(index).size(); i++) {
             Question questionUnit = listOfQuestions.getQuestionUnit(i);
-            boolean isCorrectAnswer = userAnswers.getIsCorrect (i,index);
-            System.out.println(questionUnit.getQuestion() + "\nYou answered:\n" + userAnswers.getUserAnswers(i, index)
-                + "\nYou got it " + ((isCorrectAnswer) ? "right!\n" : "wrong!\n"));
+            boolean isCorrectAnswer = userAnswers.getIsCorrect(i, index);
+            String answer = userAnswers.getUserAnswers(i, index);
+            System.out.println(questionUnit.getQuestion() + "\nYou answered:\n" + answer
+                    + ((answer.equals(ANSWER_TIMEOUT)) ? System.lineSeparator()
+                    : "\nYou got it " + ((isCorrectAnswer) ? "right!\n" : "wrong!\n")));
         }
     }
 
