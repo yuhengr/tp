@@ -42,9 +42,9 @@ What is your name?
 2. [results](#2-viewing-results-results)
 3. [solution](#3-get-solutions-for-a-question--topic-solution)
 4. [explain](#4-get-explanations-for-a-question--topic-explain)
-5. [timed mode](#5-timed-mode---attempt-the-questions-under-a-time-limit)
-6. [list](#5-list---list-all-available-topics-and-their-summaries)
-7. [help](#6-viewing-help-help)
+5. [timed mode](#5-attempt-the-questions-under-a-time-limit-timed-mode)
+6. [list](#6-list-all-available-topics-and-their-summaries-list)
+7. [help](#7-viewing-help-help)
 8. [pause](#8-pausing-the-game-pause)
 9. [resume](#9-resuming-the-game-resume)
 10. [bye](#10-exiting-the-game-bye)
@@ -130,11 +130,15 @@ Sample output:
 ```
 
 ### 7. Viewing help: `help`
-Displays commands for the application (start game, choose topic, revise, clear/reset progress). Shows developer credits information.
-Usage: type “help” in the main menu.
+Displays commands for the application (start game, choose topic, revise, clear/reset progress). 
+Shows developer credits information.
+
+Format: `help`
+
 Sample output:
 
 ![Help Sample Output](./team/img/ug_usage_help.png)
+
 
 ### 8. Pausing the game: `pause`
 
