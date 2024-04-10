@@ -12,13 +12,14 @@ Hello CaiShenYe
 ************************************************
 [----------] 0% 0/2 topics attempted
 Here are the topics in CS2113:
-1. topic1
-2. topic2
+1. Software Engineering Concepts I
+2. Software Engineering Concepts II
 3. Randomly select a topic for me ;)
+************************************************
 Please choose a topic to play:
 ************************************************
 Input a command player!
 command format is invalid.
 Input a command player!
-bye bye, get more sleep zzz
+Most often, the problem is not the lack of time but the lack of direction
 ************************************************
