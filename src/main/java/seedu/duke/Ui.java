@@ -251,7 +251,6 @@ public class Ui {
     }
     public static void printTimedModeSelected(){
         System.out.println("Timed mode selected. Please enter the topic you would like to try. ");
-        System.out.println(MESSAGE_RESUME);
     }
 
     public void printNoSolutionAccess(){
