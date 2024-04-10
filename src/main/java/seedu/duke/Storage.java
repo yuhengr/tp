@@ -271,4 +271,53 @@ public class Storage {
             fileWriter.write("correctness " + listOfCorrectness + System.lineSeparator());
         }
     }
+
+
+    // creates question list1,2 etc
+    public void updateQuestionList(int questionListIndex, QuestionsList questionList) throws CustomException {
+        int questionListNum = questionListIndex + 1; // +1 coz 0 index
+        // to add a questionList, create a function for each questionList
+        switch (questionListNum) {
+        case (1):
+            updateQuestionList1(questionList);
+            break;
+        case (2):
+            updateQuestionList2(questionList);
+            break;
+        default:
+            throw new CustomException("unable to create questionList" + questionListNum);
+        }
+    }
+
+    private void updateQuestionList1(QuestionsList questionList) {
+        Question question1 = new Question("question1", "solution1", "explanation1",
+                new String[]{"optionA", "optionB", "optionC", "optionD"});
+        Question question2 = new Question("question2", "solution2", "explanation2",
+                new String[]{"optionA", "optionB", "optionC", "optionD"});
+        Question question11 = new Question("question11", "solution11", "explanation11",
+                new String[]{"optionA", "optionB", "optionC", "optionD"});
+        Question question12 = new Question("question12", "solution12", "explanation12",
+                new String[]{"optionA", "optionB", "optionC", "optionD"});
+        Question question13 = new Question("question13", "solution13", "explanation13",
+                new String[]{"optionA", "optionB", "optionC", "optionD"});
+        Question question14 = new Question("question14", "solution14", "explanation14",
+                new String[]{"optionA", "optionB", "optionC", "optionD"});
+        Question question15 = new Question("question15", "solution15", "explanation15",
+                new String[]{"optionA", "optionB", "optionC", "optionD"});
+        questionList.addQuestion(question1);
+        questionList.addQuestion(question2);
+        questionList.addQuestion(question11);
+        questionList.addQuestion(question12);
+        questionList.addQuestion(question13);
+        questionList.addQuestion(question14);
+        questionList.addQuestion(question15);
+    }
+    private void updateQuestionList2(QuestionsList questionsList) {
+        Question question3 = new Question("question3", "solution3", "explanation3",
+                new String[]{"optionA","optionB","optionC","optionD"});
+        Question question4 = new Question("question4", "solution4", "explanation4",
+                new String[]{"optionA","optionB","optionC","optionD"});
+        questionsList.addQuestion(question3);
+        questionsList.addQuestion(question4);
+    }
 }
