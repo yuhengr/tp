@@ -314,7 +314,7 @@ public class Ui {
     }
 
     public void handleException(CustomException e) {
-        System.out.println(e.getMessage()); //TODO
+        System.out.println(e.getMessage());
     }
     public void printLine() {
         for (int i = 0; i < NEW_LINE; i += 1) {
