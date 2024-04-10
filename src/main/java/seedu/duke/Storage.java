@@ -68,7 +68,7 @@ public class Storage {
     private static void processLine(String line, ResultsList results, TopicList topics, AnswerTracker answers) {
         if (line.startsWith(RESULTS_HEADER)) {
             String[] processedLine = line.substring(STARTING_INDEX_RESULT).split(ARG_SEPARATOR);
-            
+
             String result = processedLine[RESULTS_INDEX].trim();
             Results temp = createResults(result);
             results.addResults(temp);
@@ -104,7 +104,7 @@ public class Storage {
     }
 
     public int[] resumeGame(File file, Results topicResults, ArrayList<String> userAnswers,
-                           ArrayList<Boolean> correctness)
+                            ArrayList<Boolean> correctness)
             throws FileNotFoundException {
         Scanner scanner = new Scanner(file);
         int[] pausedQuestion = new int[TWO_PARAMETERS];
@@ -294,49 +294,67 @@ public class Storage {
                 "What language does CS2113 use?",
                 "a",
                 "CS2113 teaches OOP in Java",
-                new String[]{"Java", "C++", "C", "Python"});
+                new String[]{"Java",
+                             "C++",
+                             "C",
+                             "Python"});
 
         Question question2 = new Question(
                 "As per the textbook, brown-field projects are usually harder than green-field projects.",
                 "a",
                 "Brown-field projects refers to a product to replace/ update an existing software, " +
                         "while green-field projects refers to a totally new system from scratch",
-                new String[]{"True", "False", "Only got grass fields", "There is no textbook"});
+                new String[]{"True",
+                             "False",
+                             "Only got grass fields",
+                             "There is no textbook"});
 
         Question question3 = new Question(
                 "What is NFR?",
                 "c",
                 "Requirements can be divided as functional and non-functional requirements",
-                new String[]{"No-such-thing, For Real", "Nets For Rent",
-                        "Non-Functional Requirements", "NUS Forest Registry"});
+                new String[]{"No-such-thing, For Real",
+                             "Nets For Rent",
+                             "Non-Functional Requirements",
+                             "NUS Forest Registry"});
 
         Question question4 = new Question(
                 "What is an example of a NFR?",
                 "c",
                 "Non-functional requirements (NFR) specify the constraints " +
                         "under which the system is developed and operated",
-                new String[]{"Your imagination", "Fishing nets",
-                        "should work on 32 and 64 bit systems", "Recycle bins"});
+                new String[]{"Your imagination",
+                             "Fishing nets",
+                             "should work on 32 and 64 bit systems",
+                             "Recycle bins"});
 
         Question question5 = new Question(
                 "Requirements should be as close to implementation as possible, " +
                         "so as to minimize errors in implementing it",
                 "c",
                 "In contrast, requirements should be implementation-free.",
-                new String[]{"True", "True sometimes", "False", "I give up!"});
+                new String[]{"True",
+                             "True sometimes",
+                             "False",
+                             "I give up!"});
 
         Question question6 = new Question(
                 "Ideally, a requirement should not be divisible any further",
                 "d",
                 "True, textbook uses the term 'atomic' to describe this quality",
-                new String[]{"False: a requirement is not a number", "NA: not possible in real life", "Idk", "True"});
+                new String[]{"False: a requirement is not a number",
+                             "NA: not possible in real life",
+                             "Idk",
+                             "True"});
 
         Question question7 = new Question(
                 "What does SLAP stands for?",
                 "d",
                 "See the course website!",
-                new String[]{"when you feel pain on your face", "when another person feels pain on their face",
-                        "Studying-lit Acceleration Program", "Single Level of Abstraction Per method"});
+                new String[]{"when you feel pain on your face",
+                             "when another person feels pain on their face",
+                             "Studying-lit Acceleration Program",
+                             "Single Level of Abstraction Per method"});
 
         questionList.addQuestion(question1);
         questionList.addQuestion(question2);
@@ -346,31 +364,42 @@ public class Storage {
         questionList.addQuestion(question6);
         questionList.addQuestion(question7);
     }
+
     private void updateQuestionList2(QuestionsList questionsList) {
         Question question1 = new Question(
                 "One should never prioritize efficiency or performance over readability",
                 "a",
                 "From textbook: there are cases when optimizing takes priority over other things",
-                new String[]{"False: not always the case","False: efficiency == readability",
-                        "True: readability is always more important","True: the compiler will optimize for you"});
+                new String[]{"False: not always the case",
+                             "False: efficiency == readability",
+                             "True: readability is always more important",
+                             "True: the compiler will optimize for you"});
         Question question2 = new Question(
                 "As per the KISS principle, one should always prefer the simpler solution over clever ones",
                 "b",
                 "False: not always. Rather, one should not discard the simple solutions just because there " +
                         "is a more 'clever' solution. Instead, 'clever' solution should only be chosen only if " +
                         " the additional cost of complexity is justifiable",
-                new String[]{"True: simple == elegant","False: sometimes we want the clever solutions",
-                        "Both are irrelevant to KISS","I give up!"});
+                new String[]{"True: simple == elegant",
+                             "False: sometimes we want the clever solutions",
+                             "Both are irrelevant to KISS",
+                             "I give up!"});
         Question question3 = new Question(
                 "Which of the following follows the correct coding standard?",
                 "d",
                 "Constants should be named using ALL_CAPS_LIKE_THIS",
-                new String[]{"int my_var = 2;", "int my_var = 2;", "int MyVar = 2;", "final static int MY_VAR = 2;"});
+                new String[]{"int my_var = 2;",
+                             "int my_var = 2;",
+                             "int MyVar = 2;",
+                             "final static int MY_VAR = 2;"});
         Question question4 = new Question(
                 "Constants often follow this naming convention: ALL_CAPS_LIKE_THIS. What is it called?",
                 "a",
                 "Constants should be named using ALL_CAPS_LIKE_THIS",
-                new String[]{"SCREAMING_SNAKE_CASE", "camelCase1", "PascalCase", "Train-Case"});
+                new String[]{"SCREAMING_SNAKE_CASE",
+                             "camelCase1",
+                             "PascalCase",
+                             "Train-Case"});
 
         questionsList.addQuestion(question1);
         questionsList.addQuestion(question2);
