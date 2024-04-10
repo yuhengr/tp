@@ -251,7 +251,7 @@ public class Ui {
     }
     public static void printTimedModeSelected(){
         System.out.println("Timed mode selected. Please enter the topic you would like to try. ");
-        System.out.println(MESSAGE_RESUME);
+        showCannotPause();
     }
 
     public void printNoSolutionAccess(){
@@ -357,7 +357,7 @@ public class Ui {
         System.out.println(MESSAGE_RESUME);
     }
 
-    public void showCannotPause() {
+    public static void showCannotPause() {
         System.out.println(MESSAGE_CANNOT_PAUSE);
     }
 
@@ -419,3 +419,4 @@ public class Ui {
         }
     }
 }
+

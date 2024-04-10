@@ -590,8 +590,8 @@ public class Parser {
                               ArrayList<String> allAnswers, ArrayList<Boolean> answersCorrectness,
                               Results topicResults, int topicNum, int index)
             throws CustomException {
-        if (isTimedMode) {
-            ui.showCannotPause();
+        if (isTimedMode && answer.equalsIgnoreCase(PAUSE_GAME)) {
+            Ui.showCannotPause();
             return false;
         }
         if (!isPaused && !answer.equalsIgnoreCase(PAUSE_GAME)) {
