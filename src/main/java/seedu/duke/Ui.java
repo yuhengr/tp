@@ -206,6 +206,7 @@ public class Ui {
         System.out.println("Here are the questions: ");
     }
 
+    //@@author cyhjason29
     public void resumeTopic(int[] pausedQuestion, TopicList topicList, QuestionListByTopic questionListByTopic,
                             ResultsList allResults, AnswerTracker userAnswers, Storage storage, Ui ui,
                             ArrayList<String> answers, ArrayList<Boolean> correctness, Results topicResults)
@@ -243,6 +244,7 @@ public class Ui {
         userAnswers.addUserAnswers(answers);
         userAnswers.addUserCorrectness(correctness);
     }
+    //@@author
 
     public void printCongratulatoryMessage(){
         System.out.println("Congrats! You beat the timer!");
@@ -282,6 +284,8 @@ public class Ui {
         System.out.print("The explanations are :"
                 + System.lineSeparator() + allExplanations);
     }
+
+    //@@author cyhjason29
     public void printOneResult(boolean includesDetails, int topicNum, String score,
                                QuestionListByTopic questionListByTopic, AnswerTracker userAnswers, int index) {
         System.out.println("Your results for Topic " + (topicNum + 1) + ":\n" + score + "\n");
@@ -317,6 +321,7 @@ public class Ui {
                     : "\nYou got it " + ((isCorrectAnswer) ? "right!\n" : "wrong!\n")));
         }
     }
+    //@@author
 
     public void handleException(CustomException e) {
         System.out.println(e.getMessage());
@@ -354,6 +359,7 @@ public class Ui {
         System.out.println(ASCIITable.getInstance().getTable(headers, data));
     }
 
+    //@@author cyhjason29
     public void askForResume() {
         System.out.println(MESSAGE_ASK_RESUME);
     }
@@ -365,6 +371,7 @@ public class Ui {
     public void showCannotPause() {
         System.out.println(MESSAGE_CANNOT_PAUSE);
     }
+    //@@author
 
     public void askResumeSessionPrompt(){
         System.out.println("Continue from previous paused session? (yes/no)");
