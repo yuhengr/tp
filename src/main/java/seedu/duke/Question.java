@@ -24,6 +24,7 @@ public class Question {
     public String getExplanation() {
         return explanation;
     }
+
     public String getQuestion() {
         String optionA = options[FIRST_OPTION];
         String optionB = options[SECOND_OPTION];

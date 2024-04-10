@@ -148,6 +148,8 @@ public class Parser {
         case (TWO_PARAMETER_LENGTH):
             if (!commandParts[FIRST_PARAMETER].equals(DETAILS_PARAMETER)) {
                 throw new CustomException(MESSAGE_INVALID_PARAMETERS);
+            } else if (commandParts[SECOND_PARAMETER].isEmpty()) {
+                ui.printAllResults(INCLUDES_DETAILS, allResults, questionListByTopic, userAnswers);
             }
             try {
                 int index = Integer.parseInt(commandParts[SECOND_PARAMETER]);
@@ -590,7 +592,7 @@ public class Parser {
                               ArrayList<String> allAnswers, ArrayList<Boolean> answersCorrectness,
                               Results topicResults, int topicNum, int index)
             throws CustomException {
-        if (isTimedMode) {
+        if (answer.equalsIgnoreCase(PAUSE_GAME) && isTimedMode) {
             ui.showCannotPause();
             return false;
         }

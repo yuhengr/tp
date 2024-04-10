@@ -18,6 +18,7 @@ public class Ui {
     private static final String MESSAGE_CANNOT_PAUSE = "You cannot pause in timed mode!";
     private static final String MESSAGE_TOPIC_FINISHED = "You have finished the topic! What will be your " +
             "next topic?";
+    private static final String ANSWER_TIMEOUT = "You ran out of time!";
 
     private static final int INDEX_TOPIC_NUM = 0;
     private static final int INDEX_INDEX = 1;
@@ -169,6 +170,8 @@ public class Ui {
 
     public void timeOut(ArrayList<String> allAnswers, int numOfQns, ArrayList<Boolean> answersCorrectness){
         if (!hasCompletedSet) {
+            allAnswers.add(ANSWER_TIMEOUT);
+            answersCorrectness.add(false);
             assert allAnswers.size() <= numOfQns :
                     "Number of questions answered needs to be <= available number or questions";
             assert answersCorrectness.size() <= allAnswers.size() :
@@ -191,7 +194,7 @@ public class Ui {
     }
 
     public void printTimeLimit(int timeLimit){
-        System.out.println("timeLimit: " + timeLimit + "seconds");
+        System.out.println("Time limit: " + timeLimit + " seconds");
     }
 
     public void printFinishedTopic(){
@@ -251,7 +254,6 @@ public class Ui {
     }
     public static void printTimedModeSelected(){
         System.out.println("Timed mode selected. Please enter the topic you would like to try. ");
-        System.out.println(MESSAGE_RESUME);
     }
 
     public void printNoSolutionAccess(){
@@ -294,8 +296,9 @@ public class Ui {
         System.out.println(HEADER_ALL_RESULTS);
         for (int i = 0; i < numberOfResults; i++) {
             int topicNum = allResults.getTopicNum(i);
-            System.out.println("Your results for Topic " + (topicNum + 1) + ":\n"
-                    + allResults.getSpecifiedResult(i).getScore() + "\n");
+            System.out.println("Attempt " + (i+1) + ": " + System.lineSeparator() + "Your results for Topic " +
+                    (topicNum + 1) + ":" + System.lineSeparator() + allResults.getSpecifiedResult(i).getScore()
+                    + System.lineSeparator());
             if (includesDetails) {
                 printResultDetails(questionListByTopic, topicNum, i, userAnswers);
             }
@@ -305,16 +308,18 @@ public class Ui {
     private void printResultDetails(QuestionListByTopic questionListByTopic, int topicNum, int index,
                                     AnswerTracker userAnswers) {
         QuestionsList listOfQuestions = questionListByTopic.getQuestionSet(topicNum);
-        for (int i = 0; i < listOfQuestions.getSize(); i++) {
+        for (int i = 0; i < userAnswers.getAllAnswers().get(index).size(); i++) {
             Question questionUnit = listOfQuestions.getQuestionUnit(i);
-            boolean isCorrectAnswer = userAnswers.getIsCorrect (i,index);
-            System.out.println(questionUnit.getQuestion() + "\nYou answered:\n" + userAnswers.getUserAnswers(i, index)
-                + "\nYou got it " + ((isCorrectAnswer) ? "right!\n" : "wrong!\n"));
+            boolean isCorrectAnswer = userAnswers.getIsCorrect(i, index);
+            String answer = userAnswers.getUserAnswers(i, index);
+            System.out.println(questionUnit.getQuestion() + "\nYou answered:\n" + answer
+                    + ((answer.equals(ANSWER_TIMEOUT)) ? System.lineSeparator()
+                    : "\nYou got it " + ((isCorrectAnswer) ? "right!\n" : "wrong!\n")));
         }
     }
 
     public void handleException(CustomException e) {
-        System.out.println(e.getMessage()); //TODO
+        System.out.println(e.getMessage());
     }
     public void printLine() {
         for (int i = 0; i < NEW_LINE; i += 1) {

@@ -9,7 +9,7 @@ Prerequisites: JDK 11, Player2113 release `JDK` file
 Start the programme with the following command:
 
 ```
-java --jar Player2113.jar
+java -jar Player2113.jar
 ```
 
 You will see the welcome screen upon successful start-up:
@@ -33,7 +33,8 @@ What is your name?
 
 ## Features
 > **NOTE:**
-> + Words in UPPER_CASE are COMPULSORY parameters to be supplied by the user.
+> + Words in UPPER_CASE are to be supplied by the user e.g. in `results [details] [INDEX]`, `INDEX` is open to user input, such as `1` or `2`.
+> + Words in lower_case are fixed e.g. in `results [details] [INDEX]`, `details` has to be input by the user exactly for that parameter.
 > + Items in square brackets are optional
     e.g. in `solution TOPIC_NUM [INDEX]`, `TOPIC_NUM` is a compulsory parameter like `solution 1 1`,
 >   while `INDEX` is an optional parameter like `solution 1`
@@ -54,7 +55,7 @@ There are multiple question banks pre-configured in Player2113.
 Start the game by selecting a topic from the menu. 
 After choosing a topic, questions will start appearing.
 
-Format: `topic [TOPIC_INDEX]`
+Format: `topic TOPIC_INDEX`
 
 - Gameplay will include questions from the specified topic.
 - After start, the system will display a question, and the user will have to key in a response.
@@ -68,14 +69,16 @@ eg “a” to choose option "a. Java" (below)
 
 ### 2. Viewing results: `results`
 
-You may check your answer accuracy after attempting a question set. The result is separated from practicing session for concentration consideration.
+You may check your answer accuracy after attempting a question set. 
 
-Format: `results [details] [INDEX]`
+Format: `results [details] [ATTEMPT_NUM]`
 
-- Shows scores from the game round at that specified INDEX. The index must be a  non-zero positive integer (e.g. 1, 2, 3, …).
-- If `[INDEX]` is omitted, the results will be listed in chronological order of the rounds.
-- Adding `[details]` will allow you to view the questions and your answers from the round. Omitting it will result in showing only the score.
+- Shows scores from the specified ATTEMPT_NUM. It must be a  non-zero positive integer (e.g. 1, 2, 3, …) and that attempt must exist.
+- If `[INDEX]` is omitted, all results will be listed in chronological order of the attempts.
+- Adding `[details]` will allow you to view the questions and your answers to those questions. Omitting it will result in showing only the score.
+- The score is dependent on the number of questions attempted, as opposed to the total number of questions available in the topic.
 - Anything after `[INDEX]` will be ignored.
+- Command works as long as the user input starts with `results` (e.g. `resultsss`, `resultsad`) for easier usage.
 
 Example usage: `results details 2`
 
@@ -116,7 +119,7 @@ Format: `timed mode [TIME_LIMIT]`
 
 ### 6. List all available topics and their summaries: `list`
 
-Example of usage: `list`.
+Example of usage: `list`
 
 Sample output:
 
@@ -159,7 +162,7 @@ All results will be saved to a local save file, which will be loaded up when the
 - If exited after pausing the game, you can choose whether to continue from where you left off or 
 discard the results for that topic.
 
-Example of usage: `bye`.
+Example of usage: `bye`
 
 A goodbye message will be displayed:
 
