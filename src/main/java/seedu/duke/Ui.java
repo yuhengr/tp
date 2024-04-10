@@ -170,6 +170,7 @@ public class Ui {
         isTimesUp = false;
     }
 
+    //@@author hongyijie06
     public void timerBegin(boolean hasCompletedSet, ArrayList<String> allAnswers, int numOfQns,
                            ArrayList<Boolean> answersCorrectness, int timeLimit) {
 
@@ -191,6 +192,7 @@ public class Ui {
         }
     }
 
+    //@@author hongyijie06
     public void timeOut(ArrayList<String> allAnswers, int numOfQns, ArrayList<Boolean> answersCorrectness) {
         if (!hasCompletedSet) {
             allAnswers.add(ANSWER_TIMEOUT);
@@ -204,6 +206,7 @@ public class Ui {
         }
     }
 
+    //@@author hongyijie06
     public void finishBeforeTimerChecker(int numOfQns, boolean isTimedMode) {
         int qnNumberIndex = numOfQns - 1;//-1 due to zero index
         if (indexGlobal == qnNumberIndex && isTimedMode) {
@@ -268,8 +271,8 @@ public class Ui {
         userAnswers.addUserAnswers(answers);
         userAnswers.addUserCorrectness(correctness);
     }
-    //@@author
 
+    //@@author hongyijie06
     public void printCongratulatoryMessage() {
         System.out.println("Congrats! You beat the timer!");
     }
@@ -428,8 +431,8 @@ public class Ui {
     public static void showCannotPause() {
         System.out.println(MESSAGE_CANNOT_PAUSE);
     }
-    //@@author
 
+    //@@author hongyijie06
     public void askResumeSessionPrompt() {
         System.out.println("Continue from previous paused session? (yes/no)");
     }
