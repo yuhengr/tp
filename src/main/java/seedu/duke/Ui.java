@@ -191,7 +191,7 @@ public class Ui {
     }
 
     public void printTimeLimit(int timeLimit){
-        System.out.println("timeLimit: " + timeLimit + "seconds");
+        System.out.println("Time limit: " + timeLimit + " seconds");
     }
 
     public void printFinishedTopic(){
