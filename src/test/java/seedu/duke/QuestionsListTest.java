@@ -26,9 +26,6 @@ class QuestionsListTest {
                 new String[]{"optionA","optionB","optionC","optionD"});
     }
 
-    // 3 part format
-    // methodBeingTested_conditionToTest_expectedOutcome
-
     @Test
     void getSize_addTwoQuestions_twoQuestions() {
         LOGGER.log(Level.INFO, "tests may not be in order!");

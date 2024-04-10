@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 /**
  * Deals with loading from the save file and saving in that file
+ * Also deals with initial loading of dataset
  */
 public class Storage {
     private static final String RESULTS_HEADER = "result";
@@ -347,7 +348,6 @@ public class Storage {
                              "NA: not possible in real life",
                              "Idk",
                              "True"});
-
         Question question7 = new Question(
                 "What does SLAP stands for?",
                 "d",

@@ -54,7 +54,6 @@ public class Ui {
             Storage storage, ProgressManager progressManager
     ) {
         Parser parser = new Parser();
-        printLine();
 
         while(isPlaying) {
             ui.askForInput();
@@ -85,7 +84,9 @@ public class Ui {
             System.out.println((index + 1) + ". " + topicList.getTopic(index));
         }
         System.out.println((topicListSize + 1) + ". " + "Randomly select a topic for me ;)");
+        printLine();
         System.out.println("Please choose a topic to play:");//input command in the form "start [INDEX]
+        printLine();
     }
 
     public void printChosenTopic(
@@ -112,6 +113,7 @@ public class Ui {
         ArrayList<Boolean> answersCorrectness = new ArrayList<>();
 
         for (indexGlobal = 0; indexGlobal < numOfQns; indexGlobal++){//go through 1 question set
+            printLine();
             displayProgressBar(indexGlobal, numOfQns);
             questionUnit = qnList.getQuestionUnit(indexGlobal);
             topicResults.increaseNumberOfQuestions();
@@ -200,6 +202,7 @@ public class Ui {
 
     public void printFinishedTopic(){
         System.out.println(MESSAGE_TOPIC_FINISHED);
+        printLine();
     }
   
     public void printSelectedTopic(TopicList topicList, int topicNum){
@@ -264,6 +267,7 @@ public class Ui {
     }
 
     public void printQuestion(Question questionUnit){
+        printLine();
         System.out.println(questionUnit.getQuestion());
     }
     //@@author ngxzs

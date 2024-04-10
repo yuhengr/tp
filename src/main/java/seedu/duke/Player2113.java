@@ -56,8 +56,8 @@ public class Player2113 {
         }
 
         // Step 3 here!
-        Topic topic1 = new Topic(questionsList1, "topic1", false, "Covers topic 1 notions mentioned in lecture 1-2");
-        Topic topic2 = new Topic(questionsList2, "topic2", false, "Covers topic 2 notions mentioned in lecture 3-4");
+        Topic topic1 = new Topic(questionsList1, "Software Engineering Concepts I", false, "Covers lecture 1-2");
+        Topic topic2 = new Topic(questionsList2, "Software Engineering Concepts II", false, "Covers lecture 3-4");
         topicList.addTopic(topic1);
         topicList.addTopic(topic2);
     }
