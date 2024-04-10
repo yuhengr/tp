@@ -37,12 +37,16 @@ public class Player2113 {
 
         ArrayList<QuestionsList> arrayOfQuestionsLists = new ArrayList<>();
         arrayOfQuestionsLists.add(questionsList1);
-        arrayOfQuestionsLists.add(questionsList2);
-        // to add more questionsList, 1. add line here + inspect storage.createQuestionList()
+        arrayOfQuestionsLists.add(questionsList2); // Step 1 here
+        // to add more questionsList,
+        // 1. add line here +
+        // 2. inspect storage.createQuestionList() +
+        // 3. Add to topics (below)
 
         try {
             for (int i = 0; i < arrayOfQuestionsLists.size(); i += 1) {
                 QuestionsList currentQuestionList = arrayOfQuestionsLists.get(i);
+                // Step 2 here
                 storage.updateQuestionList(i, currentQuestionList);
                 questionListByTopic.addQuestionSet(currentQuestionList);
             }
@@ -50,6 +54,7 @@ public class Player2113 {
             ui.handleException(e);
         }
 
+        // Step 3 here!
         Topic topic1 = new Topic(questionsList1, "topic1", false, "Covers topic 1 notions mentioned in lecture 1-2");
         Topic topic2 = new Topic(questionsList2, "topic2", false, "Covers topic 2 notions mentioned in lecture 3-4");
         topicList.addTopic(topic1);
