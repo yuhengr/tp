@@ -14,6 +14,7 @@ public class Question {
     private String explanation;
     private String[] options;
 
+    //@@author ngxzs
     public Question(String question, String solution, String explanation, String[] options){
         this.question = question;
         this.solution = solution;
@@ -24,6 +25,7 @@ public class Question {
     public String getExplanation() {
         return explanation;
     }
+    //@@author cyhjason29
     public String getQuestion() {
         String optionA = options[FIRST_OPTION];
         String optionB = options[SECOND_OPTION];
@@ -32,6 +34,7 @@ public class Question {
         return question + System.lineSeparator() + OPTION_A + optionA + System.lineSeparator() + OPTION_B + optionB +
                 System.lineSeparator() + OPTION_C + optionC + System.lineSeparator() + OPTION_D + optionD;
     }
+    //@@author ngxzs
     public String getSolution() {
         return solution;
     }

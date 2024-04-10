@@ -53,6 +53,7 @@ public class Parser {
 
     private static final String MESSAGE_UNSPECIFIED_TIME = "Please specify a time limit";
     private static final String MESSAGE_INVALID_TIME = "Time limit must be more than 0 seconds";
+    private static final String MESSAGE_INVALID_COMMAND = "That's an invalid command.";
 
     // non-constant attributes
     private boolean isTimedMode = false;
@@ -105,6 +106,8 @@ public class Parser {
                 processListCommand(topicList, ui);
             } else if (!lowerCaseCommand.startsWith(TIMED_MODE_PARAMETER)) {
                 throw new CustomException(MESSAGE_INVALID_COMMAND_FORMAT);
+            } else {
+                throw new CustomException(MESSAGE_INVALID_COMMAND);
             }
         }
 
@@ -116,6 +119,7 @@ public class Parser {
         ui.printTable(tableHeader, printData);
     }
 
+    //@@author cyhjason29
     private void processResultsCommand(String lowerCaseCommand, ResultsList allResults, Ui ui,
                                        QuestionListByTopic questionListByTopic, AnswerTracker userAnswers)
             throws CustomException {
@@ -148,6 +152,8 @@ public class Parser {
         case (TWO_PARAMETER_LENGTH):
             if (!commandParts[FIRST_PARAMETER].equals(DETAILS_PARAMETER)) {
                 throw new CustomException(MESSAGE_INVALID_PARAMETERS);
+            } else if (commandParts[SECOND_PARAMETER].isEmpty()) {
+                ui.printAllResults(INCLUDES_DETAILS, allResults, questionListByTopic, userAnswers);
             }
             try {
                 int index = Integer.parseInt(commandParts[SECOND_PARAMETER]);
@@ -164,6 +170,7 @@ public class Parser {
             throw new CustomException(MESSAGE_NO_RESULTS);
         }
     }
+    //@@author
 
     private void beginStartCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
@@ -387,7 +394,7 @@ public class Parser {
             ui.printNoSolutionAccess();
         }
     }
-
+    //@@author ngxzs
     private void processExplainCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
@@ -420,6 +427,7 @@ public class Parser {
         }
     }
 
+    //@@author
     private void handleCustomCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
             ResultsList allResults, AnswerTracker userAnswers, ProgressManager progressManager)
@@ -522,7 +530,7 @@ public class Parser {
             System.out.println("You've chosen a goal of " + progressManager.getCheckpointModeGoal() + " questions.");
         }
     }
-
+    //@@author ngxzs
     // checks valid command type and parameters: returns true if 2 parameters, else false (1 param only)
     private static boolean checkIfTwoParameters(
             String expectedCommandType, String[] commandParts) throws CustomException {
@@ -558,6 +566,7 @@ public class Parser {
         return parameterNum;
     }
 
+    //@@author
     public void handleAnswerInputs(String[] inputAnswers, int index, String answer, Question questionUnit,
                                    Results topicResults, ArrayList<Boolean> correctness) {
         inputAnswers[index] = answer;
@@ -585,6 +594,7 @@ public class Parser {
         }
     }
 
+    //@@author cyhjason29
     public boolean checkPause(String answer, ResultsList allResults, TopicList topicList,
                               AnswerTracker userAnswers, Ui ui, Storage storage, boolean isPaused, boolean isTimedMode,
                               ArrayList<String> allAnswers, ArrayList<Boolean> answersCorrectness,

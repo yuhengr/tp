@@ -1,4 +1,4 @@
-# Player2113
+# [Player2113](https://github.com/AY2324S2-CS2113-F15-1/tp/releases)
 
 A CLI tool to help COMP2113 student revise conceptual questions in a gamification environment.
 
@@ -33,18 +33,19 @@ What is your name?
 
 ## Features
 > **NOTE:**
-> + Words in UPPER_CASE are COMPULSORY parameters to be supplied by the user.
+> + Words in UPPER_CASE are to be supplied by the user e.g. in `results [details] [INDEX]`, `INDEX` is open to user input, such as `1` or `2`.
+> + Words in lower_case are fixed e.g. in `results [details] [INDEX]`, `details` has to be input by the user exactly for that parameter.
 > + Items in square brackets are optional
     e.g. in `solution TOPIC_NUM [INDEX]`, `TOPIC_NUM` is a compulsory parameter like `solution 1 1`,
->   while `INDEX` is an optional parameter like `solution 1`
+> while `INDEX` is an optional parameter like `solution 1`
 
 1. [topic](#1-starting-game-topic)
 2. [results](#2-viewing-results-results)
 3. [solution](#3-get-solutions-for-a-question--topic-solution)
 4. [explain](#4-get-explanations-for-a-question--topic-explain)
-5. [timed mode](#5-timed-mode---attempt-the-questions-under-a-time-limit)
-6. [list](#5-list---list-all-available-topics-and-their-summaries)
-7. [help](#6-viewing-help-help)
+5. [timed mode](#5-attempt-the-questions-under-a-time-limit-timed-mode)
+6. [list](#6-list-all-available-topics-and-their-summaries-list)
+7. [help](#7-viewing-help-help)
 8. [pause](#8-pausing-the-game-pause)
 9. [resume](#9-resuming-the-game-resume)
 10. [bye](#10-exiting-the-game-bye)
@@ -54,7 +55,7 @@ There are multiple question banks pre-configured in Player2113.
 Start the game by selecting a topic from the menu. 
 After choosing a topic, questions will start appearing.
 
-Format: `topic [TOPIC_INDEX]`
+Format: `topic TOPIC_INDEX`
 
 - Gameplay will include questions from the specified topic.
 - After start, the system will display a question, and the user will have to key in a response.
@@ -68,14 +69,16 @@ eg “a” to choose option "a. Java" (below)
 
 ### 2. Viewing results: `results`
 
-You may check your answer accuracy after attempting a question set. The result is separated from practicing session for concentration consideration.
+You may check your answer accuracy after attempting a question set. 
 
-Format: `results [details] [INDEX]`
+Format: `results [details] [ATTEMPT_NUM]`
 
-- Shows scores from the game round at that specified INDEX. The index must be a  non-zero positive integer (e.g. 1, 2, 3, …).
-- If `[INDEX]` is omitted, the results will be listed in chronological order of the rounds.
-- Adding `[details]` will allow you to view the questions and your answers from the round. Omitting it will result in showing only the score.
+- Shows scores from the specified ATTEMPT_NUM. It must be a  non-zero positive integer (e.g. 1, 2, 3, …) and that attempt must exist.
+- If `[INDEX]` is omitted, all results will be listed in chronological order of the attempts.
+- Adding `[details]` will allow you to view the questions and your answers to those questions. Omitting it will result in showing only the score.
+- The score is dependent on the number of questions attempted, as opposed to the total number of questions available in the topic.
 - Anything after `[INDEX]` will be ignored.
+- Command works as long as the user input starts with `results` (e.g. `resultsss`, `resultsad`) for easier usage.
 
 Example usage: `results details 2`
 
@@ -114,9 +117,12 @@ Format: `timed mode [TIME_LIMIT]`
 - `TIME_LIMIT` represents the time limit set for the question set in seconds
 - The`TIME_LIMIT` must be a non-zero positive integer (e.g. 1, 2, 3, …).
 
+Examples:
+` timed mode 5` sets time limit to 5s
+
 ### 6. List all available topics and their summaries: `list`
 
-Example of usage: `list`.
+Example of usage: `list`
 
 Sample output:
 
@@ -130,11 +136,15 @@ Sample output:
 ```
 
 ### 7. Viewing help: `help`
-Displays commands for the application (start game, choose topic, revise, clear/reset progress). Shows developer credits information.
-Usage: type “help” in the main menu.
+Displays commands for the application (start game, choose topic, revise, clear/reset progress). 
+Shows developer credits information.
+
+Format: `help`
+
 Sample output:
 
 ![Help Sample Output](./team/img/ug_usage_help.png)
+
 
 ### 8. Pausing the game: `pause`
 
@@ -143,6 +153,7 @@ Pauses the game so that the user may choose to exit the game in the middle of an
 Format: `pause`
 
 - This command is valid only when the user is answering the topic questions.
+- User cannot pause when in timed mode.
 
 ### 9. Resuming the game: `resume`
 
@@ -159,7 +170,7 @@ All results will be saved to a local save file, which will be loaded up when the
 - If exited after pausing the game, you can choose whether to continue from where you left off or 
 discard the results for that topic.
 
-Example of usage: `bye`.
+Example of usage: `bye`
 
 A goodbye message will be displayed:
 
@@ -170,11 +181,11 @@ bye bye, get more sleep zzz
 
 ## FAQ
 
-**Q**: how to do this user guide?
+**Q**: Who is this product for?
 
-**A**: just do it. rmb update summary below.
+**A**: For those wanting to learn more about CS2113/ Java OOP concepts!
 
-## Command Summary
+## Command Summary of [features](#features)
 
 * View help `help`
 * Start game `topic TOPIC_NUM` e.g. `topic 1`

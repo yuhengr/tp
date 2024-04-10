@@ -68,7 +68,7 @@ public class Helper {
     public int getCommandsCount() {
         return commandList.size();
     }
-
+    //@@author ngxzs
     // returns random topic number from 1 to upperLimit - 1
     public int generateRandomNumber(int upperLimit) {
         assert (upperLimit != 1) : "upperLimit == 1 means topicList.getSize() = 0";

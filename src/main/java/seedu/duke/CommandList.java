@@ -1,5 +1,7 @@
 package seedu.duke;
 
+import seedu.duke.exceptions.CustomException;
+
 public enum CommandList {
 
     TOPIC, HELP, SOLUTION, EXPLAIN, RESULTS, TIMED_MODE, BYE, CUSTOM, CHECKPOINT, INVALID;
@@ -17,6 +19,7 @@ public enum CommandList {
     private static final String PATTERN_HELP = "(?i)help\\s*(\\w*)";
 
     private static final String PATTERN_RESULTS = "(?i)results\\s*(\\d+)";
+    private static final int FIRST_COMMAND_PARAM_INDEX = 0;
 
     public static String getTopicPattern() {
         return PATTERN_TOPIC;
@@ -26,9 +29,15 @@ public enum CommandList {
         return PATTERN_SOLUTION;
     }
 
-    public static CommandList getCommandToken(String command) {
+    public static CommandList getCommandToken(String command) throws CustomException {
         String[] splitCommand = command.split(" ");
-        String mainCommand = splitCommand[0].toLowerCase();
+        String mainCommand;
+
+        try {
+            mainCommand = splitCommand[FIRST_COMMAND_PARAM_INDEX].toLowerCase();
+        } catch (ArrayIndexOutOfBoundsException error) {
+            throw new CustomException("That's an invalid command");
+        }
 
         if (mainCommand.contentEquals("topic")) {
             return TOPIC;

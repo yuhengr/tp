@@ -1,4 +1,4 @@
-# Jason Chan - Project Portfolio Page
+# Ng Xin Zhe Sean - Project Portfolio Page
 
 ## Overview
 

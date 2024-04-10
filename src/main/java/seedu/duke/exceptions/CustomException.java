@@ -1,3 +1,4 @@
+//@@author ngxzs
 package seedu.duke.exceptions;
 
 public class CustomException extends Exception{

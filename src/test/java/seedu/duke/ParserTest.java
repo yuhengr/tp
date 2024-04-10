@@ -1,3 +1,4 @@
+//@@author ngxzs
 package seedu.duke;
 
 import org.junit.jupiter.api.Test;
@@ -96,6 +97,7 @@ class ParserTest {
         questionsList2.addQuestion(question4);
     }
 
+    //@@author cyhjason29
     void createFourQuestions() {
         question1 = new Question("question1", "solution1", "explanation1",
                 new String[]{"optionA","optionB","optionC","optionD"});
@@ -144,9 +146,5 @@ class ParserTest {
 
         assertThrows(CustomException.class,
                 () -> runParserCommand(command));
-    }
-
-    @Test
-    void handleAnswerInputs() {
     }
 }
