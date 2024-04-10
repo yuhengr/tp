@@ -9,7 +9,7 @@ Prerequisites: JDK 11, Player2113 release `JDK` file
 Start the programme with the following command:
 
 ```
-java -jar Player2113.jar
+java --jar Player2113.jar
 ```
 
 You will see the welcome screen upon successful start-up:
@@ -181,9 +181,9 @@ bye bye, get more sleep zzz
 
 ## FAQ
 
-**Q**: how to do this user guide?
+**Q**: Who is this product for?
 
-**A**: just do it. rmb update summary below.
+**A**: For those wanting to learn more about CS2113/ Java OOP concepts!
 
 ## Command Summary of [features](#features)
 
