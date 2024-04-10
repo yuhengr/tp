@@ -14,7 +14,7 @@ public enum CommandList {
 
     private static final String PATTERN_CUSTOM = "(?i)custom";
 
-    private static final String PATTERN_EXPLANATION = "(?i)explanation\\s*(\\d+)\\s*(\\d+)";
+    private static final String PATTERN_EXPLAIN = "(?i)explain\\s*(\\d+)\\s*(.*)";
 
     private static final String PATTERN_HELP = "(?i)help\\s*(\\w*)";
 
@@ -27,6 +27,10 @@ public enum CommandList {
 
     public static String getSolutionPattern() {
         return PATTERN_SOLUTION;
+    }
+
+    public static String getExplainPattern() {
+        return PATTERN_EXPLAIN;
     }
 
     public static CommandList getCommandToken(String command) throws CustomException {
@@ -49,7 +53,7 @@ public enum CommandList {
             return CUSTOM;
         } else if (mainCommand.contentEquals("checkpoint")) {
             return CHECKPOINT;
-        } else if (mainCommand.contentEquals("explanation")) {
+        } else if (mainCommand.contentEquals("explain")) {
             return EXPLAIN;
         } else if (mainCommand.contentEquals("results")) {
             return RESULTS;
@@ -58,7 +62,7 @@ public enum CommandList {
         } else if (mainCommand.contentEquals("bye")) {
             return BYE;
         } else {
-            return INVALID;
+            throw new CustomException("That's not a valid command.");
         }
     }
 }

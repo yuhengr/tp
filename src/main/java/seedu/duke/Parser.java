@@ -93,8 +93,9 @@ public class Parser {
             } else if (commandToken == CommandList.CHECKPOINT) {
                 handleCheckpointCommand(command, ui, topicList, questionListByTopic, allResults,
                         userAnswers, progressManager);
-            } else if (lowerCaseCommand.startsWith(EXPLAIN_PARAMETER)) {
-                processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
+            } else if (commandToken == CommandList.EXPLAIN) {
+                //processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
+                handleExplainCommandRegEx(command, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith(RESULTS_PARAMETER)) {
                 processResultsCommand(lowerCaseCommand, allResults, ui, questionListByTopic, userAnswers);
             } else if (lowerCaseCommand.contentEquals(BYE_PARAMETER)) {
@@ -394,6 +395,26 @@ public class Parser {
             ui.printNoSolutionAccess();
         }
     }
+    private void handleExplainCommandRegEx(
+            String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
+            throws CustomException {
+        System.out.println("Handling explain command, using RegEx.");
+
+        Pattern explainPattern = Pattern.compile(CommandList.getExplainPattern());
+        Matcher matcher = explainPattern.matcher(command);
+        boolean foundMatch = matcher.find();
+
+        if(!foundMatch) {
+            throw new CustomException("Exception caught! You've entered an invalid format.");
+        }
+
+        String topicNumParam = matcher.group(FIRST_PARAMETER);
+        String questionNumParam = matcher.group(SECOND_PARAMETER);
+
+        int topicNum = getTopicNum(topicNumParam);
+        int questionNum = getQuestionNum(questionNumParam);
+    }
+
     //@@author ngxzs
     private void processExplainCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
@@ -619,6 +640,28 @@ public class Parser {
         }
         ui.askForResume();
         return true;
+    }
+
+    private int getQuestionNum (String input) throws CustomException {
+        System.out.println("Attempting to get question number.");
+        System.out.println("You've entered question num param: " + input);
+
+        final int DUMMY_NUM = 0;
+        return DUMMY_NUM;
+    }
+
+    private int getTopicNum (String topicNumParam) throws CustomException {
+        System.out.println("Attempting to get topic number.");
+        System.out.println("You've entered topic num param: " + topicNumParam);
+
+        try {
+            int topicNum = Integer.parseInt(topicNumParam);
+            System.out.println("Topic num param interpreted as: " + topicNum);
+            return topicNum;
+        }
+        catch (NumberFormatException error) {
+            throw new CustomException("Exception caught! Unable to parse topic number provided.");
+        }
     }
 }
 
