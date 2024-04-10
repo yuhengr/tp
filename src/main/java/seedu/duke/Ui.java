@@ -13,6 +13,7 @@ public class Ui {
     private static final Scanner in = new Scanner(System.in);
     private static final String HEADER_ALL_RESULTS = "These are all your results so far:\n";
     private static final String MESSAGE_INPUT = "Input a command player!";
+    private static final String MESSAGE_NUMBER_USER_NAME = "Number ";
     private static final String MESSAGE_ANSWER = "Enter your answer: ";
     private static final String MESSAGE_ASK_RESUME = "The game is paused.\nInput \"resume\" to continue, " +
             "or \"bye\" to exit.";
@@ -384,13 +385,13 @@ public class Ui {
             System.out.println(MESSAGE_ASK_FOR_NAME_AGAIN);
         }
         String trimmedUserName = userName.trim();
-        String UserNameToPrint;
+        String userNameToPrint;
         if (isInteger(userName.trim())) {
-            UserNameToPrint = "Number " + trimmedUserName;
+            userNameToPrint = MESSAGE_NUMBER_USER_NAME + trimmedUserName;
         } else {
-            UserNameToPrint = trimmedUserName;
+            userNameToPrint = trimmedUserName;
         }
-        System.out.println("Hello " + UserNameToPrint);
+        System.out.println("Hello " + userNameToPrint);
         printLine();
     }
 
