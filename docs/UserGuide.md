@@ -146,6 +146,7 @@ Pauses the game so that the user may choose to exit the game in the middle of an
 Format: `pause`
 
 - This command is valid only when the user is answering the topic questions.
+- User cannot pause when in timed mode.
 
 ### 9. Resuming the game: `resume`
 
