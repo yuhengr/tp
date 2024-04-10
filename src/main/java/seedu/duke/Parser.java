@@ -116,6 +116,7 @@ public class Parser {
         ui.printTable(tableHeader, printData);
     }
 
+    //@@author cyhjason29
     private void processResultsCommand(String lowerCaseCommand, ResultsList allResults, Ui ui,
                                        QuestionListByTopic questionListByTopic, AnswerTracker userAnswers)
             throws CustomException {
@@ -166,6 +167,7 @@ public class Parser {
             throw new CustomException(MESSAGE_NO_RESULTS);
         }
     }
+    //@@author
 
     private void beginStartCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
@@ -587,6 +589,7 @@ public class Parser {
         }
     }
 
+    //@@author cyhjason29
     public boolean checkPause(String answer, ResultsList allResults, TopicList topicList,
                               AnswerTracker userAnswers, Ui ui, Storage storage, boolean isPaused, boolean isTimedMode,
                               ArrayList<String> allAnswers, ArrayList<Boolean> answersCorrectness,
