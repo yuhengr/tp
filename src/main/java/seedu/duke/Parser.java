@@ -394,7 +394,7 @@ public class Parser {
             ui.printNoSolutionAccess();
         }
     }
-
+    //@@author ngxzs
     private void processExplainCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
@@ -427,6 +427,7 @@ public class Parser {
         }
     }
 
+    //@@author
     private void handleCustomCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
             ResultsList allResults, AnswerTracker userAnswers, ProgressManager progressManager)
@@ -529,7 +530,7 @@ public class Parser {
             System.out.println("You've chosen a goal of " + progressManager.getCheckpointModeGoal() + " questions.");
         }
     }
-
+    //@@author ngxzs
     // checks valid command type and parameters: returns true if 2 parameters, else false (1 param only)
     private static boolean checkIfTwoParameters(
             String expectedCommandType, String[] commandParts) throws CustomException {
@@ -565,6 +566,7 @@ public class Parser {
         return parameterNum;
     }
 
+    //@@author
     public void handleAnswerInputs(String[] inputAnswers, int index, String answer, Question questionUnit,
                                    Results topicResults, ArrayList<Boolean> correctness) {
         inputAnswers[index] = answer;

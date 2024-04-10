@@ -272,8 +272,8 @@ public class Storage {
             fileWriter.write("correctness " + listOfCorrectness + System.lineSeparator());
         }
     }
-    //@@author
 
+    //@@author ngxzs
     // creates question list1,2 etc
     public void updateQuestionList(int questionListIndex, QuestionsList questionList) throws CustomException {
         int questionListNum = questionListIndex + 1; // +1 coz 0 index
@@ -289,7 +289,7 @@ public class Storage {
             throw new CustomException("unable to create questionList" + questionListNum);
         }
     }
-
+    // Adds questions for questionsList1
     private void updateQuestionList1(QuestionsList questionList) {
         Question question1 = new Question(
                 "What language does CS2113 use?",
@@ -365,7 +365,7 @@ public class Storage {
         questionList.addQuestion(question6);
         questionList.addQuestion(question7);
     }
-
+    // Adds questions for questionList2
     private void updateQuestionList2(QuestionsList questionsList) {
         Question question1 = new Question(
                 "One should never prioritize efficiency or performance over readability",

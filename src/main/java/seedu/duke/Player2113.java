@@ -23,6 +23,7 @@ public class Player2113 {
     private ProgressManager progressManager;
     private final Helper helper;
 
+    //@@author ngxzs
     public Player2113(String someFilePath) {
         questionsList1 = new QuestionsList();
         questionsList2 = new QuestionsList();
@@ -60,7 +61,7 @@ public class Player2113 {
         topicList.addTopic(topic1);
         topicList.addTopic(topic2);
     }
-
+    //@@author
     public void run() {
         ui.sayHi();
         File saveFile = new File(FILE_PATH_STORAGE);
@@ -135,8 +136,8 @@ public class Player2113 {
         ui.resumeTopic(pausedQuestion, topicList, questionListByTopic, allResults, userAnswers, storage, ui,
                 answers, correctness, topicResults);
     }
-    //@@author
 
+    //@@author ngxzs
     public static void main(String[] args) {
         new Player2113(SOME_FILE_PATH).run();
     }

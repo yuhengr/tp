@@ -47,6 +47,7 @@ public class Ui {
         System.out.println();
     }
 
+    //@@author ngxzs
     public void readCommands(
             Ui ui, TopicList topicList,
             QuestionListByTopic questionListByTopic, ResultsList allResults, Helper helper, AnswerTracker userAnswers,
@@ -68,11 +69,11 @@ public class Ui {
 
         sayBye();
     }
-
+    //@@author ngxzs
     private void askForInput() {
-        System.out.println("Input a command player!"); // TODO: show possible commands
+        System.out.println("Input a command player!");
     }
-
+    //@@author
     public void askForAnswerInput(){
         System.out.print("Enter your answer: ");
     }
@@ -265,7 +266,7 @@ public class Ui {
     public void printQuestion(Question questionUnit){
         System.out.println(questionUnit.getQuestion());
     }
-
+    //@@author ngxzs
     public void printOneSolution(int questionNum, String solution) {
         System.out.println("The solution for question " + questionNum + ":"
                 + System.lineSeparator() + solution);
@@ -321,8 +322,8 @@ public class Ui {
                     : "\nYou got it " + ((isCorrectAnswer) ? "right!\n" : "wrong!\n")));
         }
     }
-    //@@author
 
+    //@@author ngxzs
     public void handleException(CustomException e) {
         System.out.println(e.getMessage());
     }
@@ -355,6 +356,7 @@ public class Ui {
         printLine();
     }
 
+    //@@author
     public void printTable(String[] headers, String[][] data) {
         System.out.println(ASCIITable.getInstance().getTable(headers, data));
     }
