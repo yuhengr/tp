@@ -1,4 +1,4 @@
-# Player2113
+# [Player2113](https://github.com/AY2324S2-CS2113-F15-1/tp/releases)
 
 A CLI tool to help COMP2113 student revise conceptual questions in a gamification environment.
 
@@ -36,7 +36,7 @@ What is your name?
 > + Words in UPPER_CASE are COMPULSORY parameters to be supplied by the user.
 > + Items in square brackets are optional
     e.g. in `solution TOPIC_NUM [INDEX]`, `TOPIC_NUM` is a compulsory parameter like `solution 1 1`,
->   while `INDEX` is an optional parameter like `solution 1`
+> while `INDEX` is an optional parameter like `solution 1`
 
 1. [topic](#1-starting-game-topic)
 2. [results](#2-viewing-results-results)
@@ -181,7 +181,7 @@ bye bye, get more sleep zzz
 
 **A**: just do it. rmb update summary below.
 
-## Command Summary
+## Command Summary of [features](#features)
 
 * View help `help`
 * Start game `topic TOPIC_NUM` e.g. `topic 1`
