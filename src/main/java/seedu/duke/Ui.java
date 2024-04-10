@@ -12,18 +12,31 @@ import java.util.TimerTask;
 public class Ui {
     private static final Scanner in = new Scanner(System.in);
     private static final String HEADER_ALL_RESULTS = "These are all your results so far:\n";
+    private static final String MESSAGE_INPUT = "Input a command player!";
+    private static final String MESSAGE_ANSWER = "Enter your answer: ";
     private static final String MESSAGE_ASK_RESUME = "The game is paused.\nInput \"resume\" to continue, " +
             "or \"bye\" to exit.";
     private static final String MESSAGE_RESUME = "The game has been resumed.";
+
     private static final String MESSAGE_CANNOT_PAUSE = "You cannot pause in timed mode!";
     private static final String MESSAGE_TOPIC_FINISHED = "You have finished the topic! What will be your " +
             "next topic?";
+    private static final String MESSAGE_ALL_TOPICS = "Here are the topics in CS2113:";
+    private static final String MESSAGE_TOPIC_DONE = " (DONE)";
+    private static final String MESSAGE_ONE_SOLUTION = "The solution for question ";
+    private static final String MESSAGE_ONE_EXPLANATION = "The explanation for question ";
+    private static final String MESSAGE_ALL_SOLUTIONS = "The solutions are :";
+    private static final String MESSAGE_ALL_EXPLANATIONS = "The explanations are :";
+    private static final String MESSAGE_ASK_FOR_NAME = "What is your name?";
+    private static final String MESSAGE_ASK_FOR_NAME_AGAIN = "Good try, but I still don't know who I'm talking to";
+    private static final String MESSAGE_SAY_BYE = "Most often, the problem is not the lack of time but the lack of " +
+            "direction";
     private static final String ANSWER_TIMEOUT = "You ran out of time!";
 
     private static final int INDEX_TOPIC_NUM = 0;
     private static final int INDEX_INDEX = 1;
 
-    private static final int NEW_LINE = 48;
+    private static final int NEW_LINE_LENGTH = 48;
     private static final boolean IS_TIMED_MODE = true;
     public boolean isPlaying = true;
 
@@ -47,13 +60,13 @@ public class Ui {
         System.out.println();
     }
 
+    //@@author ngxzs
     public void readCommands(
             Ui ui, TopicList topicList,
             QuestionListByTopic questionListByTopic, ResultsList allResults, Helper helper, AnswerTracker userAnswers,
             Storage storage, ProgressManager progressManager
     ) {
         Parser parser = new Parser();
-        printLine();
 
         while(isPlaying) {
             ui.askForInput();
@@ -68,23 +81,29 @@ public class Ui {
 
         sayBye();
     }
-
+    //@@author ngxzs
     private void askForInput() {
-        System.out.println("Input a command player!"); // TODO: show possible commands
+        System.out.println(MESSAGE_INPUT);
     }
-
+    //@@author
     public void askForAnswerInput(){
-        System.out.print("Enter your answer: ");
+        System.out.print(MESSAGE_ANSWER);
     }
 
     public void printTopicList(TopicList topicList, Ui ui){
         int topicListSize = topicList.getSize();
-        System.out.println("Here are the topics in CS2113:");
+        System.out.println(MESSAGE_ALL_TOPICS);
         for (int index = 0; index < topicListSize; index++) {
-            System.out.println((index + 1) + ". " + topicList.getTopic(index));
+            System.out.print((index + 1) + ". " + topicList.getTopic(index));
+            if (topicList.get(index).hasAttempted()) {
+                System.out.print(MESSAGE_TOPIC_DONE);
+            }
+            System.out.println();
         }
         System.out.println((topicListSize + 1) + ". " + "Randomly select a topic for me ;)");
+        printLine();
         System.out.println("Please choose a topic to play:");//input command in the form "start [INDEX]
+        printLine();
     }
 
     public void printChosenTopic(
@@ -111,6 +130,7 @@ public class Ui {
         ArrayList<Boolean> answersCorrectness = new ArrayList<>();
 
         for (indexGlobal = 0; indexGlobal < numOfQns; indexGlobal++){//go through 1 question set
+            printLine();
             displayProgressBar(indexGlobal, numOfQns);
             questionUnit = qnList.getQuestionUnit(indexGlobal);
             topicResults.increaseNumberOfQuestions();
@@ -199,6 +219,7 @@ public class Ui {
 
     public void printFinishedTopic(){
         System.out.println(MESSAGE_TOPIC_FINISHED);
+        printLine();
     }
   
     public void printSelectedTopic(TopicList topicList, int topicNum){
@@ -263,25 +284,26 @@ public class Ui {
     }
 
     public void printQuestion(Question questionUnit){
+        printLine();
         System.out.println(questionUnit.getQuestion());
     }
-
+    //@@author ngxzs
     public void printOneSolution(int questionNum, String solution) {
-        System.out.println("The solution for question " + questionNum + ":"
+        System.out.println(MESSAGE_ONE_SOLUTION + questionNum + ":"
                 + System.lineSeparator() + solution);
     }
 
     public void printOneExplanation(int questionNum, String explanation) {
-        System.out.println("The explanation for question " + questionNum + ":"
+        System.out.println(MESSAGE_ONE_EXPLANATION + questionNum + ":"
                 + System.lineSeparator() + explanation);
     }
     public void printAllSolutions(String allSolutions) {
-        System.out.print("The solutions are :"
+        System.out.print(MESSAGE_ALL_SOLUTIONS
                 + System.lineSeparator() + allSolutions);
     }
 
     public void printAllExplanations(String allExplanations) {
-        System.out.print("The explanations are :"
+        System.out.print(MESSAGE_ALL_EXPLANATIONS
                 + System.lineSeparator() + allExplanations);
     }
 
@@ -321,13 +343,13 @@ public class Ui {
                     : "\nYou got it " + ((isCorrectAnswer) ? "right!\n" : "wrong!\n")));
         }
     }
-    //@@author
 
+    //@@author ngxzs
     public void handleException(CustomException e) {
         System.out.println(e.getMessage());
     }
     public void printLine() {
-        for (int i = 0; i < NEW_LINE; i += 1) {
+        for (int i = 0; i < NEW_LINE_LENGTH; i += 1) {
             System.out.print("*");
         }
         System.out.println();
@@ -345,16 +367,21 @@ public class Ui {
                 "               |___/";
 
         System.out.println("Hello from\n" + logo);
-        System.out.println("What is your name?");
-        System.out.println("Hello " + in.nextLine());
+        System.out.println(MESSAGE_ASK_FOR_NAME);
+        String userName = in.nextLine();
+        while (userName.contentEquals("") || userName.startsWith(" ")) {
+            System.out.println(MESSAGE_ASK_FOR_NAME_AGAIN);
+        }
+        System.out.println("Hello " + userName);
         printLine();
     }
 
     public void sayBye() {
-        System.out.println("bye bye, get more sleep zzz");
+        System.out.println(MESSAGE_SAY_BYE);
         printLine();
     }
 
+    //@@author
     public void printTable(String[] headers, String[][] data) {
         System.out.println(ASCIITable.getInstance().getTable(headers, data));
     }

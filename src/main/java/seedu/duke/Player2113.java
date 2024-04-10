@@ -23,6 +23,7 @@ public class Player2113 {
     private ProgressManager progressManager;
     private final Helper helper;
 
+    //@@author ngxzs
     public Player2113(String someFilePath) {
         questionsList1 = new QuestionsList();
         questionsList2 = new QuestionsList();
@@ -55,12 +56,12 @@ public class Player2113 {
         }
 
         // Step 3 here!
-        Topic topic1 = new Topic(questionsList1, "topic1", false, "Covers topic 1 notions mentioned in lecture 1-2");
-        Topic topic2 = new Topic(questionsList2, "topic2", false, "Covers topic 2 notions mentioned in lecture 3-4");
+        Topic topic1 = new Topic(questionsList1, "Software Engineering Concepts I", false, "Covers lecture 1-2");
+        Topic topic2 = new Topic(questionsList2, "Software Engineering Concepts II", false, "Covers lecture 3-4");
         topicList.addTopic(topic1);
         topicList.addTopic(topic2);
     }
-
+    //@@author
     public void run() {
         ui.sayHi();
         File saveFile = new File(FILE_PATH_STORAGE);
@@ -135,8 +136,8 @@ public class Player2113 {
         ui.resumeTopic(pausedQuestion, topicList, questionListByTopic, allResults, userAnswers, storage, ui,
                 answers, correctness, topicResults);
     }
-    //@@author
 
+    //@@author ngxzs
     public static void main(String[] args) {
         new Player2113(SOME_FILE_PATH).run();
     }

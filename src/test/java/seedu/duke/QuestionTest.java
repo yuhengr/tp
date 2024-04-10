@@ -17,20 +17,17 @@ class QuestionTest {
     final String explanation1 = "explanation1";
     final String[] options1 = new String[]{"optionA","optionB","optionC","optionD"};
 
+    //@@author ngxzs
     void createQuestion() {
         oneQuestion = new Question(question1, solution1, explanation1,options1);
     }
-
-    // 3 part format
-    // methodBeingTested_conditionToTest_expectedOutcome
-
     @Test
     void getExplanation_oneQuestion_expectExplanation() {
         createQuestion();
 
         assertEquals(explanation1, oneQuestion.getExplanation());
     }
-
+    //@@author cyhjason29
     @Test
     void getQuestion_oneQuestion_expectQuestion() {
         createQuestion();
@@ -40,6 +37,7 @@ class QuestionTest {
                 + OPTION_D + "optionD", oneQuestion.getQuestion());
     }
 
+    //@@author ngxzs
     @Test
     void getSolution_oneQuestion_expectSolution() {
         createQuestion();
