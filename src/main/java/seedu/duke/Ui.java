@@ -294,8 +294,9 @@ public class Ui {
         System.out.println(HEADER_ALL_RESULTS);
         for (int i = 0; i < numberOfResults; i++) {
             int topicNum = allResults.getTopicNum(i);
-            System.out.println("Your results for Topic " + (topicNum + 1) + ":\n"
-                    + allResults.getSpecifiedResult(i).getScore() + "\n");
+            System.out.println("Attempt " + (i+1) + ": " + System.lineSeparator() + "Your results for Topic " +
+                    (topicNum + 1) + ":" + System.lineSeparator() + allResults.getSpecifiedResult(i).getScore()
+                    + System.lineSeparator());
             if (includesDetails) {
                 printResultDetails(questionListByTopic, topicNum, i, userAnswers);
             }
