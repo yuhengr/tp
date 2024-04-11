@@ -124,6 +124,7 @@ public class Ui {
 
             Parser parser = new Parser();
             boolean isPaused = false;
+            boolean isCorrectFormat = false;
             boolean wasPaused;
 
             do {
@@ -132,7 +133,10 @@ public class Ui {
                 answer = in.nextLine();
                 isPaused = parser.checkPause(answer, allResults, topicList, userAnswers, ui, storage, isPaused,
                         isTimedMode, allAnswers, answersCorrectness, topicResults, topicNum, indexGlobal);
-            } while (isPaused || wasPaused);
+                if (!isPaused && !answer.equalsIgnoreCase(RESUME)) {
+                    isCorrectFormat = parser.checkFormat(answer, ui);
+                }
+            } while (isPaused || wasPaused || !isCorrectFormat);
 
             if (!isTimesUp) {
                 parser.handleAnswerInputs(inputAnswers, indexGlobal, answer, questionUnit,
@@ -244,14 +248,18 @@ public class Ui {
             Parser parser = new Parser();
             boolean isPaused = false;
             boolean wasPaused;
+            boolean isCorrectFormat = false;
 
             do {
                 wasPaused = isPaused;
                 askForAnswerInput();
                 answer = in.nextLine();
                 isPaused = parser.checkPause(answer, allResults, topicList, userAnswers, ui, storage, isPaused,
-                        !IS_TIMED_MODE, answers, correctness, topicResults, topicNum, index);
-            } while (isPaused || wasPaused);
+                        !IS_TIMED_MODE, answers, correctness, topicResults, topicNum, indexGlobal);
+                if (!isPaused && !answer.equalsIgnoreCase(RESUME)) {
+                    isCorrectFormat = parser.checkFormat(answer, ui);
+                }
+            } while (isPaused || wasPaused || !isCorrectFormat);
 
             parser.handleAnswerInputs(inputAnswers, index, answer, questionUnit, topicResults, correctness);
             answers.add(answer);
