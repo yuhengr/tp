@@ -19,6 +19,8 @@ public class Ui {
     private static final String MESSAGE_TOPIC_FINISHED = "You have finished the topic! What will be your " +
             "next topic?";
     private static final String ANSWER_TIMEOUT = "You ran out of time!";
+    private static final String MESSAGE_ANSWER_FORMAT = "Your answer must be either a, b, c, or d!";
+    private static final String RESUME = "resume";
 
     private static final int INDEX_TOPIC_NUM = 0;
     private static final int INDEX_INDEX = 1;
@@ -335,7 +337,7 @@ public class Ui {
         for (int i = 0; i < numberOfResults; i++) {
             int topicNum = allResults.getTopicNum(i);
             System.out.println("Attempt " + (i+1) + ": " + System.lineSeparator() + "Your results for Topic " +
-                    (topicNum + 1) + ":" + System.lineSeparator() + allResults.getSpecifiedResult(i).getScore()
+                    (topicNum + 1) + ":\n" + allResults.getSpecifiedResult(i).getScore()
                     + System.lineSeparator());
             if (includesDetails) {
                 printResultDetails(questionListByTopic, topicNum, i, userAnswers);

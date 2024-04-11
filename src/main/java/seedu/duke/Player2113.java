@@ -11,6 +11,8 @@ public class Player2113 {
     public static final String SOME_FILE_PATH = "something";
     private static final String FILE_PATH_STORAGE = "data/player2113.txt";
     private static final String MESSAGE_FILE_ERROR = "There was an error locating the save file.";
+    private static final String YES = "yes";
+    private static final String NO = "no";
 
     private Ui ui;
     private QuestionsList questionsList1;
@@ -78,12 +80,12 @@ public class Player2113 {
                     Parser parser = new Parser();
                     decision = in.nextLine();
 
-                } while (!(decision.equals("yes")) && !(decision.equals("no")));
-                if (decision.equals("yes")) {
+                } while (!(decision.equals(YES)) && !(decision.equals(NO)));
+                if (decision.equals(YES)) {
                     loadQuestion(saveFile);
                     topicList.displayProgressBar();
                     ui.printFinishedTopic();
-                } else if (decision.equals("no")) {
+                } else if (decision.equals(NO)) {
                     ui.confirmSelection();
                     String confirmDecision;
                     do {
@@ -91,8 +93,8 @@ public class Player2113 {
                         Parser parser = new Parser();
                         confirmDecision = input.nextLine();
 
-                    } while (!(confirmDecision.equals("yes")) && !(confirmDecision.equals("no")));
-                    if (confirmDecision.equals("no")) {
+                    } while (!(confirmDecision.equals(YES)) && !(confirmDecision.equals(NO)));
+                    if (confirmDecision.equals(NO)) {
                         ui.showResume();
                         loadQuestion(saveFile);
                         topicList.displayProgressBar();

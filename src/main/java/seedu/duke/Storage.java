@@ -42,10 +42,20 @@ public class Storage {
     private static final int TWO_PARAMETERS = 2;
     private static final String RESULTS_SEPARATOR = "\\+";
     private static final String ARG_SEPARATOR = "\\|";
+    private static final String SAVE_PAUSE_HEADER = "pause ";
+    private static final String SAVE_ARG_SEPARATOR = " | ";
     private static final String FILE_PATH = "data/player2113.txt";
     private static final String FOLDER_NAME = "data";
     private static final String MESSAGE_ERROR_INIT = "There was an error initiating the save file.";
     private static final String MESSAGE_ERROR_WRITING = "There was an error writing to the save file.";
+    private static final String TEMP_RESULT = "temp_result ";
+    private static final String TEMP_ANSWER = "temp_answer ";
+    private static final String TEMP_CORRECTNESS = "temp_correctness ";
+    private static final String SAVE_RESULT_HEADER = "result ";
+    private static final String SAVE_RESULTS_SEPARATOR = " + ";
+    private static final String SAVE_TOPIC_HEADER = "topic ";
+    private static final String SAVE_ANSWER_HEADER = "answer ";
+    private static final String SAVE_CORRECTNESS_HEADER = "correctness ";
 
     private static boolean isPaused;
 
@@ -302,7 +312,7 @@ public class Storage {
                                   Results topicResults, FileWriter fileWriter, int topicNum, int index)
             throws IOException {
 
-        fileWriter.write("pause " + topicNum + " | " + index + System.lineSeparator());
+        fileWriter.write(SAVE_PAUSE_HEADER + topicNum + SAVE_ARG_SEPARATOR + index + System.lineSeparator());
 
         StringBuilder listOfAnswers = new StringBuilder();
         StringBuilder listOfCorrectness = new StringBuilder();
@@ -315,17 +325,17 @@ public class Storage {
         for (int i = 1; i < allAnswers.size(); i++) {
             String answer = allAnswers.get(i);
             boolean correctness = answersCorrectness.get(i);
-            listOfAnswers.append(" | ").append(answer);
-            listOfCorrectness.append(" | ").append(correctness);
+            listOfAnswers.append(SAVE_ARG_SEPARATOR).append(answer);
+            listOfCorrectness.append(SAVE_ARG_SEPARATOR).append(correctness);
         }
 
         int numberOfCorrectAnswers = topicResults.getNumberOfCorrectAnswers();
         int totalNumberOfQuestions = topicResults.getTotalNumberOfQuestions();
 
-        fileWriter.write("temp_result " + numberOfCorrectAnswers + " | " + totalNumberOfQuestions
+        fileWriter.write(TEMP_RESULT + numberOfCorrectAnswers + SAVE_ARG_SEPARATOR + totalNumberOfQuestions
                 + System.lineSeparator());
-        fileWriter.write("temp_answer " + listOfAnswers + System.lineSeparator());
-        fileWriter.write("temp_correctness " + listOfCorrectness + System.lineSeparator());
+        fileWriter.write(TEMP_ANSWER + listOfAnswers + System.lineSeparator());
+        fileWriter.write(TEMP_CORRECTNESS + listOfCorrectness + System.lineSeparator());
     }
 
     /**
@@ -349,14 +359,15 @@ public class Storage {
             int totalNumberOfQuestions = result.getTotalNumberOfQuestions();
             String score = result.getScore();
             int topicNum = topicsChosen.get(i);
-            fileWriter.write("result " + numberOfCorrectAnswers + " + " + totalNumberOfQuestions + " + " +
-                    score + " | " + topicNum + System.lineSeparator());
+            fileWriter.write(SAVE_RESULT_HEADER + numberOfCorrectAnswers + SAVE_RESULTS_SEPARATOR
+                    + totalNumberOfQuestions + SAVE_RESULTS_SEPARATOR + score + SAVE_ARG_SEPARATOR + topicNum
+                    + System.lineSeparator());
         }
 
         ArrayList<Topic> topicList = topics.getTopicList();
         for (Topic topic : topicList) {
             if (topic.hasAttempted()) {
-                fileWriter.write("topic " + topic.getTopicName() + System.lineSeparator());
+                fileWriter.write(SAVE_TOPIC_HEADER + topic.getTopicName() + System.lineSeparator());
             }
         }
 
@@ -371,11 +382,11 @@ public class Storage {
             for (int j = 1; j < userAnswers.get(i).size(); j++) {
                 String answer = userAnswers.get(i).get(j);
                 boolean correctness = isCorrect.get(i).get(j);
-                listOfAnswers.append(" | ").append(answer);
-                listOfCorrectness.append(" | ").append(correctness);
+                listOfAnswers.append(SAVE_ARG_SEPARATOR).append(answer);
+                listOfCorrectness.append(SAVE_ARG_SEPARATOR).append(correctness);
             }
-            fileWriter.write("answer " + listOfAnswers + System.lineSeparator());
-            fileWriter.write("correctness " + listOfCorrectness + System.lineSeparator());
+            fileWriter.write(SAVE_ANSWER_HEADER + listOfAnswers + System.lineSeparator());
+            fileWriter.write(SAVE_CORRECTNESS_HEADER + listOfCorrectness + System.lineSeparator());
         }
     }
     //@@author

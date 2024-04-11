@@ -54,6 +54,12 @@ public class Parser {
     private static final String MESSAGE_UNSPECIFIED_TIME = "Please specify a time limit";
     private static final String MESSAGE_INVALID_TIME = "Time limit must be more than 0 seconds";
 
+    private static final String OPTION_A = "a";
+    private static final String OPTION_B = "b";
+    private static final String OPTION_C = "d";
+    private static final String OPTION_D = "d";
+
+
     // non-constant attributes
     private boolean isTimedMode = false;
 
