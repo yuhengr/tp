@@ -120,6 +120,7 @@ public class Parser {
     }
 
     private void processListCommand(TopicList topicList, Ui ui) {
+        topicList.displayProgressBar();
         String[][] printData = topicList.listAllTopics();
         String[] tableHeader = {"index", "topic", "summary", "attempted"};
         ui.printTable(tableHeader, printData);

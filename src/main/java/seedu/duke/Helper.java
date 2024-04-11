@@ -3,6 +3,7 @@ package seedu.duke;
 import java.util.ArrayList;
 import java.util.Random;
 
+//@@author songyuew
 public class Helper {
     private static final ArrayList<Command> commandList = new ArrayList<Command>();
 
@@ -51,6 +52,7 @@ public class Helper {
         );
     }
 
+    //@@author songyuew
     public String[][] listAllCommands() {
         assert getCommandsCount() > 0 : "Available commands list is empty";
         int commandNum = commandList.size();
@@ -65,6 +67,7 @@ public class Helper {
         return tableData;
     }
 
+    //@@author songyuew
     public int getCommandsCount() {
         return commandList.size();
     }

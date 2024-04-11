@@ -467,7 +467,7 @@ public class Ui {
         printLine();
     }
 
-    //@@author
+    //@@author songyuew
     public void printTable(String[] headers, String[][] data) {
         System.out.println(ASCIITable.getInstance().getTable(headers, data));
     }
@@ -491,7 +491,7 @@ public class Ui {
     /**
      * Prints to the user that the game cannot be paused in timed mode.
      */
-    public void showCannotPause() {
+    public static void showCannotPause() {
         System.out.println(MESSAGE_CANNOT_PAUSE);
     }
 
