@@ -1,5 +1,7 @@
 package seedu.duke;
 
+
+//@@author songyuew
 public class ProgressBar {
     private int totalSteps;
     private int completedSteps;
