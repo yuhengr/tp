@@ -621,7 +621,6 @@ public class Parser {
             ui.showResume();
             return false;
         }
-        System.out.print("Current progress: ");
         ui.askForResume();
         return true;
     }
