@@ -398,7 +398,6 @@ public class Parser {
     private void handleExplainCommandRegEx(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
-        System.out.println("Handling explain command, using RegEx.");
 
         Pattern explainPattern = Pattern.compile(CommandList.getExplainPattern());
         Matcher matcher = explainPattern.matcher(command);
@@ -419,18 +418,32 @@ public class Parser {
             throw new CustomException("Exception caught! You've entered a parameter that is too long.");
         }
 
-        int topicNum = getTopicNum(topicNumParam);
-        final int uninitialized = -1;
-        int questionNum = uninitialized;
+        final int numOfTopics = topicList.getSize();
+        int topicNum = getTopicNum(topicNumParam, numOfTopics);
+        QuestionsList qnList = questionListByTopic.getQuestionSet(topicNum - 1);
+
+        final int uninitializedQuestionNum = -1;
+        int questionNum = uninitializedQuestionNum;
+        final int numOfQuestions = qnList.getSize();
         if(isQuestionNumParamProvided) {
-            questionNum = getQuestionNum(questionNumParam);
+            questionNum = getQuestionNum(questionNumParam, numOfQuestions);
         }
 
-        System.out.println("Topic number and question number extracted.");
-        System.out.println("Topic number: " + topicNum);
-        System.out.println("Question number: " + (isQuestionNumParamProvided? questionNum : "no qn number given"));
+        boolean hasAttemptedTopicBefore = topicList.get(topicNum - 1).hasAttempted();
 
-        System.out.println("Preparing explanation...");
+        if(hasAttemptedTopicBefore) {
+            if(isQuestionNumParamProvided) {
+                String selectedExplanation = qnList.getOneExplanation(questionNum);
+                ui.printOneExplanation(questionNum, selectedExplanation);
+            }
+            else {
+                String allExplanations = qnList.getAllExplanations();
+                ui.printAllExplanations(allExplanations);
+            }
+        }
+        else {
+            ui.printNoSolutionAccess();
+        }
     }
 
     //@@author ngxzs
@@ -660,12 +673,14 @@ public class Parser {
         return true;
     }
 
-    private int getQuestionNum (String questionNumParam) throws CustomException {
-        System.out.println("You've entered question num param: \"" + questionNumParam + "\"");
+    private int getQuestionNum (String questionNumParam, int numOfQuestions) throws CustomException {
 
         try {
             int questionNum = Integer.parseInt(questionNumParam);
-            System.out.println("Question num param interpreted as: \"" + questionNum + "\"");
+
+            if(questionNum > numOfQuestions || questionNum <= 0) {
+                throw new CustomException("Exception caught! That's an invalid question number.");
+            }
             return questionNum;
         }
         catch (NumberFormatException error) {
@@ -673,12 +688,14 @@ public class Parser {
         }
     }
 
-    private int getTopicNum (String topicNumParam) throws CustomException {
-        System.out.println("You've entered topic num param: \"" + topicNumParam + "\"");
+    private int getTopicNum (String topicNumParam, int numOfTopics) throws CustomException {
 
         try {
             int topicNum = Integer.parseInt(topicNumParam);
-            System.out.println("Topic num param interpreted as: \"" + topicNum + "\"");
+
+            if(topicNum > numOfTopics || topicNum <= 0) {
+                throw new CustomException("Exception caught! You've entered an invalid topic number.");
+            }
             return topicNum;
         }
         catch (NumberFormatException error) {
