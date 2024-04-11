@@ -411,8 +411,26 @@ public class Parser {
         String topicNumParam = matcher.group(FIRST_PARAMETER);
         String questionNumParam = matcher.group(SECOND_PARAMETER);
 
+        boolean isTopicNumParamWithinRange = isParamWithinIntegerRange(topicNumParam);
+        boolean isQuestionNumParamWithinRange = isParamWithinIntegerRange(questionNumParam);
+        boolean isQuestionNumParamProvided = !questionNumParam.isEmpty();
+
+        if(!isTopicNumParamWithinRange || !isQuestionNumParamWithinRange) {
+            throw new CustomException("Exception caught! You've entered a parameter that is too long.");
+        }
+
         int topicNum = getTopicNum(topicNumParam);
-        int questionNum = getQuestionNum(questionNumParam);
+        final int uninitialized = -1;
+        int questionNum = uninitialized;
+        if(isQuestionNumParamProvided) {
+            questionNum = getQuestionNum(questionNumParam);
+        }
+
+        System.out.println("Topic number and question number extracted.");
+        System.out.println("Topic number: " + topicNum);
+        System.out.println("Question number: " + (isQuestionNumParamProvided? questionNum : "no qn number given"));
+
+        System.out.println("Preparing explanation...");
     }
 
     //@@author ngxzs
@@ -642,25 +660,41 @@ public class Parser {
         return true;
     }
 
-    private int getQuestionNum (String input) throws CustomException {
-        System.out.println("Attempting to get question number.");
-        System.out.println("You've entered question num param: " + input);
+    private int getQuestionNum (String questionNumParam) throws CustomException {
+        System.out.println("You've entered question num param: \"" + questionNumParam + "\"");
 
-        final int DUMMY_NUM = 0;
-        return DUMMY_NUM;
+        try {
+            int questionNum = Integer.parseInt(questionNumParam);
+            System.out.println("Question num param interpreted as: \"" + questionNum + "\"");
+            return questionNum;
+        }
+        catch (NumberFormatException error) {
+            throw new CustomException("Exception caught! Unable to parse question number provided.");
+        }
     }
 
     private int getTopicNum (String topicNumParam) throws CustomException {
-        System.out.println("Attempting to get topic number.");
-        System.out.println("You've entered topic num param: " + topicNumParam);
+        System.out.println("You've entered topic num param: \"" + topicNumParam + "\"");
 
         try {
             int topicNum = Integer.parseInt(topicNumParam);
-            System.out.println("Topic num param interpreted as: " + topicNum);
+            System.out.println("Topic num param interpreted as: \"" + topicNum + "\"");
             return topicNum;
         }
         catch (NumberFormatException error) {
             throw new CustomException("Exception caught! Unable to parse topic number provided.");
+        }
+    }
+
+    private boolean isParamWithinIntegerRange (String param) {
+        final int maxNumOfDigits = 9;
+        int paramLength = param.length();
+
+        if(paramLength <= maxNumOfDigits) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 }
