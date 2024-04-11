@@ -23,6 +23,7 @@ public class Player2113 {
     private ProgressManager progressManager;
     private final Helper helper;
 
+    //@@author ngxzs
     public Player2113(String someFilePath) {
         questionsList1 = new QuestionsList();
         questionsList2 = new QuestionsList();
@@ -37,12 +38,16 @@ public class Player2113 {
 
         ArrayList<QuestionsList> arrayOfQuestionsLists = new ArrayList<>();
         arrayOfQuestionsLists.add(questionsList1);
-        arrayOfQuestionsLists.add(questionsList2);
-        // to add more questionsList, 1. add line here + inspect storage.createQuestionList()
+        arrayOfQuestionsLists.add(questionsList2); // Step 1 here
+        // to add more questionsList,
+        // 1. add line here +
+        // 2. inspect storage.createQuestionList() +
+        // 3. Add to topics (below)
 
         try {
             for (int i = 0; i < arrayOfQuestionsLists.size(); i += 1) {
                 QuestionsList currentQuestionList = arrayOfQuestionsLists.get(i);
+                // Step 2 here
                 storage.updateQuestionList(i, currentQuestionList);
                 questionListByTopic.addQuestionSet(currentQuestionList);
             }
@@ -50,12 +55,13 @@ public class Player2113 {
             ui.handleException(e);
         }
 
-        Topic topic1 = new Topic(questionsList1, "topic1", false, "Covers topic 1 notions mentioned in lecture 1-2");
-        Topic topic2 = new Topic(questionsList2, "topic2", false, "Covers topic 2 notions mentioned in lecture 3-4");
+        // Step 3 here!
+        Topic topic1 = new Topic(questionsList1, "Software Engineering Concepts I", false, "Covers lecture 1-2");
+        Topic topic2 = new Topic(questionsList2, "Software Engineering Concepts II", false, "Covers lecture 3-4");
         topicList.addTopic(topic1);
         topicList.addTopic(topic2);
     }
-
+    //@@author
     public void run() {
         ui.sayHi();
         File saveFile = new File(FILE_PATH_STORAGE);
@@ -115,6 +121,7 @@ public class Player2113 {
 
     }
 
+    //@@author cyhjason29
     private void loadQuestion(File saveFile) throws CustomException {
         Results topicResults = new Results();
         ArrayList<String> answers = new ArrayList<>();
@@ -130,6 +137,7 @@ public class Player2113 {
                 answers, correctness, topicResults);
     }
 
+    //@@author ngxzs
     public static void main(String[] args) {
         new Player2113(SOME_FILE_PATH).run();
     }

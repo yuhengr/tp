@@ -10,7 +10,7 @@ class TopicListTest {
     QuestionsList qnList2;
     TopicList topicListTest;
 
-
+    //@@author hongyijie06
     void createTopicList(){
         topicTest1 = new Topic(qnList, "topicTest1", false, "covers topic 1" );
         topicTest2 = new Topic(qnList2, "topicTest2", false, "covers topic 2" );

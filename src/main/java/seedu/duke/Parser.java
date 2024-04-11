@@ -53,6 +53,7 @@ public class Parser {
 
     private static final String MESSAGE_UNSPECIFIED_TIME = "Please specify a time limit";
     private static final String MESSAGE_INVALID_TIME = "Time limit must be more than 0 seconds";
+    private static final String MESSAGE_INVALID_COMMAND = "That's an invalid command.";
 
     // non-constant attributes
     private boolean isTimedMode = false;
@@ -105,6 +106,8 @@ public class Parser {
                 processListCommand(topicList, ui);
             } else if (!lowerCaseCommand.startsWith(TIMED_MODE_PARAMETER)) {
                 throw new CustomException(MESSAGE_INVALID_COMMAND_FORMAT);
+            } else {
+                throw new CustomException(MESSAGE_INVALID_COMMAND);
             }
         }
 
@@ -116,6 +119,7 @@ public class Parser {
         ui.printTable(tableHeader, printData);
     }
 
+    //@@author cyhjason29
     private void processResultsCommand(String lowerCaseCommand, ResultsList allResults, Ui ui,
                                        QuestionListByTopic questionListByTopic, AnswerTracker userAnswers)
             throws CustomException {
@@ -167,6 +171,7 @@ public class Parser {
         }
     }
 
+    //@@author
     private void beginStartCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
             ResultsList allResults, AnswerTracker userAnswers, Storage storage
@@ -211,6 +216,7 @@ public class Parser {
         }
     }
 
+    //@@author hongyijie06
     private int processTimedMode(String lowerCaseCommand) throws CustomException{
         checkTimingValidity(lowerCaseCommand);
         String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER, TIMER_ONE_PARAMETER_LENGTH);
@@ -220,6 +226,7 @@ public class Parser {
         return timeLimit;
     }
 
+    //@@author hongyijie06
     private static void checkTimingValidity(String lowerCaseCommand) throws CustomException {
         String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER, TIMER_ONE_PARAMETER_LENGTH);
 
@@ -240,6 +247,7 @@ public class Parser {
         }
     }
 
+    //@@author hongyijie06
     private void processStartCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
             ResultsList allResults, AnswerTracker userAnswers, boolean isTimedMode, Storage storage
@@ -389,7 +397,7 @@ public class Parser {
             ui.printNoSolutionAccess();
         }
     }
-
+    //@@author ngxzs
     private void processExplainCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
@@ -422,6 +430,7 @@ public class Parser {
         }
     }
 
+    //@@author
     private void handleCustomCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
             ResultsList allResults, AnswerTracker userAnswers, ProgressManager progressManager)
@@ -524,7 +533,7 @@ public class Parser {
             System.out.println("You've chosen a goal of " + progressManager.getCheckpointModeGoal() + " questions.");
         }
     }
-
+    //@@author ngxzs
     // checks valid command type and parameters: returns true if 2 parameters, else false (1 param only)
     private static boolean checkIfTwoParameters(
             String expectedCommandType, String[] commandParts) throws CustomException {
@@ -560,6 +569,7 @@ public class Parser {
         return parameterNum;
     }
 
+    //@@author
     public void handleAnswerInputs(String[] inputAnswers, int index, String answer, Question questionUnit,
                                    Results topicResults, ArrayList<Boolean> correctness) {
         inputAnswers[index] = answer;
@@ -587,13 +597,14 @@ public class Parser {
         }
     }
 
+    //@@author cyhjason29
     public boolean checkPause(String answer, ResultsList allResults, TopicList topicList,
                               AnswerTracker userAnswers, Ui ui, Storage storage, boolean isPaused, boolean isTimedMode,
                               ArrayList<String> allAnswers, ArrayList<Boolean> answersCorrectness,
                               Results topicResults, int topicNum, int index)
             throws CustomException {
-        if (answer.equalsIgnoreCase(PAUSE_GAME) && isTimedMode) {
-            ui.showCannotPause();
+        if (isTimedMode && answer.equalsIgnoreCase(PAUSE_GAME)) {
+            Ui.showCannotPause();
             return false;
         }
         if (!isPaused && !answer.equalsIgnoreCase(PAUSE_GAME)) {

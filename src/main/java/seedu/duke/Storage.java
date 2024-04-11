@@ -1,3 +1,4 @@
+//@@author cyhjason29
 package seedu.duke;
 
 import seedu.duke.exceptions.CustomException;
@@ -11,6 +12,7 @@ import java.util.Scanner;
 
 /**
  * Deals with loading from the save file and saving in that file
+ * Also deals with initial loading of dataset
  */
 public class Storage {
     private static final String RESULTS_HEADER = "result";
@@ -272,7 +274,7 @@ public class Storage {
         }
     }
 
-
+    //@@author ngxzs
     // creates question list1,2 etc
     public void updateQuestionList(int questionListIndex, QuestionsList questionList) throws CustomException {
         int questionListNum = questionListIndex + 1; // +1 coz 0 index
@@ -288,7 +290,7 @@ public class Storage {
             throw new CustomException("unable to create questionList" + questionListNum);
         }
     }
-
+    // Adds questions for questionsList1
     private void updateQuestionList1(QuestionsList questionList) {
         Question question1 = new Question(
                 "What language does CS2113 use?",
@@ -346,7 +348,6 @@ public class Storage {
                              "NA: not possible in real life",
                              "Idk",
                              "True"});
-
         Question question7 = new Question(
                 "What does SLAP stands for?",
                 "d",
@@ -364,7 +365,7 @@ public class Storage {
         questionList.addQuestion(question6);
         questionList.addQuestion(question7);
     }
-
+    // Adds questions for questionList2
     private void updateQuestionList2(QuestionsList questionsList) {
         Question question1 = new Question(
                 "One should never prioritize efficiency or performance over readability",
