@@ -142,13 +142,16 @@ Examples:
 
 Example of usage: `list`
 
+A progress bar indicating the overall revision progress will be displayed, followed by a table of question bank summaries.
+
 Sample output:
 
 ```
+[*****-----] 50% 1/2 topics attempted
 +-------+--------+-------------------------------------------------+-----------+
 | index |  topic |                     summary                     | attempted |
 +-------+--------+-------------------------------------------------+-----------+
-|     1 | topic1 | Covers topic 1 notions mentioned in lecture 1-2 |     false |
+|     1 | topic1 | Covers topic 1 notions mentioned in lecture 1-2 |      true |
 |     2 | topic2 | Covers topic 2 notions mentioned in lecture 3-4 |     false |
 +-------+--------+-------------------------------------------------+-----------+
 ```
@@ -171,7 +174,14 @@ Pauses the game so that the user may choose to exit the game in the middle of an
 Format: `pause`
 
 - This command is valid only when the user is answering the topic questions.
-- User cannot pause when in timed mode.
+- <strong>User cannot pause when in timed mode.</strong>
+
+```
+Enter your answer: pause
+Current progress: The game is paused.
+Input "resume" to continue, or "bye" to exit.
+Enter your answer:
+```
 
 ### 9. Resuming the game: `resume`
 
