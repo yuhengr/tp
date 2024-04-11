@@ -134,7 +134,6 @@ if there is 1 parameter (ie get all explanations):
 else if there are 2 parameters (ie get one explanation):
 `QuestionsList#getOneExplanation` will get the specified explanation and `ui#printOneExplanation` will print it.
 
-
 ## Product scope
 
 ### Target user profile

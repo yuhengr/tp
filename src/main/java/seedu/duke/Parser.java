@@ -141,7 +141,7 @@ public class Parser {
         if (allResults.getSizeOfAllResults() == NO_RESULTS) {
             throw new CustomException(MESSAGE_NO_RESULTS);
         }
-        String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER, TWO_PARAMETER_LENGTH);
+        String[] commandParts = lowerCaseCommand.trim().split(COMMAND_SPLITTER, TWO_PARAMETER_LENGTH);
         assert commandParts.length <= TWO_PARAMETER_LENGTH;
         switch (commandParts.length) {
         case (NO_PARAMETER_LENGTH):
@@ -166,8 +166,6 @@ public class Parser {
         case (TWO_PARAMETER_LENGTH):
             if (!commandParts[FIRST_PARAMETER].equals(DETAILS_PARAMETER)) {
                 throw new CustomException(MESSAGE_INVALID_PARAMETERS);
-            } else if (commandParts[SECOND_PARAMETER].isEmpty()) {
-                ui.printAllResults(INCLUDES_DETAILS, allResults, questionListByTopic, userAnswers);
             }
             try {
                 int index = Integer.parseInt(commandParts[SECOND_PARAMETER]);

@@ -324,7 +324,8 @@ public class Ui {
      */
     public void printOneResult(boolean includesDetails, int topicNum, String score,
                                QuestionListByTopic questionListByTopic, AnswerTracker userAnswers, int index) {
-        System.out.println("Your results for Topic " + (topicNum + 1) + ":\n" + score + "\n");
+        System.out.println("Attempt " + index + ": " + System.lineSeparator() + "Your results for Topic " +
+                (topicNum + 1) + ":\n" + score + System.lineSeparator());
         if (includesDetails) {
             printResultDetails(questionListByTopic, topicNum, index-1, userAnswers);
         }
