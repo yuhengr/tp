@@ -116,6 +116,12 @@ public class Player2113 {
     }
 
     //@@author cyhjason29
+    /**
+     * Loads the question of which the user last left off before exiting the game while paused.
+     *
+     * @param saveFile The save file containing game data.
+     * @throws CustomException If there was an error finding the file.
+     */
     private void loadQuestion(File saveFile) throws CustomException {
         Results topicResults = new Results();
         ArrayList<String> answers = new ArrayList<>();

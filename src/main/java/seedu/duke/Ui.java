@@ -207,6 +207,21 @@ public class Ui {
     }
 
     //@@author cyhjason29
+    /**
+     * Resumes the game from the question of which the user last left off when exiting a paused game.
+     *
+     * @param pausedQuestion An array of integers containing the previously paused topic number and question number.
+     * @param topicList List of all topics.
+     * @param questionListByTopic List of all questions by topic.
+     * @param allResults List of all results.
+     * @param userAnswers List of all user answers to questions.
+     * @param storage Storage that deals with game data.
+     * @param ui User interface.
+     * @param answers User answers within the current attempt.
+     * @param correctness User answer correctness within the current attempt.
+     * @param topicResults User results within the current attempt.
+     * @throws CustomException If there was an error pausing the game.
+     */
     public void resumeTopic(int[] pausedQuestion, TopicList topicList, QuestionListByTopic questionListByTopic,
                             ResultsList allResults, AnswerTracker userAnswers, Storage storage, Ui ui,
                             ArrayList<String> answers, ArrayList<Boolean> correctness, Results topicResults)
@@ -286,6 +301,17 @@ public class Ui {
     }
 
     //@@author cyhjason29
+
+    /**
+     * Prints one result to the user.
+     *
+     * @param includesDetails Whether the user has asked for details.
+     * @param topicNum The number of the topic for the result.
+     * @param score The score for the result.
+     * @param questionListByTopic List of questions by topic.
+     * @param userAnswers List of all user answers to questions.
+     * @param index Attempt number requested by user.
+     */
     public void printOneResult(boolean includesDetails, int topicNum, String score,
                                QuestionListByTopic questionListByTopic, AnswerTracker userAnswers, int index) {
         System.out.println("Your results for Topic " + (topicNum + 1) + ":\n" + score + "\n");
@@ -294,6 +320,14 @@ public class Ui {
         }
     }
 
+    /**
+     * Prints all results to the user.
+     *
+     * @param includesDetails Whether the user has asked for details.
+     * @param allResults List of all results.
+     * @param questionListByTopic List of questions by topic.
+     * @param userAnswers List of all user answers to questions.
+     */
     public void printAllResults(boolean includesDetails, ResultsList allResults,
                                 QuestionListByTopic questionListByTopic, AnswerTracker userAnswers) {
         int numberOfResults = allResults.getSizeOfAllResults();
@@ -309,6 +343,14 @@ public class Ui {
         }
     }
 
+    /**
+     * Prints the questions and the user answers to them within a topic.
+     *
+     * @param questionListByTopic List of questions by topic/.
+     * @param topicNum Topic number
+     * @param index Attempt number
+     * @param userAnswers List of all user answers to questions.
+     */
     private void printResultDetails(QuestionListByTopic questionListByTopic, int topicNum, int index,
                                     AnswerTracker userAnswers) {
         QuestionsList listOfQuestions = questionListByTopic.getQuestionSet(topicNum);
@@ -360,16 +402,33 @@ public class Ui {
     }
 
     //@@author cyhjason29
+
+    /**
+     * Asks the user to resume or exit the game.
+     */
     public void askForResume() {
         System.out.println(MESSAGE_ASK_RESUME);
     }
 
+    /**
+     * Prints to the user that the game has been resumed.
+     */
     public void showResume() {
         System.out.println(MESSAGE_RESUME);
     }
 
+    /**
+     * Prints to the user that the game cannot be paused in timed mode.
+     */
     public void showCannotPause() {
         System.out.println(MESSAGE_CANNOT_PAUSE);
+    }
+
+    /**
+     * Prints to the user that the answer is not in the correct format.
+     */
+    public void showCorrectFormat() {
+        System.out.println(MESSAGE_ANSWER_FORMAT);
     }
     //@@author
 

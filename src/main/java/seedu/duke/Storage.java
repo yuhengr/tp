@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Deals with loading from the save file and saving in that file
+ * Deals with loading from the save file and saving in that file, as well as containing
+ * the game questions.
  */
 public class Storage {
     private static final String RESULTS_HEADER = "result";
@@ -56,6 +57,16 @@ public class Storage {
         isPaused = false;
     }
 
+    /**
+     * Loads in all the save data from the save file.
+     *
+     * @param f Save file.
+     * @param results List of all results.
+     * @param topics List of all topics.
+     * @param answers List of all user answers to questions.
+     * @return If the user previously paused and exited the game.
+     * @throws FileNotFoundException If there was an error finding the save file.
+     */
     public boolean loadProgress(File f, ResultsList results, TopicList topics, AnswerTracker answers)
             throws FileNotFoundException {
         Scanner s = new Scanner(f);
@@ -66,6 +77,14 @@ public class Storage {
         return isPaused;
     }
 
+    /**
+     * Process each line within the save file.
+     *
+     * @param line The line read in from the save file.
+     * @param results List of all results.
+     * @param topics List of all topics.
+     * @param answers List of all user answers to questions.
+     */
     private static void processLine(String line, ResultsList results, TopicList topics, AnswerTracker answers) {
         if (line.startsWith(RESULTS_HEADER)) {
             String[] processedLine = line.substring(STARTING_INDEX_RESULT).split(ARG_SEPARATOR);
@@ -104,6 +123,16 @@ public class Storage {
         }
     }
 
+    /**
+     * Resumes the game if the user previously paused and exited the game.
+     *
+     * @param file The save file
+     * @param topicResults User results within the current attempt.
+     * @param userAnswers User answers within the current attempt.
+     * @param correctness User answer correctness within the current attempt.
+     * @return The topic number and question number that the user previously paused on.
+     * @throws FileNotFoundException If there was an error locating the save file.
+     */
     public int[] resumeGame(File file, Results topicResults, ArrayList<String> userAnswers,
                             ArrayList<Boolean> correctness)
             throws FileNotFoundException {
@@ -124,6 +153,12 @@ public class Storage {
         return pausedQuestion;
     }
 
+    /**
+     * Retrieves the topic number and question number which the user previously paused on.
+     *
+     * @param line The line read in from the save file.
+     * @return An array containing the topic number and question number.
+     */
     private static int[] getPausedQuestion(String line) {
         String[] processedLine = line.split(ARG_SEPARATOR);
         int[] pausedQuestion = new int[TWO_PARAMETERS];
@@ -132,6 +167,12 @@ public class Storage {
         return pausedQuestion;
     }
 
+    /**
+     * Create a temporary result for the paused attempt.
+     *
+     * @param topicResults User result within the current attempt.
+     * @param line The line read in from the save file.
+     */
     private static void createTempResult(Results topicResults, String line) {
         String[] processedLine = line.split(ARG_SEPARATOR);
         int numberOfCorrectAnswers = Integer.parseInt(processedLine[INDEX_NUMBER_OF_CORRECT_ANSWERS].trim());
@@ -140,6 +181,12 @@ public class Storage {
         topicResults.setTotalNumberOfQuestions(totalNumberOfQuestions);
     }
 
+    /**
+     * Create a temporary list of user answers for the paused attempt.
+     *
+     * @param userAnswers User answers within the current attempt.
+     * @param line The line read in from the save file.
+     */
     private static void createTempAnswers(ArrayList<String> userAnswers, String line) {
         String[] processedLine = line.split(ARG_SEPARATOR);
         for (String answer : processedLine) {
@@ -148,6 +195,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Create a temporary list of user answer correctness for the paused attempt.
+     *
+     * @param correctness User answer correctness within the current attempt.
+     * @param line The line read in from the save file.
+     */
     private static void createTempCorrectness(ArrayList<Boolean> correctness, String line) {
         String[] processedLine = line.split(ARG_SEPARATOR);
         for (String answerCorrectness : processedLine) {
@@ -156,6 +209,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Create the user result loaded in from the save file.
+     *
+     * @param result User result from a previous attempt.
+     * @return User results with the necessary information.
+     */
     private static Results createResults(String result) {
         String[] processedResult = result.split(RESULTS_SEPARATOR);
         Results temp = new Results();
@@ -168,6 +227,12 @@ public class Storage {
         return temp;
     }
 
+    /**
+     * Initialises the save file.
+     *
+     * @param file The save file.
+     * @throws CustomException If there was an error writing to the save file.
+     */
     public void initSaveFile(File file) throws CustomException {
         try {
             new File(FOLDER_NAME).mkdir();
@@ -177,6 +242,14 @@ public class Storage {
         }
     }
 
+    /**
+     * Saves the game data.
+     *
+     * @param results List of all results.
+     * @param topics List of all topics.
+     * @param answers List of all user answers to questions.
+     * @throws CustomException If there was an error writing to the save file.
+     */
     public void saveProgress(ResultsList results, TopicList topics, AnswerTracker answers)
             throws CustomException {
         try {
@@ -188,6 +261,19 @@ public class Storage {
         }
     }
 
+    /**
+     * Saves the game data when the user is exiting from a paused game.
+     *
+     * @param results List of all results.
+     * @param topics List of all topics.
+     * @param answers List of all user answers to questions.
+     * @param allAnswers User answers within the current attempt.
+     * @param answersCorrectness User answer correctness within the current attempt.
+     * @param topicResults User results within the current attempt.
+     * @param topicNum The topic number.
+     * @param index The question number.
+     * @throws CustomException If there was an error writing to the save file.
+     */
     public void pauseGame(ResultsList results, TopicList topics, AnswerTracker answers, ArrayList<String> allAnswers,
                           ArrayList<Boolean> answersCorrectness, Results topicResults, int topicNum, int index)
             throws CustomException {
@@ -201,6 +287,17 @@ public class Storage {
         }
     }
 
+    /**
+     * Writes to the file a save point in the current attempt.
+     *
+     * @param allAnswers User answers within the current attempt.
+     * @param answersCorrectness User answers correctness within the current attempt.
+     * @param topicResults User results within the current attempt.
+     * @param fileWriter File writer to write to the save file.
+     * @param topicNum The topic number.
+     * @param index The question number.
+     * @throws IOException If there was an error writing to the save file.
+     */
     private static void savePoint(ArrayList<String> allAnswers, ArrayList<Boolean> answersCorrectness,
                                   Results topicResults, FileWriter fileWriter, int topicNum, int index)
             throws IOException {
@@ -231,6 +328,15 @@ public class Storage {
         fileWriter.write("temp_correctness " + listOfCorrectness + System.lineSeparator());
     }
 
+    /**
+     * Writes to the save file current game data.
+     *
+     * @param results List of all results.
+     * @param topics List of all topics.
+     * @param answers List of all user answers to questions.
+     * @param fileWriter File writer to write to the save file.
+     * @throws IOException If there was an error writing to the save file.
+     */
     private static void writeToFile(ResultsList results, TopicList topics, AnswerTracker answers,
                                     FileWriter fileWriter)
             throws IOException {

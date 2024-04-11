@@ -117,6 +117,17 @@ public class Parser {
     }
 
     //@@author cyhjason29
+
+    /**
+     * Breaks the user's results command input into its parameters before processing them.
+     *
+     * @param lowerCaseCommand The input of the user altered to all lower case.
+     * @param allResults List of all results.
+     * @param ui User interface.
+     * @param questionListByTopic List of questions sorted by topic.
+     * @param userAnswers List of all user answers to questions.
+     * @throws CustomException If invalid parameters.
+     */
     private void processResultsCommand(String lowerCaseCommand, ResultsList allResults, Ui ui,
                                        QuestionListByTopic questionListByTopic, AnswerTracker userAnswers)
             throws CustomException {
@@ -590,6 +601,26 @@ public class Parser {
     }
 
     //@@author cyhjason29
+
+    /**
+     * Checks if the user wants to pause, and resume or exit the game when already paused.
+     *
+     * @param answer User input.
+     * @param allResults List of all results.
+     * @param topicList List of topics.
+     * @param userAnswers List of all user answers to questions.
+     * @param ui User interface.
+     * @param storage Storage that deals with save data.
+     * @param isPaused If the game is currently paused.
+     * @param isTimedMode If the game is currently in timed mode.
+     * @param allAnswers User answers within the current attempt.
+     * @param answersCorrectness User answer correctness within the current attempt.
+     * @param topicResults User results within the current attempt.
+     * @param topicNum The number of the topic which the user is currently attempting.
+     * @param index The question number the user is currently at
+     * @return The pause status of the game
+     * @throws CustomException If there is error saving the game data.
+     */
     public boolean checkPause(String answer, ResultsList allResults, TopicList topicList,
                               AnswerTracker userAnswers, Ui ui, Storage storage, boolean isPaused, boolean isTimedMode,
                               ArrayList<String> allAnswers, ArrayList<Boolean> answersCorrectness,
@@ -614,6 +645,22 @@ public class Parser {
         }
         ui.askForResume();
         return true;
+    }
+
+    /**
+     * Checks the format of the user answer.
+     *
+     * @param answer User input.
+     * @param ui User interface.
+     * @return Whether the user answer is of the right format.
+     */
+    public boolean checkFormat(String answer, Ui ui) {
+        if (answer.equalsIgnoreCase(OPTION_A) || answer.equalsIgnoreCase(OPTION_B)
+                || answer.equalsIgnoreCase(OPTION_C) || answer.equalsIgnoreCase(OPTION_D)) {
+            return true;
+        }
+        ui.showCorrectFormat();
+        return false;
     }
 }
 
