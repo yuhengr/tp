@@ -142,7 +142,7 @@ CS2113/2103 students who wish to have an efficient tool to help them revise rele
 
 ### Value proposition
 
-Integration of key notions and learning learning objectives for CS2113 course, self-adaptive testing for understanding and feedback.
+Integration of key notions and learning objectives for CS2113 course, self-adaptive testing for understanding and feedback.
 
 ## User Stories
 

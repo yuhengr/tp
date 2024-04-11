@@ -1,4 +1,4 @@
-# Player2113
+# [Player2113](https://github.com/AY2324S2-CS2113-F15-1/tp/releases)
 
 A CLI tool to help COMP2113 student revise conceptual questions in a gamification environment.
 
@@ -9,7 +9,7 @@ Prerequisites: JDK 11, Player2113 release `JDK` file
 Start the programme with the following command:
 
 ```
-java -jar Player2113.jar
+java --jar Player2113.jar
 ```
 
 You will see the welcome screen upon successful start-up:
@@ -37,15 +37,15 @@ What is your name?
 > + Words in lower_case are fixed e.g. in `results [details] [INDEX]`, `details` has to be input by the user exactly for that parameter.
 > + Items in square brackets are optional
     e.g. in `solution TOPIC_NUM [INDEX]`, `TOPIC_NUM` is a compulsory parameter like `solution 1 1`,
->   while `INDEX` is an optional parameter like `solution 1`
+> while `INDEX` is an optional parameter like `solution 1`
 
 1. [topic](#1-starting-game-topic)
 2. [results](#2-viewing-results-results)
 3. [solution](#3-get-solutions-for-a-question--topic-solution)
 4. [explain](#4-get-explanations-for-a-question--topic-explain)
-5. [timed mode](#5-timed-mode---attempt-the-questions-under-a-time-limit)
-6. [list](#5-list---list-all-available-topics-and-their-summaries)
-7. [help](#6-viewing-help-help)
+5. [timed mode](#5-attempt-the-questions-under-a-time-limit-timed-mode)
+6. [list](#6-list-all-available-topics-and-their-summaries-list)
+7. [help](#7-viewing-help-help)
 8. [pause](#8-pausing-the-game-pause)
 9. [resume](#9-resuming-the-game-resume)
 10. [bye](#10-exiting-the-game-bye)
@@ -117,6 +117,9 @@ Format: `timed mode [TIME_LIMIT]`
 - `TIME_LIMIT` represents the time limit set for the question set in seconds
 - The`TIME_LIMIT` must be a non-zero positive integer (e.g. 1, 2, 3, …).
 
+Examples:
+` timed mode 5` sets time limit to 5s
+
 ### 6. List all available topics and their summaries: `list`
 
 Example of usage: `list`
@@ -133,11 +136,15 @@ Sample output:
 ```
 
 ### 7. Viewing help: `help`
-Displays commands for the application (start game, choose topic, revise, clear/reset progress). Shows developer credits information.
-Usage: type “help” in the main menu.
+Displays commands for the application (start game, choose topic, revise, clear/reset progress). 
+Shows developer credits information.
+
+Format: `help`
+
 Sample output:
 
 ![Help Sample Output](./team/img/ug_usage_help.png)
+
 
 ### 8. Pausing the game: `pause`
 
@@ -174,11 +181,11 @@ bye bye, get more sleep zzz
 
 ## FAQ
 
-**Q**: how to do this user guide?
+**Q**: Who is this product for?
 
-**A**: just do it. rmb update summary below.
+**A**: For those wanting to learn more about CS2113/ Java OOP concepts!
 
-## Command Summary
+## Command Summary of [features](#features)
 
 * View help `help`
 * Start game `topic TOPIC_NUM` e.g. `topic 1`

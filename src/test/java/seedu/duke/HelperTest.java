@@ -13,6 +13,7 @@ public class HelperTest {
         assertEquals(8, helperTest.getCommandsCount());
     }
 
+    //@@author ngxzs
     @Test
     void generateRandomNumber_onlyOneTopicToChooseFrom_expect1() {
         int upperLimitOneTopic = 2;

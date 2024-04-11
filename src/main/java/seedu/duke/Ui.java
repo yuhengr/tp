@@ -12,12 +12,26 @@ import java.util.TimerTask;
 public class Ui {
     private static final Scanner in = new Scanner(System.in);
     private static final String HEADER_ALL_RESULTS = "These are all your results so far:\n";
+    private static final String MESSAGE_INPUT = "Input a command player!";
+    private static final String MESSAGE_NUMBER_USER_NAME = "Number ";
+    private static final String MESSAGE_ANSWER = "Enter your answer: ";
     private static final String MESSAGE_ASK_RESUME = "The game is paused.\nInput \"resume\" to continue, " +
             "or \"bye\" to exit.";
     private static final String MESSAGE_RESUME = "The game has been resumed.";
+
     private static final String MESSAGE_CANNOT_PAUSE = "You cannot pause in timed mode!";
     private static final String MESSAGE_TOPIC_FINISHED = "You have finished the topic! What will be your " +
             "next topic?";
+    private static final String MESSAGE_ALL_TOPICS = "Here are the topics in CS2113:";
+    private static final String MESSAGE_TOPIC_DONE = " (DONE)";
+    private static final String MESSAGE_ONE_SOLUTION = "The solution for question ";
+    private static final String MESSAGE_ONE_EXPLANATION = "The explanation for question ";
+    private static final String MESSAGE_ALL_SOLUTIONS = "The solutions are :";
+    private static final String MESSAGE_ALL_EXPLANATIONS = "The explanations are :";
+    private static final String MESSAGE_ASK_FOR_NAME = "What is your name?";
+    private static final String MESSAGE_ASK_FOR_NAME_AGAIN = "Good try, but I still don't know who I'm talking to";
+    private static final String MESSAGE_SAY_BYE = "Most often, the problem is not the lack of time but the lack of " +
+            "direction";
     private static final String ANSWER_TIMEOUT = "You ran out of time!";
     private static final String MESSAGE_ANSWER_FORMAT = "Your answer must be either a, b, c, or d!";
     private static final String RESUME = "resume";
@@ -25,7 +39,7 @@ public class Ui {
     private static final int INDEX_TOPIC_NUM = 0;
     private static final int INDEX_INDEX = 1;
 
-    private static final int NEW_LINE = 48;
+    private static final int NEW_LINE_LENGTH = 48;
     private static final boolean IS_TIMED_MODE = true;
     public boolean isPlaying = true;
 
@@ -35,7 +49,7 @@ public class Ui {
 
     public String[] inputAnswers;
 
-    private  boolean isTimesUp;
+    private boolean isTimesUp;
     private boolean isActivated;
     private boolean hasCompletedSet;
 
@@ -49,15 +63,15 @@ public class Ui {
         System.out.println();
     }
 
+    //@@author ngxzs
     public void readCommands(
             Ui ui, TopicList topicList,
             QuestionListByTopic questionListByTopic, ResultsList allResults, Helper helper, AnswerTracker userAnswers,
             Storage storage, ProgressManager progressManager
     ) {
         Parser parser = new Parser();
-        printLine();
 
-        while(isPlaying) {
+        while (isPlaying) {
             ui.askForInput();
             String command = in.nextLine();
             try {
@@ -71,22 +85,30 @@ public class Ui {
         sayBye();
     }
 
+    //@@author ngxzs
     private void askForInput() {
-        System.out.println("Input a command player!"); // TODO: show possible commands
+        System.out.println(MESSAGE_INPUT);
     }
 
-    public void askForAnswerInput(){
-        System.out.print("Enter your answer: ");
+    //@@author
+    public void askForAnswerInput() {
+        System.out.print(MESSAGE_ANSWER);
     }
 
-    public void printTopicList(TopicList topicList, Ui ui){
+    public void printTopicList(TopicList topicList, Ui ui) {
         int topicListSize = topicList.getSize();
-        System.out.println("Here are the topics in CS2113:");
+        System.out.println(MESSAGE_ALL_TOPICS);
         for (int index = 0; index < topicListSize; index++) {
-            System.out.println((index + 1) + ". " + topicList.getTopic(index));
+            System.out.print((index + 1) + ". " + topicList.getTopic(index));
+            if (topicList.get(index).hasAttempted()) {
+                System.out.print(MESSAGE_TOPIC_DONE);
+            }
+            System.out.println();
         }
         System.out.println((topicListSize + 1) + ". " + "Randomly select a topic for me ;)");
+        printLine();
         System.out.println("Please choose a topic to play:");//input command in the form "start [INDEX]
+        printLine();
     }
 
     public void printChosenTopic(
@@ -112,7 +134,8 @@ public class Ui {
         ArrayList<String> allAnswers = new ArrayList<>();
         ArrayList<Boolean> answersCorrectness = new ArrayList<>();
 
-        for (indexGlobal = 0; indexGlobal < numOfQns; indexGlobal++){//go through 1 question set
+        for (indexGlobal = 0; indexGlobal < numOfQns; indexGlobal++) {//go through 1 question set
+            printLine();
             displayProgressBar(indexGlobal, numOfQns);
             questionUnit = qnList.getQuestionUnit(indexGlobal);
             topicResults.increaseNumberOfQuestions();
@@ -153,9 +176,10 @@ public class Ui {
         isTimesUp = false;
     }
 
+    //@@author hongyijie06
     public void timerBegin(boolean hasCompletedSet, ArrayList<String> allAnswers, int numOfQns,
-                           ArrayList<Boolean> answersCorrectness, int timeLimit){
-        
+                           ArrayList<Boolean> answersCorrectness, int timeLimit) {
+
         if (indexGlobal == 0) {
             Timer timer = new Timer();
 
@@ -174,7 +198,8 @@ public class Ui {
         }
     }
 
-    public void timeOut(ArrayList<String> allAnswers, int numOfQns, ArrayList<Boolean> answersCorrectness){
+    //@@author hongyijie06
+    public void timeOut(ArrayList<String> allAnswers, int numOfQns, ArrayList<Boolean> answersCorrectness) {
         if (!hasCompletedSet) {
             allAnswers.add(ANSWER_TIMEOUT);
             answersCorrectness.add(false);
@@ -187,27 +212,29 @@ public class Ui {
         }
     }
 
-    public void finishBeforeTimerChecker(int numOfQns, boolean isTimedMode){
+    //@@author hongyijie06
+    public void finishBeforeTimerChecker(int numOfQns, boolean isTimedMode) {
         int qnNumberIndex = numOfQns - 1;//-1 due to zero index
-        if (indexGlobal == qnNumberIndex && isTimedMode){
+        if (indexGlobal == qnNumberIndex && isTimedMode) {
             printCongratulatoryMessage();
             hasCompletedSet = true;
         }
     }
 
-    public void printRemainingTime(int timeLeft){
+    public void printRemainingTime(int timeLeft) {
         System.out.println(timeLeft);
     }
 
-    public void printTimeLimit(int timeLimit){
+    public void printTimeLimit(int timeLimit) {
         System.out.println("Time limit: " + timeLimit + " seconds");
     }
 
-    public void printFinishedTopic(){
+    public void printFinishedTopic() {
         System.out.println(MESSAGE_TOPIC_FINISHED);
+        printLine();
     }
-  
-    public void printSelectedTopic(TopicList topicList, int topicNum){
+
+    public void printSelectedTopic(TopicList topicList, int topicNum) {
         System.out.println("Selected topic: " + topicList.getTopic(topicNum - 1));
         System.out.println("Here are the questions: ");
     }
@@ -241,7 +268,7 @@ public class Ui {
         Question questionUnit;
         String[] inputAnswers = new String[numOfQns];
         String answer;
-        for (int index = qnNum; index < numOfQns; index++){ //go through 1 question set
+        for (int index = qnNum; index < numOfQns; index++) { //go through 1 question set
             questionUnit = qnList.getQuestionUnit(index);
             System.out.println(questionUnit.getQuestion());
 
@@ -269,44 +296,49 @@ public class Ui {
         userAnswers.addUserAnswers(answers);
         userAnswers.addUserCorrectness(correctness);
     }
-    //@@author
 
-    public void printCongratulatoryMessage(){
+    //@@author hongyijie06
+    public void printCongratulatoryMessage() {
         System.out.println("Congrats! You beat the timer!");
     }
 
-    public static void printTimesUpMessage(){
+    public static void printTimesUpMessage() {
         System.out.println("Time is up!");
         System.out.println("Press enter to go back to topic selection. ");
     }
-    public static void printTimedModeSelected(){
+
+    public static void printTimedModeSelected() {
         System.out.println("Timed mode selected. Please enter the topic you would like to try. ");
+        showCannotPause();
     }
 
-    public void printNoSolutionAccess(){
+    public void printNoSolutionAccess() {
         System.out.println("Attempt the topic first!");
     }
 
-    public void printQuestion(Question questionUnit){
+    public void printQuestion(Question questionUnit) {
+        printLine();
         System.out.println(questionUnit.getQuestion());
     }
 
+    //@@author ngxzs
     public void printOneSolution(int questionNum, String solution) {
-        System.out.println("The solution for question " + questionNum + ":"
+        System.out.println(MESSAGE_ONE_SOLUTION + questionNum + ":"
                 + System.lineSeparator() + solution);
     }
 
     public void printOneExplanation(int questionNum, String explanation) {
-        System.out.println("The explanation for question " + questionNum + ":"
+        System.out.println(MESSAGE_ONE_EXPLANATION + questionNum + ":"
                 + System.lineSeparator() + explanation);
     }
+
     public void printAllSolutions(String allSolutions) {
-        System.out.print("The solutions are :"
+        System.out.print(MESSAGE_ALL_SOLUTIONS
                 + System.lineSeparator() + allSolutions);
     }
 
     public void printAllExplanations(String allExplanations) {
-        System.out.print("The explanations are :"
+        System.out.print(MESSAGE_ALL_EXPLANATIONS
                 + System.lineSeparator() + allExplanations);
     }
 
@@ -327,7 +359,7 @@ public class Ui {
         System.out.println("Attempt " + index + ": " + System.lineSeparator() + "Your results for Topic " +
                 (topicNum + 1) + ":\n" + score + System.lineSeparator());
         if (includesDetails) {
-            printResultDetails(questionListByTopic, topicNum, index-1, userAnswers);
+            printResultDetails(questionListByTopic, topicNum, index - 1, userAnswers);
         }
     }
 
@@ -345,7 +377,7 @@ public class Ui {
         System.out.println(HEADER_ALL_RESULTS);
         for (int i = 0; i < numberOfResults; i++) {
             int topicNum = allResults.getTopicNum(i);
-            System.out.println("Attempt " + (i+1) + ": " + System.lineSeparator() + "Your results for Topic " +
+            System.out.println("Attempt " + (i + 1) + ": " + System.lineSeparator() + "Your results for Topic " +
                     (topicNum + 1) + ":\n" + allResults.getSpecifiedResult(i).getScore()
                     + System.lineSeparator());
             if (includesDetails) {
@@ -374,13 +406,14 @@ public class Ui {
                     : "\nYou got it " + ((isCorrectAnswer) ? "right!\n" : "wrong!\n")));
         }
     }
-    //@@author
 
+    //@@author ngxzs
     public void handleException(CustomException e) {
         System.out.println(e.getMessage());
     }
+
     public void printLine() {
-        for (int i = 0; i < NEW_LINE; i += 1) {
+        for (int i = 0; i < NEW_LINE_LENGTH; i += 1) {
             System.out.print("*");
         }
         System.out.println();
@@ -389,25 +422,52 @@ public class Ui {
     public void sayHi() {
         String logo =
                 "______ _                       _____  __   __   _____\n" +
-                "| ___ \\ |                     / __  \\/  | /  | |____ |\n" +
-                "| |_/ / | __ _ _   _  ___ _ __`' / /'`| | `| |     / /\n" +
-                "|  __/| |/ _` | | | |/ _ \\ '__| / /   | |  | |     \\ \\\n" +
-                "| |   | | (_| | |_| |  __/ |  ./ /____| |__| |_.___/ /\n" +
-                "\\_|   |_|\\__,_|\\__, |\\___|_|  \\_____/\\___/\\___/\\____/\n" +
-                "                __/ |\n" +
-                "               |___/";
+                        "| ___ \\ |                     / __  \\/  | /  | |____ |\n" +
+                        "| |_/ / | __ _ _   _  ___ _ __`' / /'`| | `| |     / /\n" +
+                        "|  __/| |/ _` | | | |/ _ \\ '__| / /   | |  | |     \\ \\\n" +
+                        "| |   | | (_| | |_| |  __/ |  ./ /____| |__| |_.___/ /\n" +
+                        "\\_|   |_|\\__,_|\\__, |\\___|_|  \\_____/\\___/\\___/\\____/\n" +
+                        "                __/ |\n" +
+                        "               |___/";
 
         System.out.println("Hello from\n" + logo);
-        System.out.println("What is your name?");
-        System.out.println("Hello " + in.nextLine());
+
+        String userName = "";
+        while (true) {
+            System.out.println(MESSAGE_ASK_FOR_NAME);
+            userName = in.nextLine();
+            if (!userName.isBlank()) {
+                break; // if userName != "", " " etc
+            }
+            System.out.println(MESSAGE_ASK_FOR_NAME_AGAIN);
+        }
+        String trimmedUserName = userName.trim();
+        String userNameToPrint;
+        if (isInteger(userName.trim())) {
+            userNameToPrint = MESSAGE_NUMBER_USER_NAME + trimmedUserName;
+        } else {
+            userNameToPrint = trimmedUserName;
+        }
+        System.out.println("Hello " + userNameToPrint);
         printLine();
+    }
+
+    // checks userName, returns true if is an Integer, else false
+    private static boolean isInteger(String userName) {
+        try {
+            Integer.parseInt(userName);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     public void sayBye() {
-        System.out.println("bye bye, get more sleep zzz");
+        System.out.println(MESSAGE_SAY_BYE);
         printLine();
     }
 
+    //@@author
     public void printTable(String[] headers, String[][] data) {
         System.out.println(ASCIITable.getInstance().getTable(headers, data));
     }
@@ -441,9 +501,10 @@ public class Ui {
     public void showCorrectFormat() {
         System.out.println(MESSAGE_ANSWER_FORMAT);
     }
-    //@@author
 
-    public void askResumeSessionPrompt(){
+
+    //@@author hongyijie06
+    public void askResumeSessionPrompt() {
         System.out.println("Continue from previous paused session? (yes/no)");
     }
 
@@ -501,3 +562,4 @@ public class Ui {
         }
     }
 }
+
