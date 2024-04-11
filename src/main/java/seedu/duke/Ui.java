@@ -414,7 +414,7 @@ public class Ui {
         printLine();
     }
 
-    //@@author
+    //@@author songyuew
     public void printTable(String[] headers, String[][] data) {
         System.out.println(ASCIITable.getInstance().getTable(headers, data));
     }

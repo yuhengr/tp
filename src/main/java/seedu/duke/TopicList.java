@@ -20,6 +20,7 @@ public class TopicList {
         return topicList.get(index).topicName;
     }
 
+    //@@author songyuew
     public String[][] listAllTopics() {
         int commandNum = topicList.size();
         String[][] tableData = new String[commandNum][];
@@ -46,6 +47,7 @@ public class TopicList {
         return topicList;
     }
 
+    //@@author songyuew
     public void displayProgressBar() {
         int attempted = 0;
         for (Topic t : topicList) {
