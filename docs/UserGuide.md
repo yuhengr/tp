@@ -60,7 +60,7 @@ What is your name?
     that parameter.
 > + Items in square brackets are optional
     e.g. in `solution TOPIC_NUM [INDEX]`, `TOPIC_NUM` is a compulsory parameter like `solution 1 1`,
-    > while `INDEX` is an optional parameter like `solution 1`
+  while `INDEX` is an optional parameter like `solution 1`
 
 ### 1. Starting game: `topic`
 
