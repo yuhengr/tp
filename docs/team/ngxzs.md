@@ -54,12 +54,12 @@ The application has about 3.6k lines of code and is written in java.
 
 * **UG Contributions:**
   * Added documentation for features `solution` and `explain` (#57)
-  * Added links, headings, and standardized format structure for UG (#69)
+  * Added links, headings, and standardized format structure for UG (#69, #161)
 
 
 * **DG Contributions:**
   * Added implementation details for `solution` and `explain` (#58)
-
+  * Added links, headings, and standardized format structure for UG (#161)
 
 * **Team-based Tasks Contributions:** Added questions in database
   * PR reviewed (to resolve GitHub checks errors): (Issue #26)

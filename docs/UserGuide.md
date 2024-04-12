@@ -48,8 +48,14 @@ What is your name?
 ## Usage
 
 > **IMPORTANT**
+> 
 > The current release of Player2113 is a MVP preview version with various proposed functions unimplemented. Please
 > strictly follow this user's guide.
+> For optimal viewing, please run Player2113 on a full-screen sized terminal window.
+
+> **NOTE** [coming in v3.0]
+> 
+> More topics will be released in v3.0
 
 ## Features
 
@@ -60,7 +66,7 @@ What is your name?
     that parameter.
 > + Items in square brackets are optional
     e.g. in `solution TOPIC_NUM [INDEX]`, `TOPIC_NUM` is a compulsory parameter like `solution 1 1`,
-    > while `INDEX` is an optional parameter like `solution 1`
+  while `INDEX` is an optional parameter like `solution 1`
 
 ### 1. Starting game: `topic`
 
