@@ -61,7 +61,9 @@ The application has about 3.6k lines of code and is written in java.
   * Added implementation details for `solution` and `explain` (#58)
   * Added links, headings, and standardized format structure for UG (#161)
 
+
 * **Team-based Tasks Contributions:** Added questions in database
   * PR reviewed (to resolve GitHub checks errors): (Issue #26)
   * Enabled assertions, modified setup in gradle build (Pull Request #21)
   * Code Refactoring (Pull Request #86, #67)
+  * Add questions for product (#149, #167)
