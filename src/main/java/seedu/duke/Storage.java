@@ -416,8 +416,8 @@ public class Storage {
                          "",
                          ""});
     */
-    // Adds questions for questionsList1
-    private void updateQuestionList1(QuestionsList questionList) {
+    // Adds questions for questionsList1 "Software Engineering Concepts I"
+    private void updateQuestionList1(QuestionsList questionsList) {
         Question question1 = new Question(
                 "What language does CS2113 use?",
                 "a",
@@ -482,16 +482,44 @@ public class Storage {
                              "when another person feels pain on their face",
                              "Studying-lit Acceleration Program",
                              "Single Level of Abstraction Per method"});
+        Question question8 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
 
-        questionList.addQuestion(question1);
-        questionList.addQuestion(question2);
-        questionList.addQuestion(question3);
-        questionList.addQuestion(question4);
-        questionList.addQuestion(question5);
-        questionList.addQuestion(question6);
-        questionList.addQuestion(question7);
+        Question question9 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+
+        Question question10 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+        questionsList.addQuestion(question1);
+        questionsList.addQuestion(question2);
+        questionsList.addQuestion(question3);
+        questionsList.addQuestion(question4);
+        questionsList.addQuestion(question5);
+        questionsList.addQuestion(question6);
+        questionsList.addQuestion(question7);
+        questionsList.addQuestion(question8);
+        questionsList.addQuestion(question9);
+        questionsList.addQuestion(question10);
     }
-    // Adds questions for questionList2
+    // Adds questions for questionList2 "Software Engineering Concepts II"
     private void updateQuestionList2(QuestionsList questionsList) {
         Question question1 = new Question(
                 "One should never prioritize efficiency or performance over readability",
@@ -530,16 +558,263 @@ public class Storage {
         Question question5 = new Question(
                 "What is a programming paradigm?",
                 "c",
-                "",
+                "For example, OOP is a programming paradigm ie a way of analyzing the code.",
                 new String[]{"it separates code into 2 parts: data and operations on data",
                              "it is laying out all the data structures in the programme",
                              "it guides users to analyze programming problems and structure programming solutions in " +
                                      "a specific way, like OOP",
+                             "it is how you work with others in a software engineer project setting"});
+
+        Question question6 = new Question(
+                "Which is NOT a programming paradigm listed in the textbook?",
+                "b",
+                "Hardware Description Language is a programming language, not a paradigm",
+                new String[]{"Procedural Programming paradigm (C)",
+                             "Hardware Description Language paradigm (Verilog)",
+                             "Functional Programming paradigm (F#, Haskell, Scala)",
+                             "Logic Programming Paradigm (Prolog)"});
+        Question question7 = new Question(
+                "Which of the following is FALSE?",
+                "c",
+                "While many languages support the OO paradigm, OO is not a language itself.",
+                new String[]{"OO is a programming paradigm",
+                             "OO is mainly an abstraction mechanism",
+                             "OO is a programming language",
+                             "OO guides us in how to structure the solution"});
+        Question question8 = new Question(
+                "Which of the following is FALSE?",
+                "c",
+                "C follows the procedural paradigm. Yes, we can also write procedural code using OO language.",
+                new String[]{"Java and C++ are OO languages",
+                             "Java can be used to write procedural code",
+                             "C language follows the Functional Programming paradigm",
+                             "Prolog follows the Logic Programming paradigm"});
+
+        Question question9 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
                              ""});
+
+        Question question10 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+
 
         questionsList.addQuestion(question1);
         questionsList.addQuestion(question2);
         questionsList.addQuestion(question3);
         questionsList.addQuestion(question4);
+        questionsList.addQuestion(question5);
+        questionsList.addQuestion(question6);
+        questionsList.addQuestion(question7);
+        questionsList.addQuestion(question8);
+        questionsList.addQuestion(question9);
+        questionsList.addQuestion(question10);
+    }
+    // "All about Java"
+    private void updateQuestionList4(QuestionsList questionsList) {
+        Question question1 = new Question(
+                "Which command checks your current java version",
+                "a",
+                "Read the textbook/ java manual.",
+                new String[]{"java -version",
+                             "java --version",
+                             "java -v",
+                             "java -v"});
+        Question question2 = new Question(
+                "Which command compiles fileName.java?",
+                "d",
+                "Read the textbook/ java manual.",
+                new String[]{"java -c fileName.java",
+                             "java -compile fileName.java",
+                             "java --compile fileName.java",
+                             "javac fileName.java"});
+        Question question3 = new Question(
+                "Which commands runs the compiled java program after compiling fileName.java?",
+                "d",
+                "",
+                new String[]{"java --run fileName.java",
+                             ".g\fileName.java",
+                             "java fileName.java",
+                             "java fileName"});
+        Question question4 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+        Question question5 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+
+        Question question6 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+        Question question7 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+        Question question8 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+
+        Question question9 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+
+        Question question10 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+
+
+        questionsList.addQuestion(question1);
+        questionsList.addQuestion(question2);
+        questionsList.addQuestion(question3);
+        questionsList.addQuestion(question4);
+        questionsList.addQuestion(question5);
+        questionsList.addQuestion(question6);
+        questionsList.addQuestion(question7);
+        questionsList.addQuestion(question8);
+        questionsList.addQuestion(question9);
+        questionsList.addQuestion(question10);
+    }
+
+    // Question Code template
+    private void updateQuestionList5(QuestionsList questionsList) {
+        Question question1 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+        Question question2 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+        Question question3 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+        Question question4 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+        Question question5 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+
+        Question question6 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+        Question question7 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+        Question question8 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+
+        Question question9 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+
+        Question question10 = new Question(
+                "",
+                "",
+                "",
+                new String[]{"",
+                             "",
+                             "",
+                             ""});
+
+
+        questionsList.addQuestion(question1);
+        questionsList.addQuestion(question2);
+        questionsList.addQuestion(question3);
+        questionsList.addQuestion(question4);
+        questionsList.addQuestion(question5);
+        questionsList.addQuestion(question6);
+        questionsList.addQuestion(question7);
+        questionsList.addQuestion(question8);
+        questionsList.addQuestion(question9);
+        questionsList.addQuestion(question10);
     }
 }

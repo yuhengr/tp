@@ -10,11 +10,12 @@ ______ _                       _____  __   __   _____
 What is your name?
 Hello CaiShenYe
 ************************************************
-[----------] 0% 0/2 topics attempted
+[----------] 0% 0/3 topics attempted
 Here are the topics in CS2113:
 1. Software Engineering Concepts I
 2. Software Engineering Concepts II
-3. Randomly select a topic for me ;)
+3. All About Java
+4. Randomly select a topic for me ;)
 ************************************************
 Please choose a topic to play:
 ************************************************
