@@ -48,8 +48,14 @@ What is your name?
 ## Usage
 
 > **IMPORTANT**
+> 
 > The current release of Player2113 is a MVP preview version with various proposed functions unimplemented. Please
 > strictly follow this user's guide.
+> For optimal viewing, please run Player2113 on a full-screen sized terminal window.
+
+> **NOTE** [coming in v3.0]
+> 
+> More topics will be released in v3.0
 
 ## Features
 

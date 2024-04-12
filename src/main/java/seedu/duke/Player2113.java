@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Player2113 {
-    public static final String SOME_FILE_PATH = "something";
     private static final String FILE_PATH_STORAGE = "data/player2113.txt";
     private static final String MESSAGE_FILE_ERROR = "There was an error locating the save file.";
     private static final String YES = "yes";
@@ -26,7 +25,7 @@ public class Player2113 {
     private final Helper helper;
 
     //@@author ngxzs
-    public Player2113(String someFilePath) {
+    public Player2113() {
         questionsList1 = new QuestionsList();
         questionsList2 = new QuestionsList();
         questionListByTopic = new QuestionListByTopic();
@@ -47,10 +46,10 @@ public class Player2113 {
         // 3. Add to topics (below)
 
         try {
-            for (int i = 0; i < arrayOfQuestionsLists.size(); i += 1) {
-                QuestionsList currentQuestionList = arrayOfQuestionsLists.get(i);
+            for (int questionList = 0; questionList < arrayOfQuestionsLists.size(); questionList++) {
+                QuestionsList currentQuestionList = arrayOfQuestionsLists.get(questionList);
                 // Step 2 here
-                storage.updateQuestionList(i, currentQuestionList);
+                storage.updateQuestionList(questionList, currentQuestionList);
                 questionListByTopic.addQuestionSet(currentQuestionList);
             }
         } catch (CustomException e) {
@@ -58,8 +57,9 @@ public class Player2113 {
         }
 
         // Step 3 here!
-        Topic topic1 = new Topic(questionsList1, "Software Engineering Concepts I", false, "Covers lecture 1-2");
-        Topic topic2 = new Topic(questionsList2, "Software Engineering Concepts II", false, "Covers lecture 3-4");
+        Topic topic1 = new Topic(questionsList1, "Software Engineering Concepts I", false, "Covers SE & OOP concepts");
+        Topic topic2 = new Topic(questionsList2, "Software Engineering Concepts II", false, "Covers SE & OOP " +
+                "concepts II");
         topicList.addTopic(topic1);
         topicList.addTopic(topic2);
     }
@@ -147,6 +147,6 @@ public class Player2113 {
 
     //@@author ngxzs
     public static void main(String[] args) {
-        new Player2113(SOME_FILE_PATH).run();
+        new Player2113().run();
     }
 }

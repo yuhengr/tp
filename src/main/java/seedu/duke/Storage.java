@@ -406,6 +406,16 @@ public class Storage {
             throw new CustomException("unable to create questionList" + questionListNum);
         }
     }
+    /* This is a question template
+    Question question5 = new Question(
+            "",
+            "",
+            "",
+            new String[]{"",
+                         "",
+                         "",
+                         ""});
+    */
     // Adds questions for questionsList1
     private void updateQuestionList1(QuestionsList questionList) {
         Question question1 = new Question(
@@ -517,6 +527,15 @@ public class Storage {
                              "camelCase1",
                              "PascalCase",
                              "Train-Case"});
+        Question question5 = new Question(
+                "What is a programming paradigm?",
+                "c",
+                "",
+                new String[]{"it separates code into 2 parts: data and operations on data",
+                             "it is laying out all the data structures in the programme",
+                             "it guides users to analyze programming problems and structure programming solutions in " +
+                                     "a specific way, like OOP",
+                             ""});
 
         questionsList.addQuestion(question1);
         questionsList.addQuestion(question2);
