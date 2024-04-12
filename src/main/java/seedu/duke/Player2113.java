@@ -16,6 +16,7 @@ public class Player2113 {
     private Ui ui;
     private QuestionsList questionsList1;
     private QuestionsList questionsList2;
+    private QuestionsList questionsList3;
     private TopicList topicList;
     private QuestionListByTopic questionListByTopic;
     private ResultsList allResults;
@@ -28,6 +29,7 @@ public class Player2113 {
     public Player2113() {
         questionsList1 = new QuestionsList();
         questionsList2 = new QuestionsList();
+        questionsList3 = new QuestionsList();
         questionListByTopic = new QuestionListByTopic();
         topicList = new TopicList();
         allResults = new ResultsList();
@@ -39,7 +41,8 @@ public class Player2113 {
 
         ArrayList<QuestionsList> arrayOfQuestionsLists = new ArrayList<>();
         arrayOfQuestionsLists.add(questionsList1);
-        arrayOfQuestionsLists.add(questionsList2); // Step 1 here
+        arrayOfQuestionsLists.add(questionsList2);
+        arrayOfQuestionsLists.add(questionsList3); // Step 1 here
         // to add more questionsList,
         // 1. add line here +
         // 2. inspect storage.createQuestionList() +
@@ -57,12 +60,14 @@ public class Player2113 {
         }
 
         // Step 3 here!
-        Topic topic1 = new Topic(questionsList1, "Software Engineering Concepts I", false, "Covers SE & OOP concepts");
-        Topic topic2 = new Topic(questionsList2, "Software Engineering Concepts II", false, "Covers SE & OOP " +
-                "concepts II");
+        Topic topic1 = new Topic(questionsList1, "Software Engineering Concepts I", false, "SE & OOP concepts");
+        Topic topic2 = new Topic(questionsList2, "Software Engineering Concepts II", false, "SE & OOP concepts II");
+        Topic topic3 = new Topic(questionsList3, "All About Java", false, "General info on Java");
         topicList.addTopic(topic1);
         topicList.addTopic(topic2);
+        topicList.addTopic(topic3);
     }
+
     //@@author
     public void run() {
         ui.sayHi();
@@ -124,6 +129,7 @@ public class Player2113 {
     }
 
     //@@author cyhjason29
+
     /**
      * Loads the question of which the user last left off before exiting the game while paused.
      *
