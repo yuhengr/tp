@@ -143,7 +143,7 @@ Displays commands for the application (start game, choose topic, revise, clear/r
 Usage: type “help” in the main menu.
 Sample output:
 
-![Help Sample Output](./docs/team/img/ug_usage_help.png)
+![Help Sample Output](docs/team/img/UG/ug_usage_help.png)
 
 ### 8. Pausing the game: `pause`
 
