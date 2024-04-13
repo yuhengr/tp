@@ -99,8 +99,9 @@ public class Parser {
             } else if (commandToken == CommandList.CHECKPOINT) {
                 handleCheckpointCommand(command, ui, topicList, questionListByTopic, allResults,
                         userAnswers, progressManager);
-            } else if (lowerCaseCommand.startsWith(EXPLAIN_PARAMETER)) {
-                processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
+            } else if (commandToken == CommandList.EXPLAIN) {
+                //processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
+                handleExplainCommandRegEx(command, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith(RESULTS_PARAMETER)) {
                 processResultsCommand(lowerCaseCommand, allResults, ui, questionListByTopic, userAnswers);
             } else if (lowerCaseCommand.contentEquals(BYE_PARAMETER)) {
@@ -413,6 +414,59 @@ public class Parser {
             ui.printNoSolutionAccess();
         }
     }
+
+    private void handleExplainCommandRegEx(
+            String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
+            throws CustomException {
+
+        Pattern explainPattern = Pattern.compile(CommandList.getExplainPattern());
+        Matcher matcher = explainPattern.matcher(command);
+        boolean foundMatch = matcher.find();
+
+        if(!foundMatch) {
+            throw new CustomException("Exception caught! You've entered an invalid format.");
+        }
+
+        String topicNumParam = matcher.group(FIRST_PARAMETER);
+        String questionNumParam = matcher.group(SECOND_PARAMETER);
+
+        boolean isTopicNumParamOverflowing = isParamOverflowing(topicNumParam);
+        boolean isQuestionNumParamOverflowing = isParamOverflowing(questionNumParam);
+        boolean isQuestionNumParamProvided = !questionNumParam.isEmpty();
+
+        if(isTopicNumParamOverflowing || isQuestionNumParamOverflowing) {
+            throw new CustomException("Exception caught! You've entered a parameter that is too long.");
+        }
+
+        final int numOfTopics = topicList.getSize();
+        int topicNum = getTopicNum(topicNumParam, numOfTopics);
+
+        final int indexOfTopicNum = topicNum - 1;
+        QuestionsList qnList = questionListByTopic.getQuestionSet(indexOfTopicNum);
+
+        final int uninitializedQuestionNum = -1;
+        int questionNum = uninitializedQuestionNum;
+        final int numOfQuestions = qnList.getSize();
+
+        if(isQuestionNumParamProvided) {
+            questionNum = getQuestionNum(questionNumParam, numOfQuestions);
+        }
+
+        boolean hasAttemptedTopicBefore = topicList.get(indexOfTopicNum).hasAttempted();
+
+        if(hasAttemptedTopicBefore) {
+            if(isQuestionNumParamProvided) {
+                String selectedExplanation = qnList.getOneExplanation(questionNum);
+                ui.printOneExplanation(questionNum, selectedExplanation);
+            } else {
+                String allExplanations = qnList.getAllExplanations();
+                ui.printAllExplanations(allExplanations);
+            }
+        } else {
+            ui.printNoSolutionAccess();
+        }
+    }
+
     //@@author ngxzs
     private void processExplainCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
@@ -674,6 +728,49 @@ public class Parser {
         }
         ui.showCorrectFormat();
         return false;
+    }
+
+    private boolean isParamOverflowing(String param) {
+        final int maxParamLength = 5;
+        int paramLength = param.length();
+
+        if(paramLength > maxParamLength) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private int getTopicNum(String topicNumParam, int numOfTopics) throws CustomException {
+
+        try {
+            int topicNum = Integer.parseInt(topicNumParam);
+
+            if(topicNum <=0 || topicNum > numOfTopics) {
+                throw new CustomException("Exception caught! You've entered an invalid topic number.");
+            }
+
+            return topicNum;
+        }
+        catch (NumberFormatException error) {
+            throw new CustomException("Exception caught! Unable to parse topic number provided.");
+        }
+    }
+
+    private int getQuestionNum(String questionNumParam, int numOfQuestions) throws CustomException {
+
+        try {
+            int questionNum = Integer.parseInt(questionNumParam);
+
+            if(questionNum <= 0 || questionNum > numOfQuestions) {
+                throw new CustomException("Exception caught! You've entered an invalid question number.");
+            }
+
+            return questionNum;
+        }
+        catch (NumberFormatException error) {
+            throw new CustomException("Exception caught! Unable to parse question number provided.");
+        }
     }
 }
 
