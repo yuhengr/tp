@@ -436,8 +436,8 @@ public class Ui {
         while (true) {
             System.out.println(MESSAGE_ASK_FOR_NAME);
             userName = in.nextLine();
-            if (!userName.isBlank()) {
-                break; // if userName != "", " " etc
+            if (!userName.isBlank()) { // if userName is valid ie != "", " " etc
+                break;
             }
             System.out.println(MESSAGE_ASK_FOR_NAME_AGAIN);
         }
