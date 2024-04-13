@@ -419,8 +419,6 @@ public class Parser {
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
 
-        System.out.println("Handling explain command in regex.");
-
         Pattern explainPattern = Pattern.compile(CommandList.getExplainPattern());
         Matcher matcher = explainPattern.matcher(command);
         boolean foundMatch = matcher.find();
@@ -456,7 +454,17 @@ public class Parser {
 
         boolean hasAttemptedTopicBefore = topicList.get(indexOfTopicNum).hasAttempted();
 
-        System.out.println("End of handling explain command in regex.");
+        if(hasAttemptedTopicBefore) {
+            if(isQuestionNumParamProvided) {
+                String selectedExplanation = qnList.getOneExplanation(questionNum);
+                ui.printOneExplanation(questionNum, selectedExplanation);
+            } else {
+                String allExplanations = qnList.getAllExplanations();
+                ui.printAllExplanations(allExplanations);
+            }
+        } else {
+            ui.printNoSolutionAccess();
+        }
     }
 
     //@@author ngxzs
