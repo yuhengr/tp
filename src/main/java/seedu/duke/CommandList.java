@@ -4,7 +4,7 @@ import seedu.duke.exceptions.CustomException;
 
 public enum CommandList {
 
-    TOPIC, HELP, SOLUTION, EXPLAIN, RESULTS, TIMED_MODE, BYE, CUSTOM, CHECKPOINT, INVALID;
+    TOPIC, HELP, SOLUTION, EXPLAIN, RESULTS, TIMED_MODE, BYE, CUSTOM, CHECKPOINT, CLEAR, INVALID;
 
     private static final String PATTERN_TOPIC = "(?i)topic\\s*(\\d*)";
 
@@ -61,6 +61,8 @@ public enum CommandList {
             return TIMED_MODE;
         } else if (mainCommand.contentEquals("bye")) {
             return BYE;
+        } else if (mainCommand.contentEquals("clear")) {
+            return CLEAR;
         } else {
             return INVALID;
         }

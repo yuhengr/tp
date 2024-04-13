@@ -473,8 +473,8 @@ public class Ui {
         while (true) {
             System.out.println(MESSAGE_ASK_FOR_NAME);
             userName = in.nextLine();
-            if (!userName.isBlank()) {
-                break; // if userName != "", " " etc
+            if (!userName.isBlank()) { // if userName is valid ie != "", " " etc
+                break;
             }
             System.out.println(MESSAGE_ASK_FOR_NAME_AGAIN);
         }
@@ -604,6 +604,34 @@ public class Ui {
         } catch (NumberFormatException error) {
             return -1;
         }
+    }
+
+    public void displayProgressClearedMessage() {
+        System.out.println("Your progress has been cleared.");
+    }
+
+    public boolean getConfirmationClearProgress() {
+        System.out.println("Are you sure you want to clear game progress? (y or n)");
+
+        String userInput = in.nextLine();
+
+        while(!isValidConfirmationInput(userInput)) {
+            System.out.println("Please enter y or n.");
+
+            userInput = in.nextLine();
+        }
+
+        if(userInput.contentEquals("y")){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isValidConfirmationInput(String userInput) {
+        if(userInput.contentEquals("y") || userInput.contentEquals("n")) {
+            return true;
+        }
+        return false;
     }
 }
 
