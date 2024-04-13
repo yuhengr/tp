@@ -1,0 +1,27 @@
+@startuml
+
+left to right direction
+top to bottom direction
+
+package "Program Starts" as AnyUserCommands {
+    actor User
+    (display results)
+    (display solution)
+    (display explain)
+    (display help)
+    (display list) -[hidden]- User
+    (exit)
+}
+
+package "Step 1: GameSetUp" as SetUp {
+    (timed mode)
+    (choose topic)
+}
+package "Step 2: GamePlay" as GamePlay {
+    (answering questions)
+}
+
+User --> SetUp
+SetUp --> GamePlay
+
+@enduml
