@@ -565,5 +565,29 @@ public class Ui {
     public void displayProgressClearedMessage() {
         System.out.println("Your progress has been cleared.");
     }
+
+    public boolean getConfirmationClearProgress() {
+        System.out.println("Are you sure you want to clear game progress? (y or n)");
+
+        String userInput = in.nextLine();
+
+        while(!isValidConfirmationInput(userInput)) {
+            System.out.println("Please enter y or n.");
+
+            userInput = in.nextLine();
+        }
+
+        if(userInput.contentEquals("y")){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isValidConfirmationInput(String userInput) {
+        if(userInput.contentEquals("y") || userInput.contentEquals("n")) {
+            return true;
+        }
+        return false;
+    }
 }
 

@@ -504,9 +504,12 @@ public class Parser {
 
     private void handleClearCommand(Ui ui, ResultsList allResults, ProgressManager progressManager) {
 
-        allResults = progressManager.clearProgress();
+        boolean confirmClear = ui.getConfirmationClearProgress();
 
-        ui.displayProgressClearedMessage();
+        if(confirmClear) {
+            allResults = progressManager.clearProgress();
+            ui.displayProgressClearedMessage();
+        }
     }
 
     //@@author
