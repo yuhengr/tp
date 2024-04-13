@@ -57,6 +57,10 @@ What is your name?
 > 
 > More topics will be released in v3.0
 
+GameFlow sequence is as shown:
+
+![GameFlow Picture](team/img/UG/GameFlow.png)
+
 ## Features
 
 > **NOTE:**
@@ -84,6 +88,7 @@ Example:
 Input index of answer you want to respond with
 Press enter to submit response
 eg “a” to choose option "a. Java" (below)
+
 ![MCQ question sample](team/img/UG/mcqQuestionType.png)
 
 ### 2. Viewing results: `results`
