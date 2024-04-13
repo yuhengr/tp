@@ -7,10 +7,10 @@ package "Program Starts" as AnyUserCommands {
     actor User
     (display results)
     (display solution)
-    (display explain)
+    (exit)
     (display help)
     (display list) -[hidden]- User
-    (exit)
+    (display explanation)
 }
 
 package "Step 1: GameSetUp" as SetUp {
