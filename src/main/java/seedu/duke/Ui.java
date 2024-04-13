@@ -33,6 +33,8 @@ public class Ui {
     private static final String MESSAGE_SAY_BYE = "Most often, the problem is not the lack of time but the lack of " +
             "direction";
     private static final String ANSWER_TIMEOUT = "You ran out of time!";
+    private static final String MESSAGE_ANSWER_FORMAT = "Your answer must be either a, b, c, or d!";
+    private static final String RESUME = "resume";
 
     private static final int INDEX_TOPIC_NUM = 0;
     private static final int INDEX_INDEX = 1;
@@ -145,6 +147,7 @@ public class Ui {
 
             Parser parser = new Parser();
             boolean isPaused = false;
+            boolean isCorrectFormat = false;
             boolean wasPaused;
 
             do {
@@ -153,7 +156,10 @@ public class Ui {
                 answer = in.nextLine();
                 isPaused = parser.checkPause(answer, allResults, topicList, userAnswers, ui, storage, isPaused,
                         isTimedMode, allAnswers, answersCorrectness, topicResults, topicNum, indexGlobal);
-            } while (isPaused || wasPaused);
+                if (!isPaused && !answer.equalsIgnoreCase(RESUME)) {
+                    isCorrectFormat = parser.checkFormat(answer, ui);
+                }
+            } while (isPaused || wasPaused || !isCorrectFormat);
 
             if (!isTimesUp) {
                 parser.handleAnswerInputs(inputAnswers, indexGlobal, answer, questionUnit,
@@ -234,6 +240,21 @@ public class Ui {
     }
 
     //@@author cyhjason29
+    /**
+     * Resumes the game from the question of which the user last left off when exiting a paused game.
+     *
+     * @param pausedQuestion An array of integers containing the previously paused topic number and question number.
+     * @param topicList List of all topics.
+     * @param questionListByTopic List of all questions by topic.
+     * @param allResults List of all results.
+     * @param userAnswers List of all user answers to questions.
+     * @param storage Storage that deals with game data.
+     * @param ui User interface.
+     * @param answers User answers within the current attempt.
+     * @param correctness User answer correctness within the current attempt.
+     * @param topicResults User results within the current attempt.
+     * @throws CustomException If there was an error pausing the game.
+     */
     public void resumeTopic(int[] pausedQuestion, TopicList topicList, QuestionListByTopic questionListByTopic,
                             ResultsList allResults, AnswerTracker userAnswers, Storage storage, Ui ui,
                             ArrayList<String> answers, ArrayList<Boolean> correctness, Results topicResults)
@@ -254,14 +275,18 @@ public class Ui {
             Parser parser = new Parser();
             boolean isPaused = false;
             boolean wasPaused;
+            boolean isCorrectFormat = false;
 
             do {
                 wasPaused = isPaused;
                 askForAnswerInput();
                 answer = in.nextLine();
                 isPaused = parser.checkPause(answer, allResults, topicList, userAnswers, ui, storage, isPaused,
-                        !IS_TIMED_MODE, answers, correctness, topicResults, topicNum, index);
-            } while (isPaused || wasPaused);
+                        !IS_TIMED_MODE, answers, correctness, topicResults, topicNum, indexGlobal);
+                if (!isPaused && !answer.equalsIgnoreCase(RESUME)) {
+                    isCorrectFormat = parser.checkFormat(answer, ui);
+                }
+            } while (isPaused || wasPaused || !isCorrectFormat);
 
             parser.handleAnswerInputs(inputAnswers, index, answer, questionUnit, topicResults, correctness);
             answers.add(answer);
@@ -318,14 +343,34 @@ public class Ui {
     }
 
     //@@author cyhjason29
+
+    /**
+     * Prints one result to the user.
+     *
+     * @param includesDetails Whether the user has asked for details.
+     * @param topicNum The number of the topic for the result.
+     * @param score The score for the result.
+     * @param questionListByTopic List of questions by topic.
+     * @param userAnswers List of all user answers to questions.
+     * @param index Attempt number requested by user.
+     */
     public void printOneResult(boolean includesDetails, int topicNum, String score,
                                QuestionListByTopic questionListByTopic, AnswerTracker userAnswers, int index) {
-        System.out.println("Your results for Topic " + (topicNum + 1) + ":\n" + score + "\n");
+        System.out.println("Attempt " + index + ": " + System.lineSeparator() + "Your results for Topic " +
+                (topicNum + 1) + ":\n" + score + System.lineSeparator());
         if (includesDetails) {
             printResultDetails(questionListByTopic, topicNum, index - 1, userAnswers);
         }
     }
 
+    /**
+     * Prints all results to the user.
+     *
+     * @param includesDetails Whether the user has asked for details.
+     * @param allResults List of all results.
+     * @param questionListByTopic List of questions by topic.
+     * @param userAnswers List of all user answers to questions.
+     */
     public void printAllResults(boolean includesDetails, ResultsList allResults,
                                 QuestionListByTopic questionListByTopic, AnswerTracker userAnswers) {
         int numberOfResults = allResults.getSizeOfAllResults();
@@ -333,7 +378,7 @@ public class Ui {
         for (int i = 0; i < numberOfResults; i++) {
             int topicNum = allResults.getTopicNum(i);
             System.out.println("Attempt " + (i + 1) + ": " + System.lineSeparator() + "Your results for Topic " +
-                    (topicNum + 1) + ":" + System.lineSeparator() + allResults.getSpecifiedResult(i).getScore()
+                    (topicNum + 1) + ":\n" + allResults.getSpecifiedResult(i).getScore()
                     + System.lineSeparator());
             if (includesDetails) {
                 printResultDetails(questionListByTopic, topicNum, i, userAnswers);
@@ -341,6 +386,14 @@ public class Ui {
         }
     }
 
+    /**
+     * Prints the questions and the user answers to them within a topic.
+     *
+     * @param questionListByTopic List of questions by topic/.
+     * @param topicNum Topic number
+     * @param index Attempt number
+     * @param userAnswers List of all user answers to questions.
+     */
     private void printResultDetails(QuestionListByTopic questionListByTopic, int topicNum, int index,
                                     AnswerTracker userAnswers) {
         QuestionsList listOfQuestions = questionListByTopic.getQuestionSet(topicNum);
@@ -414,23 +467,41 @@ public class Ui {
         printLine();
     }
 
-    //@@author
+    //@@author songyuew
     public void printTable(String[] headers, String[][] data) {
         System.out.println(ASCIITable.getInstance().getTable(headers, data));
     }
 
     //@@author cyhjason29
+
+    /**
+     * Asks the user to resume or exit the game.
+     */
     public void askForResume() {
         System.out.println(MESSAGE_ASK_RESUME);
     }
 
+    /**
+     * Prints to the user that the game has been resumed.
+     */
     public void showResume() {
         System.out.println(MESSAGE_RESUME);
     }
 
+    /**
+     * Prints to the user that the game cannot be paused in timed mode.
+     */
     public static void showCannotPause() {
         System.out.println(MESSAGE_CANNOT_PAUSE);
     }
+
+    /**
+     * Prints to the user that the answer is not in the correct format.
+     */
+    public void showCorrectFormat() {
+        System.out.println(MESSAGE_ANSWER_FORMAT);
+    }
+
 
     //@@author hongyijie06
     public void askResumeSessionPrompt() {

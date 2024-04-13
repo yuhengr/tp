@@ -55,6 +55,12 @@ public class Parser {
     private static final String MESSAGE_INVALID_TIME = "Time limit must be more than 0 seconds";
     private static final String MESSAGE_INVALID_COMMAND = "That's an invalid command.";
 
+    private static final String OPTION_A = "a";
+    private static final String OPTION_B = "b";
+    private static final String OPTION_C = "d";
+    private static final String OPTION_D = "d";
+
+
     // non-constant attributes
     private boolean isTimedMode = false;
 
@@ -93,8 +99,9 @@ public class Parser {
             } else if (commandToken == CommandList.CHECKPOINT) {
                 handleCheckpointCommand(command, ui, topicList, questionListByTopic, allResults,
                         userAnswers, progressManager);
-            } else if (lowerCaseCommand.startsWith(EXPLAIN_PARAMETER)) {
-                processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
+            } else if (commandToken == CommandList.EXPLAIN) {
+                //processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
+                handleExplainCommandRegEx(command, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith(RESULTS_PARAMETER)) {
                 processResultsCommand(lowerCaseCommand, allResults, ui, questionListByTopic, userAnswers);
             } else if (lowerCaseCommand.contentEquals(BYE_PARAMETER)) {
@@ -114,12 +121,24 @@ public class Parser {
     }
 
     private void processListCommand(TopicList topicList, Ui ui) {
+        topicList.displayProgressBar();
         String[][] printData = topicList.listAllTopics();
         String[] tableHeader = {"index", "topic", "summary", "attempted"};
         ui.printTable(tableHeader, printData);
     }
 
     //@@author cyhjason29
+
+    /**
+     * Breaks the user's results command input into its parameters before processing them.
+     *
+     * @param lowerCaseCommand The input of the user altered to all lower case.
+     * @param allResults List of all results.
+     * @param ui User interface.
+     * @param questionListByTopic List of questions sorted by topic.
+     * @param userAnswers List of all user answers to questions.
+     * @throws CustomException If invalid parameters.
+     */
     private void processResultsCommand(String lowerCaseCommand, ResultsList allResults, Ui ui,
                                        QuestionListByTopic questionListByTopic, AnswerTracker userAnswers)
             throws CustomException {
@@ -127,7 +146,7 @@ public class Parser {
         if (allResults.getSizeOfAllResults() == NO_RESULTS) {
             throw new CustomException(MESSAGE_NO_RESULTS);
         }
-        String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER, TWO_PARAMETER_LENGTH);
+        String[] commandParts = lowerCaseCommand.trim().split(COMMAND_SPLITTER, TWO_PARAMETER_LENGTH);
         assert commandParts.length <= TWO_PARAMETER_LENGTH;
         switch (commandParts.length) {
         case (NO_PARAMETER_LENGTH):
@@ -152,8 +171,6 @@ public class Parser {
         case (TWO_PARAMETER_LENGTH):
             if (!commandParts[FIRST_PARAMETER].equals(DETAILS_PARAMETER)) {
                 throw new CustomException(MESSAGE_INVALID_PARAMETERS);
-            } else if (commandParts[SECOND_PARAMETER].isEmpty()) {
-                ui.printAllResults(INCLUDES_DETAILS, allResults, questionListByTopic, userAnswers);
             }
             try {
                 int index = Integer.parseInt(commandParts[SECOND_PARAMETER]);
@@ -397,6 +414,59 @@ public class Parser {
             ui.printNoSolutionAccess();
         }
     }
+
+    private void handleExplainCommandRegEx(
+            String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
+            throws CustomException {
+
+        Pattern explainPattern = Pattern.compile(CommandList.getExplainPattern());
+        Matcher matcher = explainPattern.matcher(command);
+        boolean foundMatch = matcher.find();
+
+        if(!foundMatch) {
+            throw new CustomException("Exception caught! You've entered an invalid format.");
+        }
+
+        String topicNumParam = matcher.group(FIRST_PARAMETER);
+        String questionNumParam = matcher.group(SECOND_PARAMETER);
+
+        boolean isTopicNumParamOverflowing = isParamOverflowing(topicNumParam);
+        boolean isQuestionNumParamOverflowing = isParamOverflowing(questionNumParam);
+        boolean isQuestionNumParamProvided = !questionNumParam.isEmpty();
+
+        if(isTopicNumParamOverflowing || isQuestionNumParamOverflowing) {
+            throw new CustomException("Exception caught! You've entered a parameter that is too long.");
+        }
+
+        final int numOfTopics = topicList.getSize();
+        int topicNum = getTopicNum(topicNumParam, numOfTopics);
+
+        final int indexOfTopicNum = topicNum - 1;
+        QuestionsList qnList = questionListByTopic.getQuestionSet(indexOfTopicNum);
+
+        final int uninitializedQuestionNum = -1;
+        int questionNum = uninitializedQuestionNum;
+        final int numOfQuestions = qnList.getSize();
+
+        if(isQuestionNumParamProvided) {
+            questionNum = getQuestionNum(questionNumParam, numOfQuestions);
+        }
+
+        boolean hasAttemptedTopicBefore = topicList.get(indexOfTopicNum).hasAttempted();
+
+        if(hasAttemptedTopicBefore) {
+            if(isQuestionNumParamProvided) {
+                String selectedExplanation = qnList.getOneExplanation(questionNum);
+                ui.printOneExplanation(questionNum, selectedExplanation);
+            } else {
+                String allExplanations = qnList.getAllExplanations();
+                ui.printAllExplanations(allExplanations);
+            }
+        } else {
+            ui.printNoSolutionAccess();
+        }
+    }
+
     //@@author ngxzs
     private void processExplainCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
@@ -598,6 +668,26 @@ public class Parser {
     }
 
     //@@author cyhjason29
+
+    /**
+     * Checks if the user wants to pause, and resume or exit the game when already paused.
+     *
+     * @param answer User input.
+     * @param allResults List of all results.
+     * @param topicList List of topics.
+     * @param userAnswers List of all user answers to questions.
+     * @param ui User interface.
+     * @param storage Storage that deals with save data.
+     * @param isPaused If the game is currently paused.
+     * @param isTimedMode If the game is currently in timed mode.
+     * @param allAnswers User answers within the current attempt.
+     * @param answersCorrectness User answer correctness within the current attempt.
+     * @param topicResults User results within the current attempt.
+     * @param topicNum The number of the topic which the user is currently attempting.
+     * @param index The question number the user is currently at
+     * @return The pause status of the game
+     * @throws CustomException If there is error saving the game data.
+     */
     public boolean checkPause(String answer, ResultsList allResults, TopicList topicList,
                               AnswerTracker userAnswers, Ui ui, Storage storage, boolean isPaused, boolean isTimedMode,
                               ArrayList<String> allAnswers, ArrayList<Boolean> answersCorrectness,
@@ -622,6 +712,65 @@ public class Parser {
         }
         ui.askForResume();
         return true;
+    }
+
+    /**
+     * Checks the format of the user answer.
+     *
+     * @param answer User input.
+     * @param ui User interface.
+     * @return Whether the user answer is of the right format.
+     */
+    public boolean checkFormat(String answer, Ui ui) {
+        if (answer.equalsIgnoreCase(OPTION_A) || answer.equalsIgnoreCase(OPTION_B)
+                || answer.equalsIgnoreCase(OPTION_C) || answer.equalsIgnoreCase(OPTION_D)) {
+            return true;
+        }
+        ui.showCorrectFormat();
+        return false;
+    }
+
+    private boolean isParamOverflowing(String param) {
+        final int maxParamLength = 5;
+        int paramLength = param.length();
+
+        if(paramLength > maxParamLength) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private int getTopicNum(String topicNumParam, int numOfTopics) throws CustomException {
+
+        try {
+            int topicNum = Integer.parseInt(topicNumParam);
+
+            if(topicNum <=0 || topicNum > numOfTopics) {
+                throw new CustomException("Exception caught! You've entered an invalid topic number.");
+            }
+
+            return topicNum;
+        }
+        catch (NumberFormatException error) {
+            throw new CustomException("Exception caught! Unable to parse topic number provided.");
+        }
+    }
+
+    private int getQuestionNum(String questionNumParam, int numOfQuestions) throws CustomException {
+
+        try {
+            int questionNum = Integer.parseInt(questionNumParam);
+
+            if(questionNum <= 0 || questionNum > numOfQuestions) {
+                throw new CustomException("Exception caught! You've entered an invalid question number.");
+            }
+
+            return questionNum;
+        }
+        catch (NumberFormatException error) {
+            throw new CustomException("Exception caught! Unable to parse question number provided.");
+        }
     }
 }
 

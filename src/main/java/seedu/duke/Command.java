@@ -1,5 +1,7 @@
 package seedu.duke;
 
+
+//@@author songyuew
 public class Command {
     private String commandName;
     private String commandFunction;

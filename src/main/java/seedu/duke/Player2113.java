@@ -8,13 +8,15 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Player2113 {
-    public static final String SOME_FILE_PATH = "something";
     private static final String FILE_PATH_STORAGE = "data/player2113.txt";
     private static final String MESSAGE_FILE_ERROR = "There was an error locating the save file.";
+    private static final String YES = "yes";
+    private static final String NO = "no";
 
     private Ui ui;
     private QuestionsList questionsList1;
     private QuestionsList questionsList2;
+    private QuestionsList questionsList3;
     private TopicList topicList;
     private QuestionListByTopic questionListByTopic;
     private ResultsList allResults;
@@ -24,9 +26,10 @@ public class Player2113 {
     private final Helper helper;
 
     //@@author ngxzs
-    public Player2113(String someFilePath) {
+    public Player2113() {
         questionsList1 = new QuestionsList();
         questionsList2 = new QuestionsList();
+        questionsList3 = new QuestionsList();
         questionListByTopic = new QuestionListByTopic();
         topicList = new TopicList();
         allResults = new ResultsList();
@@ -38,17 +41,18 @@ public class Player2113 {
 
         ArrayList<QuestionsList> arrayOfQuestionsLists = new ArrayList<>();
         arrayOfQuestionsLists.add(questionsList1);
-        arrayOfQuestionsLists.add(questionsList2); // Step 1 here
+        arrayOfQuestionsLists.add(questionsList2);
+        arrayOfQuestionsLists.add(questionsList3); // Step 1 here
         // to add more questionsList,
         // 1. add line here +
         // 2. inspect storage.createQuestionList() +
         // 3. Add to topics (below)
 
         try {
-            for (int i = 0; i < arrayOfQuestionsLists.size(); i += 1) {
-                QuestionsList currentQuestionList = arrayOfQuestionsLists.get(i);
+            for (int questionList = 0; questionList < arrayOfQuestionsLists.size(); questionList++) {
+                QuestionsList currentQuestionList = arrayOfQuestionsLists.get(questionList);
                 // Step 2 here
-                storage.updateQuestionList(i, currentQuestionList);
+                storage.updateQuestionList(questionList, currentQuestionList);
                 questionListByTopic.addQuestionSet(currentQuestionList);
             }
         } catch (CustomException e) {
@@ -56,11 +60,14 @@ public class Player2113 {
         }
 
         // Step 3 here!
-        Topic topic1 = new Topic(questionsList1, "Software Engineering Concepts I", false, "Covers lecture 1-2");
-        Topic topic2 = new Topic(questionsList2, "Software Engineering Concepts II", false, "Covers lecture 3-4");
+        Topic topic1 = new Topic(questionsList1, "Software Engineering Concepts I", false, "SE & OOP concepts");
+        Topic topic2 = new Topic(questionsList2, "Software Engineering Concepts II", false, "SE & OOP concepts II");
+        Topic topic3 = new Topic(questionsList3, "All About Java", false, "General info on Java");
         topicList.addTopic(topic1);
         topicList.addTopic(topic2);
+        topicList.addTopic(topic3);
     }
+
     //@@author
     public void run() {
         ui.sayHi();
@@ -84,12 +91,12 @@ public class Player2113 {
                     Parser parser = new Parser();
                     decision = in.nextLine();
 
-                } while (!(decision.equals("yes")) && !(decision.equals("no")));
-                if (decision.equals("yes")) {
+                } while (!(decision.equals(YES)) && !(decision.equals(NO)));
+                if (decision.equals(YES)) {
                     loadQuestion(saveFile);
                     topicList.displayProgressBar();
                     ui.printFinishedTopic();
-                } else if (decision.equals("no")) {
+                } else if (decision.equals(NO)) {
                     ui.confirmSelection();
                     String confirmDecision;
                     do {
@@ -97,8 +104,8 @@ public class Player2113 {
                         Parser parser = new Parser();
                         confirmDecision = input.nextLine();
 
-                    } while (!(confirmDecision.equals("yes")) && !(confirmDecision.equals("no")));
-                    if (confirmDecision.equals("no")) {
+                    } while (!(confirmDecision.equals(YES)) && !(confirmDecision.equals(NO)));
+                    if (confirmDecision.equals(NO)) {
                         ui.showResume();
                         loadQuestion(saveFile);
                         topicList.displayProgressBar();
@@ -122,6 +129,13 @@ public class Player2113 {
     }
 
     //@@author cyhjason29
+
+    /**
+     * Loads the question of which the user last left off before exiting the game while paused.
+     *
+     * @param saveFile The save file containing game data.
+     * @throws CustomException If there was an error finding the file.
+     */
     private void loadQuestion(File saveFile) throws CustomException {
         Results topicResults = new Results();
         ArrayList<String> answers = new ArrayList<>();
@@ -139,6 +153,6 @@ public class Player2113 {
 
     //@@author ngxzs
     public static void main(String[] args) {
-        new Player2113(SOME_FILE_PATH).run();
+        new Player2113().run();
     }
 }

@@ -1,12 +1,28 @@
 # Developer Guide
 
+* Acknowledgements
+* Design
+    * Architecture
+    * (list components / common classes here)
+* Implementation
+    * (state features here)
+* Appendix: Requirements
+    * Product Scope (feel free to modify these)
+    * User Stories
+    * Use Cases
+    * Non-functional Requirements
+    * Glossary
+* Appendix: Instructions for manual testing
+    * Launch and Shutdown (TODO: include testing methods)
+    * (include tests for other features)
+
 ## Design & implementation
 
 {Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
 
 ### Results feature
 
-The results feature is facilitated by `ResultsList` and 
+The results feature is facilitated by `ResultsList` and
 `AnswerTracker`. Both are used to display the results for
 all question sets attempted by the user, including details
 such as specific questions and their respective answer inputs
@@ -33,9 +49,9 @@ Similarly, the following sequence diagram shows how the
 > at the destroy marker (X) but due to a limitation of PlantUML,
 > the lifeline reaches the end of the diagram.
 
-Step 2. The user may repeat Step 1 with other question sets.  
+Step 2. The user may repeat Step 1 with other question sets.
 
-The sequence diagram for this step involving `ResultsList` 
+The sequence diagram for this step involving `ResultsList`
 and `AnswerTracker` are the same as the ones shown in Step 1.
 
 Step 3. The user now wants to view their results by executing
@@ -43,16 +59,15 @@ the `results` command.
 ![Results command sequence diagram](./team/img/ViewResults.png)
 
 > **Note:** If the user uses the results feature before
-> attempting any questions, the application will instead 
-> return an error to the user indicating that there are no 
+> attempting any questions, the application will instead
+> return an error to the user indicating that there are no
 > results.
-
 
 ### Topics Feature
 
-The topics feature comprises `TopicList` and `QuestionListByTopic`. 
+The topics feature comprises `TopicList` and `QuestionListByTopic`.
 `TopicList` is the list of topics for the users to attempt.
-`QuestionListByTopic` stores the respective question set for each topic in an ArrayList. 
+`QuestionListByTopic` stores the respective question set for each topic in an ArrayList.
 
 Given below is an example usage scenario and how the results
 mechanism behaves at each step.
@@ -64,10 +79,10 @@ The following shows the class diagram for `topicList`:
 ![TopicList class diagram](./team/img/TopicList_Topic_class_diagram.png)
 
 Step 2. A question from the question set of the chosen topic is displayed.
-        The user inputs their answer.
+The user inputs their answer.
 
 Step 3. Step 2 repeats until all the questions in the question set has been asked.
-        Step 1 executes and process repeats.
+Step 1 executes and process repeats.
 
 The following shows the class diagram for `QuestionListByTopic`:
 ![QuestionListByTopic](./team/img/QuestionListByTopic_class_diagram.png)
@@ -85,14 +100,14 @@ The solution feature is facilitated by `Parser#processSolutionCommand`, which is
 > at the destroy marker (X) but due to a limitation of PlantUML,
 > the lifeline reaches the end of the diagram.
 
-Step 1: After user runs the program and keys in the user command, the command will be passed to 
-`Parser#parseCommand`. 
+Step 1: After user runs the program and keys in the user command, the command will be passed to
+`Parser#parseCommand`.
 
 > **NOTE:** The command must contain the `solution` keyword.
 
-Step 2a: `Parser#processSolutionCommand` first checks the number of parameters in the user command 
+Step 2a: `Parser#processSolutionCommand` first checks the number of parameters in the user command
 by calling `Parser#checkIfTwoParameters`.
-The, further processing of parameters is done by calling `Parser#getTopicOrQuestionNum`. 
+The, further processing of parameters is done by calling `Parser#getTopicOrQuestionNum`.
 This is facilitated by calling `QuestionsListByTopic#getQuestionSet` to get all questions in the specified topic.
 
 Step 2b: Before getting the solution(s), the program first verifies if the topic has been attempted before.
@@ -107,6 +122,7 @@ else if there are 2 parameters (ie get one solution):
 `QuestionsList#getOneSolution` will get the specified solution and `ui#printOneSolution` will print it.
 
 ### Explain feature
+
 The explain feature either prints the explanation to 1 question or all questions in 1 topic.
 
 The explain feature is facilitated by `Parser#processExplanationCommand`, which is called by `Parser#parseCommand`
@@ -115,7 +131,7 @@ Step 1: After user runs the program and keys in the user command, the command wi
 `Parser#parseCommand`.
 
 > **NOTE:** The command must contain the `explain` keyword.
-> 
+>
 > Sequence diagram for `explain` is similar to the [sequence diagram](#solution-feature) for `solution` feature
 
 Step 2a: `Parser#processExplainCommand` first checks the number of parameters in the user command
@@ -134,7 +150,6 @@ if there is 1 parameter (ie get all explanations):
 else if there are 2 parameters (ie get one explanation):
 `QuestionsList#getOneExplanation` will get the specified explanation and `ui#printOneExplanation` will print it.
 
-
 ## Product scope
 
 ### Target user profile
@@ -143,18 +158,19 @@ CS2113/2103 students who wish to have an efficient tool to help them revise rele
 
 ### Value proposition
 
-Integration of key notions and learning learning objectives for CS2113 course, self-adaptive testing for understanding and feedback.
+Integration of key notions and learning objectives for CS2113 course, self-adaptive testing for understanding and
+feedback.
 
 ## User Stories
 
-| Version | As a ...                       | I want to ...                                        | So that I can ...                                                      |
-|---------|--------------------------------|------------------------------------------------------|------------------------------------------------------------------------|
-| v1.0    | new user                       | see user guide in the app                            | refer to them if I am unfamiliar with the usage of a command           |
-| v1.0    | student new to Java            | receive solutions with explanation after answering   | be aware of the reasoning behind the correct answer                    | 
-| v2.0    | regular user                   | see a progress bar when answering MCQs               | track my progress when attempting a question set                       |
-| v2.0    | regular user                   | see a progress bar about all topics in the main menu | track my revision progress for the entire course                       |
-| v2.0    | student going to take the exam | access timed modes in the game easily                | train my thought process to quicken in preparation for tests           |
-| v2.0    | student new to Java            | avoid memorization of specific question sets through randomly generated practice sets  | I can ensure I understand the concepts rather than memorising answers  |
+| Version | As a ...                       | I want to ...                                                                         | So that I can ...                                                     |
+|---------|--------------------------------|---------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
+| v1.0    | new user                       | see user guide in the app                                                             | refer to them if I am unfamiliar with the usage of a command          |
+| v1.0    | student new to Java            | receive solutions with explanation after answering                                    | be aware of the reasoning behind the correct answer                   | 
+| v2.0    | regular user                   | see a progress bar when answering MCQs                                                | track my progress when attempting a question set                      |
+| v2.0    | regular user                   | see a progress bar about all topics in the main menu                                  | track my revision progress for the entire course                      |
+| v2.0    | student going to take the exam | access timed modes in the game easily                                                 | train my thought process to quicken in preparation for tests          |
+| v2.0    | student new to Java            | avoid memorization of specific question sets through randomly generated practice sets | I can ensure I understand the concepts rather than memorising answers |
 
 ## Non-Functional Requirements
 
