@@ -83,8 +83,7 @@ public class Parser {
             if (lowerCaseCommand.startsWith(TIMED_MODE_PARAMETER)) {
                 timeLimit = processTimedMode(lowerCaseCommand);
                 isTimedMode = true;
-            }
-            else if (commandToken == CommandList.TOPIC) {
+            } else if (commandToken == CommandList.TOPIC) {
                 // Still under testing.
                 // beginStartCommand(command, ui, topicList, questionListByTopic, allResults, userAnswers);
                 processStartCommand(lowerCaseCommand, ui, topicList, questionListByTopic,
@@ -246,7 +245,8 @@ public class Parser {
         String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER, TIMER_ONE_PARAMETER_LENGTH);
         Character last = lowerCaseCommand.charAt(lowerCaseCommand.length() - 1);
         if (last == ' '){
-            commandParts[THIRD_PARAMETER_INDEX] = commandParts[THIRD_PARAMETER_INDEX].substring(0, commandParts[THIRD_PARAMETER_INDEX].length() - 1);
+            commandParts[THIRD_PARAMETER_INDEX] =
+                    commandParts[THIRD_PARAMETER_INDEX].substring(0, commandParts[THIRD_PARAMETER_INDEX].length() - 1);
         }
         int timeLimit = Integer.parseInt(commandParts[THIRD_PARAMETER_INDEX]);
 
@@ -795,8 +795,7 @@ public class Parser {
             }
 
             return topicNum;
-        }
-        catch (NumberFormatException error) {
+        } catch (NumberFormatException error) {
             throw new CustomException("Exception caught! Unable to parse topic number provided.");
         }
     }
@@ -811,8 +810,7 @@ public class Parser {
             }
 
             return questionNum;
-        }
-        catch (NumberFormatException error) {
+        } catch (NumberFormatException error) {
             throw new CustomException("Exception caught! Unable to parse question number provided.");
         }
     }
