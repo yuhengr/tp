@@ -136,6 +136,9 @@ Examples:
 
 ### 5. Attempt the questions under a time limit: `timed mode`
 
+Pause will not be allowed in timed mode as it is meant to simulate exam conditions.
+Timed mode selection happens before topic selection.
+
 Format: `timed mode [TIME_LIMIT]`
 
 - `TIME_LIMIT` represents the time limit set for the question set in seconds
@@ -143,6 +146,13 @@ Format: `timed mode [TIME_LIMIT]`
 
 Examples:
 ` timed mode 5` sets time limit to 5s
+
+Sample Output:
+```angular2html
+Timed mode selected. Please enter the topic you would like to try.
+You cannot pause in timed mode!
+Input a command player!
+```
 
 ### 6. List all available topics and their summaries: `list`
 

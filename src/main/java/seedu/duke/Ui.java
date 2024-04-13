@@ -42,6 +42,8 @@ public class Ui {
     private static final int NEW_LINE_LENGTH = 48;
     private static final boolean IS_TIMED_MODE = true;
     public boolean isPlaying = true;
+    private static final String INVALID_INPUT = "Invalid input. Please type 'yes' or 'no'";
+    private static final String INSTRUCTIONS = "Type 'yes' to restart session or 'no' to resume.";
 
     public boolean hasStartedGame = false;
     public TopicList topicList;
@@ -95,6 +97,16 @@ public class Ui {
         System.out.print(MESSAGE_ANSWER);
     }
 
+    //@@author hongyijie06
+    public void printInvalidForResume(){
+        System.out.println(INVALID_INPUT);
+    }
+
+    public void printInstructions(){
+        System.out.println(INSTRUCTIONS);
+    }
+
+    //@@author
     public void printTopicList(TopicList topicList, Ui ui) {
         int topicListSize = topicList.getSize();
         System.out.println(MESSAGE_ALL_TOPICS);

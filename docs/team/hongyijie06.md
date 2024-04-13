@@ -22,7 +22,12 @@ The user plays the game through a CLI. The application has about 3.6k lines of c
       The ultimate goal would be to simulate exam conditions to answer within the time limit. 
     - **Highlights:** The method to implement the timed mode involved usage of an inner class, in which the method in the timer task class cannot take in variables to update.
       It was challenging implementing the inner class as the implementation details are different from regular classes practiced in the module.
-    - **Credits:** Watched a YouTube tutorial on how to use timer and timer task abstract classes in the Java library. 
+    - **Credits:** Watched a [YouTube tutorial](https://youtu.be/QEF62Fm81h4?si=GPR9-J0K1zdsS588) on how to use timer and timer task abstract classes in the Java library. 
+- **Enhancement of Existing features: Integration using UI of pause feature when starting a new session**
+    - **What it does:** Users get to decide if they want to continue their previous session
+    - **Justification:** Users do not feel so restricted with the freedom of choice to start a new session.
+      They will also be warned that their incomplete game progress will be discarded if they decide to end the paused session before they confirm their decision.
+      This allows users to better take charge of their learning to create a more flexible experience.
 ### Contributions to the UG
 - Added the `topic` feature and how to use
 - Added the `timed mode` feature and how to use
@@ -34,7 +39,7 @@ The user plays the game through a CLI. The application has about 3.6k lines of c
 - Added `Non-functional Requirements`
 ### Contributions to Team-based Tasks
 - Standardise format of features introduction and command summary
-- Updating the non_functional requirements of the DG
+- Added non_functional requirements in the DG
 ### Review/ Mentoring Contributions
 - Testing of other commands and resolving bugs related to teammates code
 ### Contributions beyond the Project Team

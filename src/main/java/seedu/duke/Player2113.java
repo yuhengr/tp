@@ -85,11 +85,17 @@ public class Player2113 {
         if (isPaused) {
             try {
                 ui.askResumeSessionPrompt();
+
                 String decision;
+                String userInput;
                 do {
                     Scanner in = new Scanner(System.in);
                     Parser parser = new Parser();
-                    decision = in.nextLine();
+                    userInput = in.nextLine();
+                    decision = userInput.toLowerCase();
+                    if (!(decision.equals(YES)) && !(decision.equals(NO))){
+                        ui.printInvalidForResume();
+                    }
 
                 } while (!(decision.equals(YES)) && !(decision.equals(NO)));
                 if (decision.equals(YES)) {
@@ -103,6 +109,10 @@ public class Player2113 {
                         Scanner input = new Scanner(System.in);
                         Parser parser = new Parser();
                         confirmDecision = input.nextLine();
+                        if (!(confirmDecision.equals(YES)) && !(confirmDecision.equals(NO))){
+                            ui.printInvalidForResume();
+                            ui.printInstructions();
+                        }
 
                     } while (!(confirmDecision.equals(YES)) && !(confirmDecision.equals(NO)));
                     if (confirmDecision.equals(NO)) {
