@@ -102,6 +102,8 @@ public class Parser {
             } else if (commandToken == CommandList.EXPLAIN) {
                 //processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
                 handleExplainCommandRegEx(command, ui, topicList, questionListByTopic);
+            } else if (commandToken == CommandList.CLEAR) {
+                handleClearCommand(ui, allResults);
             } else if (lowerCaseCommand.startsWith(RESULTS_PARAMETER)) {
                 processResultsCommand(lowerCaseCommand, allResults, ui, questionListByTopic, userAnswers);
             } else if (lowerCaseCommand.contentEquals(BYE_PARAMETER)) {
@@ -498,6 +500,10 @@ public class Parser {
             String allExplanations = qnList.getAllExplanations();
             ui.printAllExplanations(allExplanations);
         }
+    }
+
+    private void handleClearCommand(Ui ui, ResultsList allResults) throws CustomException {
+        System.out.println("Handling clear command.");
     }
 
     //@@author
