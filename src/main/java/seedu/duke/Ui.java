@@ -561,5 +561,9 @@ public class Ui {
             return -1;
         }
     }
+
+    public void displayProgressClearedMessage() {
+        System.out.println("Your progress has been cleared.");
+    }
 }
 
