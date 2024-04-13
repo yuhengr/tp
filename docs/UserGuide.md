@@ -57,6 +57,10 @@ What is your name?
 > 
 > More topics will be released in v3.0
 
+GameFlow sequence is as shown:
+
+![GameFlow Picture](team/img/UG/GameFlow.png)
+
 ## Features
 
 > **NOTE:**
@@ -194,7 +198,7 @@ Format: `help`
 
 Sample output:
 
-![Help Sample Output](./team/img/ug_usage_help.png)
+![Help Sample Output](team/img/UG/ug_usage_help.png)
 
 ### 8. Pausing the game: `pause`
 
