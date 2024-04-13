@@ -99,8 +99,9 @@ public class Parser {
             } else if (commandToken == CommandList.CHECKPOINT) {
                 handleCheckpointCommand(command, ui, topicList, questionListByTopic, allResults,
                         userAnswers, progressManager);
-            } else if (lowerCaseCommand.startsWith(EXPLAIN_PARAMETER)) {
-                processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
+            } else if (commandToken == CommandList.EXPLAIN) {
+                //processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
+                handleExplainCommandRegEx(command, ui, topicList, questionListByTopic);
             } else if (lowerCaseCommand.startsWith(RESULTS_PARAMETER)) {
                 processResultsCommand(lowerCaseCommand, allResults, ui, questionListByTopic, userAnswers);
             } else if (lowerCaseCommand.contentEquals(BYE_PARAMETER)) {
@@ -413,6 +414,16 @@ public class Parser {
             ui.printNoSolutionAccess();
         }
     }
+
+    private void handleExplainCommandRegEx(
+            String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
+            throws CustomException {
+
+        System.out.println("Handling explain command in regex.");
+
+        System.out.println("End of handling explain command in regex.");
+    }
+
     //@@author ngxzs
     private void processExplainCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)

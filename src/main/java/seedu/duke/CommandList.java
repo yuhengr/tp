@@ -14,7 +14,7 @@ public enum CommandList {
 
     private static final String PATTERN_CUSTOM = "(?i)custom";
 
-    private static final String PATTERN_EXPLANATION = "(?i)explanation\\s*(\\d+)\\s*(\\d+)";
+    private static final String PATTERN_EXPLAIN = "(?i)explanation\\s*(\\d+)\\s*(.*)";
 
     private static final String PATTERN_HELP = "(?i)help\\s*(\\w*)";
 
@@ -27,6 +27,10 @@ public enum CommandList {
 
     public static String getSolutionPattern() {
         return PATTERN_SOLUTION;
+    }
+
+    public static String getExplainPattern() {
+        return PATTERN_EXPLAIN;
     }
 
     public static CommandList getCommandToken(String command) throws CustomException {
