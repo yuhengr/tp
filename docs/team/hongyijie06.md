@@ -31,7 +31,7 @@ The user plays the game through a CLI. The application has about 3.6k lines of c
 - **Enhancement of Existing features: access to solutions and explanations only after attempting** (e.g. [#44](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/44))
     - **Justification:** Allows the user to practice active recall to attempt the questions first rather than taking a passive approach to solely read the solutions and explanations in their revision.
 ### Contributions to the UG
-- Added the `topic` feature and how to use
+- Added the `topic` feature and how to use (e.g [#175](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/175))
 - Added the `timed mode` feature and how to use (e.g. [commit #362e139](https://github.com/hongyijie06/tp/commit/362e13952340b0a687aee3f469773c2880ed8495))
 - Standardise presentation of the different command headers (e.g. [#85](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/85))
 - Standardise presentation of `Command Summary` (e.g. [#85](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/85))
