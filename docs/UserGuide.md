@@ -27,7 +27,7 @@ Prerequisites: JDK 11, Player2113 release `JDK` file
 Start the programme with the following command:
 
 ```
-java --jar Player2113.jar
+java -jar Player2113.jar
 ```
 
 You will see the welcome screen upon successful start-up:
