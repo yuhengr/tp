@@ -74,7 +74,7 @@ GameFlow sequence is as shown:
 
 ### 1. Starting game: `topic`
 
-There are multiple question banks pre-configured in Player2113.
+There are multiple question banks pre-configured in Player2113 for each topic.
 Start the game by selecting a topic from the menu.
 After choosing a topic, questions will start appearing.
 
@@ -82,14 +82,26 @@ Format: `topic TOPIC_INDEX`
 
 - Gameplay will include questions from the specified topic.
 - After start, the system will display a question, and the user will have to key in a response.
-- Press Enter to submit the response. System will then key in the next question. This will happen for 10 questions.
+- Press Enter to submit the response. System will then key in the next question.
+- Each question bank has 10 questions.
 
 Example:
 Input index of answer you want to respond with
 Press enter to submit response
 eg “a” to choose option "a. Java" (below)
 
-![MCQ question sample](team/img/UG/mcqQuestionType.png)
+```angular2html
+What language does CS2113 use?
+a. Java
+b. C++
+c. C
+d. Python
+
+Enter your answer: [answer]
+*****************************************
+[*---------] 10% 1/10 questions attempted
+*****************************************
+```
 
 ### 2. Viewing results: `results`
 
@@ -141,6 +153,9 @@ Examples:
 
 ### 5. Attempt the questions under a time limit: `timed mode`
 
+Pause will not be allowed in timed mode as it is meant to simulate exam conditions.
+Timed mode selection happens before topic selection.
+
 Format: `timed mode [TIME_LIMIT]`
 
 - `TIME_LIMIT` represents the time limit set for the question set in seconds
@@ -148,6 +163,13 @@ Format: `timed mode [TIME_LIMIT]`
 
 Examples:
 ` timed mode 5` sets time limit to 5s
+
+Sample Output:
+```angular2html
+Timed mode selected. Please enter the topic you would like to try.
+You cannot pause in timed mode!
+Input a command player!
+```
 
 ### 6. List all available topics and their summaries: `list`
 

@@ -35,6 +35,8 @@ public class Ui {
     private static final String ANSWER_TIMEOUT = "You ran out of time!";
     private static final String MESSAGE_ANSWER_FORMAT = "Your answer must be either a, b, c, or d!";
     private static final String RESUME = "resume";
+    private static final String INVALID_INPUT = "Invalid input. Please type 'yes' or 'no'";
+    private static final String INSTRUCTIONS = "Type 'yes' to restart session or 'no' to resume.";
 
     private static final int INDEX_TOPIC_NUM = 0;
     private static final int INDEX_INDEX = 1;
@@ -95,6 +97,16 @@ public class Ui {
         System.out.print(MESSAGE_ANSWER);
     }
 
+    //@@author hongyijie06
+    public void printInvalidForResume(){
+        System.out.println(INVALID_INPUT);
+    }
+
+    public void printInstructions(){
+        System.out.println(INSTRUCTIONS);
+    }
+
+    //@@author
     public void printTopicList(TopicList topicList, Ui ui) {
         int topicListSize = topicList.getSize();
         System.out.println(MESSAGE_ALL_TOPICS);
@@ -156,10 +168,10 @@ public class Ui {
                 answer = in.nextLine();
                 isPaused = parser.checkPause(answer, allResults, topicList, userAnswers, ui, storage, isPaused,
                         isTimedMode, allAnswers, answersCorrectness, topicResults, topicNum, indexGlobal);
-                if (!isPaused && !answer.equalsIgnoreCase(RESUME)) {
+                if (!isPaused && !answer.equalsIgnoreCase(RESUME) && !isTimesUp) {
                     isCorrectFormat = parser.checkFormat(answer, ui);
                 }
-            } while (isPaused || wasPaused || !isCorrectFormat);
+            } while ((isPaused || wasPaused || !isCorrectFormat) && !isTimesUp);
 
             if (!isTimesUp) {
                 parser.handleAnswerInputs(inputAnswers, indexGlobal, answer, questionUnit,
@@ -177,6 +189,16 @@ public class Ui {
     }
 
     //@@author hongyijie06
+
+    /**
+     * handles timer in the timed mode
+     *
+     * @param hasCompletedSet whether all the questions in the question set of the chosen topic has been answered
+     * @param allAnswers the ArrayList of the user's answers for the question set
+     * @param numOfQns total number of questions in the question set
+     * @param answersCorrectness the Arraylist of whether the user's answers are correct for each question
+     * @param timeLimit the time limit the user set in the timed mode in seconds
+     */
     public void timerBegin(boolean hasCompletedSet, ArrayList<String> allAnswers, int numOfQns,
                            ArrayList<Boolean> answersCorrectness, int timeLimit) {
 
@@ -199,6 +221,14 @@ public class Ui {
     }
 
     //@@author hongyijie06
+
+    /**
+     * handles the ui when time limit is reached in timed mode
+     *
+     * @param allAnswers the ArrayList of the user's answers
+     * @param numOfQns number of questions in the question set of the chosen topic
+     * @param answersCorrectness the ArrayList of whether the user's answers are correct for each question
+     */
     public void timeOut(ArrayList<String> allAnswers, int numOfQns, ArrayList<Boolean> answersCorrectness) {
         if (!hasCompletedSet) {
             allAnswers.add(ANSWER_TIMEOUT);
@@ -213,6 +243,13 @@ public class Ui {
     }
 
     //@@author hongyijie06
+
+    /**
+     * handles successful completion of the question set before the set time limit
+     *
+     * @param numOfQns the total number of questions in the question set
+     * @param isTimedMode a boolean whether the game is in timed mode
+     */
     public void finishBeforeTimerChecker(int numOfQns, boolean isTimedMode) {
         int qnNumberIndex = numOfQns - 1;//-1 due to zero index
         if (indexGlobal == qnNumberIndex && isTimedMode) {
@@ -504,10 +541,17 @@ public class Ui {
 
 
     //@@author hongyijie06
+
+    /**
+     * Ask if user wants to continue paused session
+     */
     public void askResumeSessionPrompt() {
         System.out.println("Continue from previous paused session? (yes/no)");
     }
 
+    /**
+     * Confirmation for not resuming and disclaimer of discarding results
+     */
     public void confirmSelection() {
         System.out.println("Are you sure you don't want to continue the session? (yes/no) ");
         System.out.println("Results from the incomplete attempt will be discarded :0");

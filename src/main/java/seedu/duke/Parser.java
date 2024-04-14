@@ -23,7 +23,7 @@ public class Parser {
     private static final String HELP_PARAMETER = "help";
     private static final String LIST_PARAMETER = "list";
     private static final String TOPIC_PARAMETER = "topic";
-    private static final String TIMED_MODE_PARAMETER = "timed mode ";
+    private static final String TIMED_MODE_PARAMETER = "timed mode";
 
     private static final String DETAILS_PARAMETER = "details";
     private static final String SOLUTION_PARAMETER = "solution";
@@ -82,8 +82,7 @@ public class Parser {
             if (lowerCaseCommand.startsWith(TIMED_MODE_PARAMETER)) {
                 timeLimit = processTimedMode(lowerCaseCommand);
                 isTimedMode = true;
-            }
-            if (commandToken == CommandList.TOPIC) {
+            } else if (commandToken == CommandList.TOPIC) {
                 // Still under testing.
                 // beginStartCommand(command, ui, topicList, questionListByTopic, allResults, userAnswers);
                 processStartCommand(lowerCaseCommand, ui, topicList, questionListByTopic,
@@ -112,8 +111,6 @@ public class Parser {
                 processHelpCommand(lowerCaseCommand, ui, helper);
             } else if (lowerCaseCommand.contentEquals(LIST_PARAMETER)) {
                 processListCommand(topicList, ui);
-            } else if (!lowerCaseCommand.startsWith(TIMED_MODE_PARAMETER)) {
-                throw new CustomException(MESSAGE_INVALID_COMMAND_FORMAT);
             } else {
                 throw new CustomException(MESSAGE_INVALID_COMMAND);
             }
@@ -235,22 +232,52 @@ public class Parser {
     }
 
     //@@author hongyijie06
-    private int processTimedMode(String lowerCaseCommand) throws CustomException {
-        checkTimingValidity(lowerCaseCommand);
-        String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER, TIMER_ONE_PARAMETER_LENGTH);
 
+    /**
+     * Handles timed mode
+     *
+     * @param lowerCaseCommand a String of the user's input in lower case
+     * @return timeLimit, the time limit in seconds set by the user
+     * @throws CustomException if command is not in the correct format
+     */
+    private int processTimedMode(String lowerCaseCommand) throws CustomException{
+        checkTimingValidity(lowerCaseCommand);
+
+        String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER, TIMER_ONE_PARAMETER_LENGTH);
+        Character last = lowerCaseCommand.charAt(lowerCaseCommand.length() - 1);
+        if (last == ' '){
+            commandParts[THIRD_PARAMETER_INDEX] =
+                    commandParts[THIRD_PARAMETER_INDEX].substring(0, commandParts[THIRD_PARAMETER_INDEX].length() - 1);
+        }
         int timeLimit = Integer.parseInt(commandParts[THIRD_PARAMETER_INDEX]);
+
         Ui.printTimedModeSelected();
         return timeLimit;
     }
 
     //@@author hongyijie06
+
+    /**
+     * Checks if format of user input is correct to enter timed mode
+     *
+     * @param lowerCaseCommand a String of the user's input in lower case
+     * @throws CustomException if command is not in the correct format
+     */
     private static void checkTimingValidity(String lowerCaseCommand) throws CustomException {
-        String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER, TIMER_ONE_PARAMETER_LENGTH);
+        String[] commandParts = lowerCaseCommand.split(COMMAND_SPLITTER);
+
+        if (commandParts.length == ONE_PARAMETER_LENGTH) {
+            throw new CustomException(MESSAGE_UNSPECIFIED_TIME);
+        } else if (commandParts.length > TIMER_ONE_PARAMETER_LENGTH){
+            throw new CustomException(MESSAGE_INVALID_COMMAND_FORMAT);
+        }
 
         try {
-            int timeLimit = Integer.parseInt(commandParts[THIRD_PARAMETER_INDEX]);
-        } catch (NumberFormatException e) {
+            if (commandParts.length == TIMER_ONE_PARAMETER_LENGTH) {
+                int timeLimit = Integer.parseInt(commandParts[THIRD_PARAMETER_INDEX]);
+
+            }
+        } catch (NumberFormatException e){
             throw new CustomException(MESSAGE_INDEX_NOT_INTEGER);
         }
 
@@ -260,12 +287,27 @@ public class Parser {
             } else if (Integer.parseInt(commandParts[THIRD_PARAMETER_INDEX]) <= 0) {
                 throw new CustomException(MESSAGE_INVALID_TIME);
             }
+
         } catch (NumberFormatException e) {
             throw new CustomException(MESSAGE_INVALID_PARAMETERS);
         }
     }
 
     //@@author hongyijie06
+
+    /**
+     * handles starting the chosen topic
+     *
+     * @param lowerCaseCommand a String of the user's input in lower case
+     * @param ui user interface
+     * @param topicList a TopicList of the list of topics, each containing their question sets
+     * @param questionListByTopic the QuestionListByTopic of the questions sorted by topics
+     * @param allResults the list of all results
+     * @param userAnswers list of all user answers to questions
+     * @param isTimedMode whether the game is in timed mode
+     * @param storage storage that deals with game data
+     * @throws CustomException if the command is not in the correct format
+     */
     private void processStartCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
             ResultsList allResults, AnswerTracker userAnswers, boolean isTimedMode, Storage storage
@@ -309,6 +351,7 @@ public class Parser {
     }
 
     // solution command
+    //@@author
     private void processSolutionCommand(
             String lowerCaseCommand, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
