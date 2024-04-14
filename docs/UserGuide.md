@@ -224,7 +224,23 @@ Format: `resume`
 
 - This command is valid only when the game is paused.
 
-### 10. Exiting the game: `bye`
+### 10. Custom mode: `custom`
+
+This command allows the player to customise the questions by selecting which topic and the number of questions they would like to practise.
+
+Format: `custom`
+
+- Upon entering this command, the user can follow the subsequent prompts to customise their question set.
+
+### 11. Checkpoint : `checkpoint`
+
+This command allows the user to set a number of questions that they would like to complete in the current session.
+
+Format: `checkpoint`
+
+- Upon entering this command, the user can follow the subsequent prompts to set a target.
+
+### 12. Exiting the game: `bye`
 
 All results will be saved to a local save file, which will be loaded up when the application is opened next time.
 
