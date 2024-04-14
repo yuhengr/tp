@@ -15,7 +15,9 @@ Command Line Interface** (CLI).
   * [View help: `help`](#7-viewing-help-help)
   * [Pause the game: `pause`](#8-pausing-the-game-pause)
   * [Resume the game: `resume`](#9-resuming-the-game-resume)
-  * [Exit the program: `bye`](#10-exiting-the-game-bye)
+  * [Customise questions: `custom`](#10-customise-questions-custom)
+  * [Checkpoint goals: `checkpoint`](#11-checkpoint-goals-checkpoint)
+  * [Exit the program: `bye`](#12-exiting-the-game-bye)
 * [FAQ](#faq)
 * [Command Summary](#command-summary-of-features)
 
@@ -224,7 +226,23 @@ Format: `resume`
 
 - This command is valid only when the game is paused.
 
-### 10. Exiting the game: `bye`
+### 10. Customise questions: `custom`
+
+This command allows the player to customise the questions by selecting which topic and the number of questions they would like to practise.
+
+Format: `custom`
+
+- Upon entering this command, the user can follow the subsequent prompts to customise their question set.
+
+### 11. Checkpoint goals: `checkpoint`
+
+This command allows the user to set a number of questions that they would like to complete in the current session.
+
+Format: `checkpoint`
+
+- Upon entering this command, the user can follow the subsequent prompts to set a target.
+
+### 12. Exiting the game: `bye`
 
 All results will be saved to a local save file, which will be loaded up when the application is opened next time.
 
@@ -256,4 +274,6 @@ bye bye, get more sleep zzz
 * Show Solution `solution TOPIC_NUM [QUESTION_NUM]` e.g. `solution 1 1`
 * Show Explanation `explain TOPIC_NUM [QUESTION_NUM]` e.g. `explain 1 1`
 * Timed Mode `timed mode [TIME_LIMIT]` e.g. `timed mode 5`
+* Customise questions `custom`
+* Checkpoint goals `checkpoint`
 * Exit `bye`
