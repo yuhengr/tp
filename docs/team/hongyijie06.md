@@ -6,8 +6,7 @@ Player 2113 is a game application used for revising CS2113 concepts and strength
 The user plays the game through a CLI. The application has about 3.6k lines of code and is written in java.
 
 ## Summary of Contributions
-### Code Contributed
-- [Link to tP Code Dashboard](https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=hongyijie06&breakdown=true&sort=groupTitle%20dsc&sortWithin=title&since=2024-02-23&timeframe=commit&mergegroup=&groupSelect=groupByRepos&checkedFileTypes=docs~functional-code~test-code~other&tabOpen=false)
+### Code Contributed: [Link to tP Code Dashboard](https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=hongyijie06&breakdown=true&sort=groupTitle%20dsc&sortWithin=title&since=2024-02-23&timeframe=commit&mergegroup=&groupSelect=groupByRepos&checkedFileTypes=docs~functional-code~test-code~other&tabOpen=false)
 ### Enhancements Implemented
 - **V1.0: Added the ability to attempt questions by topic**
     - **What it does:** Allows the user to attempt questions from specific topics they want to revise. 
@@ -25,8 +24,6 @@ The user plays the game through a CLI. The application has about 3.6k lines of c
     - **Credits:** Watched a [YouTube tutorial](https://youtu.be/QEF62Fm81h4?si=GPR9-J0K1zdsS588) on how to use timer and timer task abstract classes in the Java library. 
 - **Enhancement of Existing features: Integration using UI of pause feature when starting a new session** (e.g. [#84](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/84))
     - **What it does:** Users get to decide if they want to continue their previous session
-    - **Justification:** Users do not feel so restricted with the freedom of choice to start a new session.
-      This allows users to better take charge of their learning to create a more flexible experience.
 - **Enhancement of Existing features: access to solutions and explanations only after attempting** (e.g. [#44](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/44))
     - **Justification:** Allows the user to practice active recall to attempt the questions first rather than taking a passive approach to solely read the solutions and explanations in their revision.
 ### Contributions to the UG
