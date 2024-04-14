@@ -14,8 +14,8 @@ The user plays the game through a CLI. The application has about 3.6k lines of c
       Users can also check if they have attempted the topic.
     - **Justification:** This feature allows users to get more targeted practice to those topics they are weaker in
       so that users can enjoy a more efficient study session.
-    -  **Highlights:** There are many layers of classes that needed to be used in the design and implementation of this feature so it was easy to get confused with using the different classes and remember which methods belonged to which class.
-       Applying concepts taught in the module like drawing class diagrams reduced the confusion while using the different classes.
+    -  **Highlights:** Good organisation skills are needed to manage the many layers of classes that needed to be used in the design and implementation of this feature to prevent confusion.
+       Applying concepts taught in the module like drawing class diagrams reduced the confusion.
 - **V2.0: Added a timed mode**
     - **What it does:** Allows the user to set a time limit for the question set they want to attempt.
     - **Justification:** This feature allows users to work on their speed in answering the questions to gauge their familiarity with the concepts.
@@ -26,18 +26,14 @@ The user plays the game through a CLI. The application has about 3.6k lines of c
 - **Enhancement of Existing features: Integration using UI of pause feature when starting a new session** (e.g. [#84](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/84))
     - **What it does:** Users get to decide if they want to continue their previous session
     - **Justification:** Users do not feel so restricted with the freedom of choice to start a new session.
-      They will also be warned that their incomplete game progress will be discarded if they decide to end the paused session before they confirm their decision.
       This allows users to better take charge of their learning to create a more flexible experience.
 - **Enhancement of Existing features: access to solutions and explanations only after attempting** (e.g. [#44](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/44))
     - **Justification:** Allows the user to practice active recall to attempt the questions first rather than taking a passive approach to solely read the solutions and explanations in their revision.
 ### Contributions to the UG
-- Added the `topic` feature and how to use (e.g [#175](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/175))
-- Added the `timed mode` feature and how to use (e.g. [commit #362e139](https://github.com/hongyijie06/tp/commit/362e13952340b0a687aee3f469773c2880ed8495))
-- Standardise presentation of the different command headers (e.g. [#85](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/85))
-- Standardise presentation of `Command Summary` (e.g. [#85](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/85))
+- Added the `topic` and `timed mode` feature and how to use (e.g [#175](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/175), [commit #362e139](https://github.com/hongyijie06/tp/commit/362e13952340b0a687aee3f469773c2880ed8495))
+- Standardise presentation of the different command headers and `Command Summary` (e.g. [#85](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/85), [#85](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/85))
 ### Contributions to the DG
-- Added documentation for the `Topics Feature` (e.g. [#59](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/59))
-- Added class diagrams for the `Topics Feature` (e.g. [#59](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/59))
+- Added documentation and class diagrams for the `Topics Feature` (e.g. [#59](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/59))
 - Added `Non-functional Requirements`
 ### Contributions to Team-based Tasks
 - Standardise format of features introduction and command summary (e.g. [commit #d67fa27](https://github.com/hongyijie06/tp/commit/d67fa275aa3822488c23fc723702170a95af2c8d))
