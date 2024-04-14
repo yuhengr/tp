@@ -17,7 +17,8 @@ Command Line Interface** (CLI).
   * [Resume the game: `resume`](#9-resuming-the-game-resume)
   * [Customise questions: `custom`](#10-customise-questions-custom)
   * [Checkpoint goals: `checkpoint`](#11-checkpoint-goals-checkpoint)
-  * [Exit the program: `bye`](#12-exiting-the-game-bye)
+  * [Clear progress: `clear`](#12-clear-progress-clear)
+  * [Exit the program: `bye`](#13-exiting-the-game-bye)
 * [FAQ](#faq)
 * [Command Summary](#command-summary-of-features)
 
@@ -242,7 +243,15 @@ Format: `checkpoint`
 
 - Upon entering this command, the user can follow the subsequent prompts to set a target.
 
-### 12. Exiting the game: `bye`
+### 12. Clear progress: `clear`
+
+This command allows the user to clear their progress on Player2113.
+
+Format: `clear`
+
+- Upon entering this command, the user will get a prompt to confirm that they want to clear their progress. Upon confirmation, the progress for the user will be cleared.
+
+### 13. Exiting the game: `bye`
 
 All results will be saved to a local save file, which will be loaded up when the application is opened next time.
 
