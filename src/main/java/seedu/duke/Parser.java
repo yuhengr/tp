@@ -606,6 +606,8 @@ public class Parser {
         }
 
         boolean isInCheckpointMode = progressManager.isInCheckpointMode();
+
+        ui.printCustomQuestionSet();
         for (int i = 0; i < numOfCustomQuestions; i++) {
 
             ui.printQuestion(customQuestionsList.getQuestionUnit(i));

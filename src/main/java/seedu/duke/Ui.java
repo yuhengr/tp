@@ -636,5 +636,9 @@ public class Ui {
         }
         return false;
     }
+
+    public void printCustomQuestionSet() {
+        System.out.println("Ui is displaying custom question set.");
+    }
 }
 
