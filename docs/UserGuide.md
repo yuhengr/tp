@@ -1,6 +1,6 @@
 # [Player2113](https://github.com/AY2324S2-CS2113-F15-1/tp/releases)
 
-Player2113 is a **desktop app for helping CS2113/T student revise Java OOP concepts in a gamification environment via a
+Player2113 is a **desktop app for helping CS2113/T students revise Java OOP concepts in a gamification environment via a
 Command Line Interface** (CLI).
 
 * [Getting Started](#getting-started)
