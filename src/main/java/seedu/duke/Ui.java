@@ -30,8 +30,7 @@ public class Ui {
     private static final String MESSAGE_ALL_EXPLANATIONS = "The explanations are :";
     private static final String MESSAGE_ASK_FOR_NAME = "What is your name?";
     private static final String MESSAGE_ASK_FOR_NAME_AGAIN = "Good try, but I still don't know who I'm talking to";
-    private static final String MESSAGE_SAY_BYE = "Most often, the problem is not the lack of time but the lack of " +
-            "direction";
+    private static final String MESSAGE_SAY_BYE = "bye bye, get more sleep zzz";
     private static final String ANSWER_TIMEOUT = "You ran out of time!";
     private static final String MESSAGE_ANSWER_FORMAT = "Your answer must be either a, b, c, or d!";
     private static final String RESUME = "resume";

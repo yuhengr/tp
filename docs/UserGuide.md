@@ -183,13 +183,14 @@ A progress bar indicating the overall revision progress will be displayed, follo
 Sample output:
 
 ```
-[*****-----] 50% 1/2 topics attempted
-+-------+--------+-------------------------------------------------+-----------+
-| index |  topic |                     summary                     | attempted |
-+-------+--------+-------------------------------------------------+-----------+
-|     1 | topic1 | Covers topic 1 notions mentioned in lecture 1-2 |      true |
-|     2 | topic2 | Covers topic 2 notions mentioned in lecture 3-4 |     false |
-+-------+--------+-------------------------------------------------+-----------+
+[***-------] 30% 1/3 topics attempted
++-------+----------------------------------+----------------------+-----------+
+| index |               topic              |        summary       | attempted |
++-------+----------------------------------+----------------------+-----------+
+|     1 |  Software Engineering Concepts I |    SE & OOP concepts |      true |
+|     2 | Software Engineering Concepts II | SE & OOP concepts II |     false |
+|     3 |                   All About Java | General info on Java |     false |
++-------+----------------------------------+----------------------+-----------+
 ```
 
 ### 7. Viewing help: `help`
