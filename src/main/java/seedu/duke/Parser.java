@@ -59,7 +59,7 @@ public class Parser {
 
     private static final String OPTION_A = "a";
     private static final String OPTION_B = "b";
-    private static final String OPTION_C = "d";
+    private static final String OPTION_C = "c";
     private static final String OPTION_D = "d";
 
 
