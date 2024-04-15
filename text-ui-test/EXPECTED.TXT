@@ -22,5 +22,5 @@ Please choose a topic to play:
 Input a command player!
 That's an invalid command.
 Input a command player!
-Most often, the problem is not the lack of time but the lack of direction
+bye bye, get more sleep zzz
 ************************************************
