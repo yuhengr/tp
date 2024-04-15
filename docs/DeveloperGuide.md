@@ -1,19 +1,28 @@
 # Developer Guide
 
+* [Acknowledgements](#acknowledgements)
 * [Implementation](#implementation)
   * [Results Feature](#results-feature)
   * [Topic Feature](#topics-feature)
   * [Solution Feature](#solution-feature) 
   * [Explain Feature](#explain-feature)
 * [Appendix: Requirements](#appendix-requirements)
-    * [Product Scope](#product-scope)
-    * [User Stories](#user-stories)
-    * [Non-Functional Requirements](#non-functional-requirements)
-    * [Glossary](#glossary)
-    * [Acknowledgements](#acknowledgements)
-* [Appendix: Instructions for manual testing](#appendix-instructions-for-manual-testing)
+    * [Product Scope](#appendix-a-product-scope)
+    * [User Stories](#appendix-b-user-stories)
+    * [Non-Functional Requirements](#appendix-c-non-functional-requirements)
+    * [Glossary](#appendix-d-glossary)
+* [Appendix: Instructions for manual testing](#appendix-e-instructions-for-manual-testing)
     * Launch and Shutdown (TODO: include testing methods)
     * (include tests for other features)
+
+## Acknowledgements
+
+*Libraries:*
+
+1. Display formatted tables in the CLI - [ASCII TABLES](https://bethecoder.com/applications/products/asciiTable.action)
+
+2. Topic selection menu and testing mode progress bar - [ProgressBar](https://github.com/ctongfei/progressbar)
+
 
 ## Implementation
 
@@ -149,7 +158,7 @@ else if there are 2 parameters (ie get one explanation):
 
 ## Appendix: Requirements
 
-### Product scope
+### Appendix A: Product scope
 
 **Target user profile:**
 * revising Java OOP and Software Engineering concepts taught in CS2113/T 
@@ -159,7 +168,7 @@ else if there are 2 parameters (ie get one explanation):
 
 **Value proposition:** more accessible than current CS2113/T website as questions are consolidated in dataset. In addition, able to keep track of progress.  
 
-### User Stories
+### Appendix B: User Stories
 
 Priorities: High (must-have) - `***`, Medium (good-to-have) - `**`, Low (nice-to-have) - `*`
 
@@ -185,25 +194,16 @@ Priorities: High (must-have) - `***`, Medium (good-to-have) - `**`, Low (nice-to
 *[More to be added]*
 
 
-## Non-Functional Requirements
+## Appendix C: Non-Functional Requirements
 
 1. Should work on any *mainstream* OS as long as it has Java `11` or above installed
 2. A user with average typing speed should be able to find and answer questions faster than using the CS2113/T course website
 
-## Glossary
+## Appendix D: Glossary
 
 - *mainstream OS:* Windows, Linux, MacOS
 
-## Acknowledgements
-
-*Libraries:*
-
-1. Display formatted tables in the CLI - [ASCII TABLES](https://bethecoder.com/applications/products/asciiTable.action)
-
-2. Topic selection menu and testing mode progress bar - [ProgressBar](https://github.com/ctongfei/progressbar)
-
-
-### Appendix: Instructions for Manual Testing
+### Appendix E: Instructions for Manual Testing
 > **NOTE:**
 > These instructions only provide a starting point for testers to work on.
 > They are non-exhaustive and testers are encouraged to do more _exploratory_ testing.
