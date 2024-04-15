@@ -859,8 +859,7 @@ public class Parser {
             } else {
                 return checkpointGoal;
             }
-        }
-        catch (NumberFormatException error) {
+        } catch (NumberFormatException error) {
             throw new CustomException("Exception caught! Unable to parse checkpoint goal provided.");
         }
     }

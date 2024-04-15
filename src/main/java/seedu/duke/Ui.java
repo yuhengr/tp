@@ -4,7 +4,10 @@ package seedu.duke;
 import com.bethecoder.ascii_table.ASCIITable;
 import seedu.duke.exceptions.CustomException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Ui {
     private static final Scanner in = new Scanner(System.in);
@@ -33,7 +36,8 @@ public class Ui {
     private static final String RESUME = "resume";
     private static final String INVALID_INPUT = "Invalid input. Please type 'yes' or 'no'";
     private static final String INSTRUCTIONS = "Type 'yes' to restart session or 'no' to resume.";
-    private static final String TERMINAL_SIZE_WARNING = "You may adjust your terminal size to 80(w)*18(h) for optimal experience";
+    private static final String TERMINAL_SIZE_WARNING =
+            "You may adjust your terminal size to 80(w)*18(h) for optimal experience";
 
     private static final int INDEX_TOPIC_NUM = 0;
     private static final int INDEX_INDEX = 1;
