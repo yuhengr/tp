@@ -235,9 +235,12 @@ Format: `resume`
 
 This command allows the player to customise the questions by selecting which topic and the number of questions they would like to practise.
 
-Format: `custom`
+Format: `custom TOPIC_NUM NUM_OF_QUESTIONS`
 
-- Upon entering this command, the user can follow the subsequent prompts to customise their question set.
+- Upon entering this command, the user will get a customised question set.
+- `TOPIC_NUM` and `NUM_OF_QUESTIONS` should be non-zero positive integer (e.g. 1, 2, 3, ...).
+
+Example: `custom 1 3` will generate a question set of 3 questions from topic 1.
 
 ### 11. Checkpoint goals: `checkpoint`
 
