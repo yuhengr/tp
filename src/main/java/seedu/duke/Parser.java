@@ -49,7 +49,7 @@ public class Parser {
     private static final String MESSAGE_INVALID_TOPIC_NUM = "Topic number is invalid.";
     private static final String MESSAGE_INVALID_QUESTION_NUM = "Question number is invalid.";
 
-    private static final String MESSAGE_INVALID_COMMAND_FORMAT = "command format is invalid.";
+    private static final String MESSAGE_INVALID_COMMAND_FORMAT = "Command format is invalid.";
 
     private static final String MESSAGE_UNSPECIFIED_TIME = "Please specify a time limit";
     private static final String MESSAGE_INVALID_TIME = "Time limit must be more than 0 seconds";
@@ -105,7 +105,7 @@ public class Parser {
                 //processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
                 handleExplainCommandRegEx(command, ui, topicList, questionListByTopic);
             } else if (commandToken == CommandList.CLEAR) {
-                handleClearCommand(ui, allResults, progressManager);
+                handleClearCommand(ui, allResults, progressManager, command);
             } else if (lowerCaseCommand.startsWith(RESULTS_PARAMETER)) {
                 processResultsCommand(lowerCaseCommand, allResults, ui, questionListByTopic, userAnswers);
             } else if (lowerCaseCommand.contentEquals(BYE_PARAMETER)) {
@@ -190,7 +190,7 @@ public class Parser {
         }
     }
 
-    //@@author
+    //@@author yuhengr
     private void beginStartCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
             ResultsList allResults, AnswerTracker userAnswers, Storage storage
@@ -393,6 +393,7 @@ public class Parser {
         }
     }
 
+    //@@author yuhengr
     private void handleSolutionCommandRegEx(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
@@ -468,6 +469,7 @@ public class Parser {
         }
     }
 
+    //@@author yuhengr
     private void handleExplainCommandRegEx(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
@@ -553,7 +555,18 @@ public class Parser {
         }
     }
 
-    private void handleClearCommand(Ui ui, ResultsList allResults, ProgressManager progressManager) {
+    //@@author yuhengr
+    private void handleClearCommand(
+            Ui ui, ResultsList allResults, ProgressManager progressManager, String command)
+            throws CustomException {
+
+        Pattern clearPattern = Pattern.compile(CommandList.getClearPattern());
+        Matcher matcher = clearPattern.matcher(command);
+        boolean foundMatch = matcher.find();
+
+        if(!foundMatch) {
+            throw new CustomException(MESSAGE_EXCEPTION_CAUGHT + MESSAGE_INVALID_COMMAND_FORMAT);
+        }
 
         boolean confirmClear = ui.getConfirmationClearProgress();
 
@@ -638,6 +651,7 @@ public class Parser {
         }
     }
 
+    //@@author yuhengr
     private void handleCheckpointCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
             ResultsList allResults, AnswerTracker userAnswers, ProgressManager progressManager)
@@ -810,6 +824,7 @@ public class Parser {
         return false;
     }
 
+    //@@author yuhengr
     private boolean isParamOverflowing(String param) {
         final int maxParamLength = 5;
         int paramLength = param.length();
@@ -820,6 +835,7 @@ public class Parser {
         return false;
     }
 
+    //@@author yuhengr
     private int getTopicNum(String topicNumParam, int numOfTopics) throws CustomException {
 
         try {
@@ -835,6 +851,7 @@ public class Parser {
         }
     }
 
+    //@@author yuhengr
     private int getQuestionNum(String questionNumParam, int numOfQuestions) throws CustomException {
 
         try {
@@ -850,6 +867,7 @@ public class Parser {
         }
     }
 
+    //@@author yuhengr
     private int getCheckpointGoal(String checkpointGoalParam, int totalNumOfQuestions) throws CustomException {
 
         int checkpointGoal;

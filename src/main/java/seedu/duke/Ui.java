@@ -564,10 +564,12 @@ public class Ui {
         System.out.println("Results from the incomplete attempt will be discarded :0");
     }
 
+    //@@author yuhengr
     public void printCustomModeMessage(int topicNum, int numOfQuestions) {
         System.out.println("You've selected to practise " + numOfQuestions + " from topic " + topicNum);
     }
 
+    //@@author yuhengr
     public int getCustomTopicNum() {
         System.out.println("Which topic do you want to practise?");
         String userInput = in.nextLine();
@@ -581,6 +583,7 @@ public class Ui {
         }
     }
 
+    //@@author yuhengr
     public int getCustomNumOfQuestions() {
         System.out.println("How many questions would you like to practise?");
         String userInput = in.nextLine();
@@ -593,15 +596,18 @@ public class Ui {
         }
     }
 
+    //@@author yuhengr
     public String getUserAnswerInput() {
         String userInput = in.nextLine();
         return userInput;
     }
 
+    //@@author yuhengr
     public void displayUserAnswer(String userAnswer) {
         System.out.println("Your answer: " + userAnswer);
     }
 
+    //@@author yuhengr
     public int getCheckpointGoal() {
         System.out.println("How many custom questions would you like to complete?");
         String userInput = in.nextLine();
@@ -613,10 +619,12 @@ public class Ui {
         }
     }
 
+    //@@author yuhengr
     public void displayProgressClearedMessage() {
         System.out.println("Your progress has been cleared.");
     }
 
+    //@@author yuhengr
     public boolean getConfirmationClearProgress() {
         System.out.println("Are you sure you want to clear game progress? (y or n)");
 
@@ -634,6 +642,7 @@ public class Ui {
         return false;
     }
 
+    //@@author yuhengr
     private boolean isValidConfirmationInput(String userInput) {
         if(userInput.contentEquals("y") || userInput.contentEquals("n")) {
             return true;
@@ -641,6 +650,7 @@ public class Ui {
         return false;
     }
 
+    //@@author yuhengr
     public void printCustomQuestionSet(
             int numOfCustomQns, ProgressManager progressManager, QuestionsList customQuestionsList,
             boolean isInCheckpointMode, Ui ui, Results results) {
@@ -675,10 +685,12 @@ public class Ui {
         }
     }
 
+    //@@author yuhengr
     public void displayCheckpointGoal(int checkpointGoal) {
         System.out.println("You've chosen a goal of " + checkpointGoal + " questions.");
     }
 
+    //@@author yuhengr
     public void displayAlreadyInCheckpointMode(int checkpointGoal, int numOfQnsToHitGoal) {
         System.out.println("You've already set a checkpoint.");
         System.out.println("Your goal is to attempt " + checkpointGoal + " questions.");

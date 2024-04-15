@@ -1,3 +1,4 @@
+//@@author yuhengr
 package seedu.duke;
 
 import seedu.duke.exceptions.CustomException;
@@ -20,6 +21,7 @@ public enum CommandList {
     private static final String PATTERN_HELP = "(?i)help\\s*(\\w*)";
 
     private static final String PATTERN_RESULTS = "(?i)results\\s*(\\d+)";
+    private static final String PATTERN_CLEAR = "^(?i)clear$";
     private static final int FIRST_COMMAND_PARAM_INDEX = 0;
 
     public static String getTopicPattern() {
@@ -36,6 +38,10 @@ public enum CommandList {
 
     public static String getCustomPattern() {
         return PATTERN_CUSTOM;
+    }
+
+    public static String getClearPattern() {
+        return PATTERN_CLEAR;
     }
 
     public static String getCheckpointPattern() {
