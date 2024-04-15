@@ -1,0 +1,98 @@
+@startuml
+skinparam ParticipantFontColor #FFFFFF
+
+box handleCustomCommand() #ABCAFA
+participant ":Parser" as Parser #FE2727
+participant "questionListByTopic:QuestionsListByTopic" as QuestionsListByTopic #1162E3
+participant "chosenQuestionsList:QuestionsList" as QuestionsList #1162E3
+participant "topicList:TopicList" as TopicList #1162E3
+participant "ui:Ui" as Ui #FE2727
+participant "progressManager:ProgressManager" as ProgressManager #FE2727
+participant "customPattern:Pattern" as Pattern #FE2727
+participant "matcher:Matcher" as Matcher #FE2727
+participant ":CommandList" as CommandList #FE2727
+participant ":Results" as Results #FE2727
+end box
+
+-> Parser:
+activate Parser
+
+Parser -> Pattern : compile()
+activate Pattern
+Pattern --> Parser : customPattern
+
+Parser -> Matcher : match(command)
+activate Matcher
+Matcher --> Parser : matcher
+
+Parser -> Matcher : group(FIRST_PARAMETER)
+Matcher --> Parser : topicNumParam
+
+Parser -> Matcher : group(SECOND_PARAMETER)
+Matcher --> Parser : numOfQuestionsParam
+
+Parser -> Parser : isParamOverflowing(topicNumParam)
+Parser --> Parser : isTopicNumParamOverflowing
+
+Parser -> Parser : isParamOverflowing(numOfQuestionsParam)
+Parser --> Parser : isNumOfQuestionsParamOverflowing
+
+Parser -> TopicList : getSize()
+activate TopicList
+TopicList --> Parser : numOfTopics
+
+Parser -> Parser : getTopicNum(topicNumParam)
+Parser --> Parser : topicNum
+
+Parser -> QuestionsListByTopic : getQuestionSet(indexOfTopicNum)
+activate QuestionsListByTopic
+QuestionsListByTopic --> Parser : chosenQuestionsList
+
+Parser -> QuestionsList : getSize()
+activate QuestionsList
+QuestionsList --> Parser : numOfQnInChosenTopic
+
+Parser -> Parser : getQuestionNum(numOfQuestionsParam, numOfQnInChosenTopic)
+Parser --> Parser : numOfCustomQuestions
+
+Parser -> Ui : printCustomModeMessage(topicNum, numOfCustomQuestions)
+activate Ui
+
+loop numOfCustomQuestions
+    Parser -> QuestionsList : getQuestionUnit(randomQuestionNum)
+    QuestionsList --> Parser : randomQuestion
+    Parser -> QuestionsList : add(randomQuestion)
+end
+
+Parser -> ProgressManager : isInCheckpointMode()
+activate ProgressManager
+ProgressManager --> Parser : isInCheckpointMode
+
+Parser -> Results : Results()
+activate Results
+Results --> Parser : customQuestionSetResults
+deactivate Results
+
+Parser -> Ui : printCustomQuestionSet(numOfCustomQuestions, progressManager, customQuestionsList, isInCheckpointMode, ui, customQuestionSetResults)
+
+Parser -> Results : calculateScore()
+activate Results
+
+Parser -> Results : getScore()
+Results --> Parser : scoreToDisplay
+
+opt isInCheckpointMode
+    Parser -> ProgressManager : getCheckpointModeGoal
+    ProgressManager --> Parser : checkpointModeGoal
+    Parser -> ProgressManager : getNumOfAttemptedCustomQuestions
+    ProgressManager --> Parser : numOfAttemptedCustomQuestions
+
+    opt numOfAttemptedCustomQuestions >= checkpointModeGoal
+        Parser -> ProgressManager : clearCheckpointModeGoal()
+        Parser -> ProgressManager : clearNumOfAttemptedCustomQuestions()
+        Parser -> ProgressManager : clearCheckpointMode()
+    end
+end
+
+
+@enduml
