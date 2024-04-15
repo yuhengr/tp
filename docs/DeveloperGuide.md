@@ -1,26 +1,32 @@
 # Developer Guide
 
-* Acknowledgements
-* Design
-    * Architecture
-    * (list components / common classes here)
-* Implementation
-    * (state features here)
-* Appendix: Requirements
-    * Product Scope (feel free to modify these)
-    * User Stories
-    * Use Cases
-    * Non-functional Requirements
-    * Glossary
-* Appendix: Instructions for manual testing
+* [Acknowledgements](#acknowledgements)
+* [Implementation](#implementation)
+  * [Results Feature](#results-feature)
+  * [Topic Feature](#topics-feature)
+  * [Solution Feature](#solution-feature) 
+  * [Explain Feature](#explain-feature)
+* [Appendix: Requirements](#appendix-requirements)
+    * [Product Scope](#appendix-a-product-scope)
+    * [User Stories](#appendix-b-user-stories)
+    * [Non-Functional Requirements](#appendix-c-non-functional-requirements)
+    * [Glossary](#appendix-d-glossary)
+* [Appendix: Instructions for manual testing](#appendix-e-instructions-for-manual-testing)
     * Launch and Shutdown (TODO: include testing methods)
     * (include tests for other features)
 
-## Design & implementation
+## Acknowledgements
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+*Libraries:*
 
-### Results feature
+1. Display formatted tables in the CLI - [ASCII TABLES](https://bethecoder.com/applications/products/asciiTable.action)
+
+2. Topic selection menu and testing mode progress bar - [ProgressBar](https://github.com/ctongfei/progressbar)
+
+
+## Implementation
+
+### Results Feature
 
 The results feature is facilitated by `ResultsList` and
 `AnswerTracker`. Both are used to display the results for
@@ -87,7 +93,7 @@ Step 1 executes and process repeats.
 The following shows the class diagram for `QuestionListByTopic`:
 ![QuestionListByTopic](team/img/DG/QuestionListByTopic_class_diagram.png)
 
-### Solution feature
+### Solution Feature
 
 The solution feature either prints the solution to 1 question or all questions in 1 topic.
 
@@ -121,7 +127,7 @@ if there is 1 parameter (ie get all solutions):
 else if there are 2 parameters (ie get one solution):
 `QuestionsList#getOneSolution` will get the specified solution and `ui#printOneSolution` will print it.
 
-### Explain feature
+### Explain Feature
 
 The explain feature either prints the explanation to 1 question or all questions in 1 topic.
 
@@ -150,48 +156,56 @@ if there is 1 parameter (ie get all explanations):
 else if there are 2 parameters (ie get one explanation):
 `QuestionsList#getOneExplanation` will get the specified explanation and `ui#printOneExplanation` will print it.
 
-## Product scope
+## Appendix: Requirements
 
-### Target user profile
+### Appendix A: Product scope
 
-CS2113/2103 students who wish to have an efficient tool to help them revise relevant concepts.
+**Target user profile:**
+* revising Java OOP and Software Engineering concepts taught in CS2113/T 
+* prefer desktop app over other types
+* can type fast
+* reasonably comfortable with CLI
 
-### Value proposition
+**Value proposition:** more accessible than current CS2113/T website as questions are consolidated in dataset. In addition, able to keep track of progress.  
 
-Integration of key notions and learning objectives for CS2113 course, self-adaptive testing for understanding and
-feedback.
+### Appendix B: User Stories
 
-## User Stories
+Priorities: High (must-have) - `***`, Medium (good-to-have) - `**`, Low (nice-to-have) - `*`
 
-| Version | As a ...                       | I want to ...                                                                         | So that I can ...                                                     |
-|---------|--------------------------------|---------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
-| v1.0    | new user                       | see user guide in the app                                                             | refer to them if I am unfamiliar with the usage of a command          |
-| v1.0    | student new to Java            | receive solutions with explanation after answering                                    | be aware of the reasoning behind the correct answer                   | 
-| v2.0    | regular user                   | see a progress bar when answering MCQs                                                | track my progress when attempting a question set                      |
-| v2.0    | regular user                   | see a progress bar about all topics in the main menu                                  | track my revision progress for the entire course                      |
-| v2.0    | student going to take the exam | access timed modes in the game easily                                                 | train my thought process to quicken in preparation for tests          |
-| v2.0    | student new to Java            | avoid memorization of specific question sets through randomly generated practice sets | I can ensure I understand the concepts rather than memorising answers |
 
-## Non-Functional Requirements
+| Version | Priority | As a ...            | I want to ...                                        | So that I can ...                                          |
+|---------|----------|---------------------|------------------------------------------------------|------------------------------------------------------------|
+| v1.0    | ***      | new user            | access the tutorial / guide to the game easily       | refer to it if I am unfamiliar with the usage of a command |
+| v1.0    | ***      | new user            | choose a topic                                       | choose a specific topic to revise on                       |
+| v1.0    | **       | regular user        | take note of the questions answered wrong previously | revisit past mistakes and learn from them                  |
+| v1.0    | ***      | student new to Java | receive solutions after answering                    | learn the correct solution for the question                |
+| v1.0    | **       | student new to Java | receive explanations after answering                 | learn the correct explanation for the solution             |
+| v1.0    | **       | regular user        | clear my progress in the game                        | start anew                                                 |
+| v1.0    | ***      | busy user           | exit the game                                        | I can do other things in life                              |
+| v2.0    | **       | regular user        | see a progress bar when answering MCQs               | track my progress when attempting a question set           |
+| v2.0    | **       | regular user        | see a progress bar about all topics in the main menu | track my revision progress for the entire course           |
+| v2.0    | **       | regular user        | access timed modes in the game easily                | train my answering speed in preparation for tests          |
+| v2.0    | **       | student new to Java | practice on a random topic                           | avoid memorizing answers if I do a topic repeatedly        |
+| v2.0    | **       | regular user        | come back to my saved points in the game             | continue working from my previous progress                 |
+| v2.0    | **       | busy user           | study in smaller chunks by having checkpoints        | play the game during my small slots of free time           |
+| TBC     | *        | regular user        | have topics' suggestion instead of choosing one      | I can avoid choosing a topic and be lazy                   |
+| TBC     | *        | busy user           | have a reminder to do questions                      | I can keep track with the lectures                         |
 
-Usability: the user is able to use the app without reading lengthy documentations.
+*[More to be added]*
 
-Technical: the app should run on both macOS and Windows
 
-## Glossary
+## Appendix C: Non-Functional Requirements
 
-- _glossary item_ - Definition
+1. Should work on any *mainstream* OS as long as it has Java `11` or above installed
+2. A user with average typing speed should be able to find and answer questions faster than using the CS2113/T course website
 
-## Acknowledgements
+## Appendix D: Glossary
 
-### Libraries
+- *mainstream OS:* Windows, Linux, MacOS
 
-1. Display formatted tables in the CLI - [ASCII TABLES](https://bethecoder.com/applications/products/asciiTable.action)
-
-2. Topic selection menu and testing mode progress bar - [ProgressBar](https://github.com/ctongfei/progressbar)
-
-### References
-
-## Instructions for manual testing
+### Appendix E: Instructions for Manual Testing
+> **NOTE:**
+> These instructions only provide a starting point for testers to work on.
+> They are non-exhaustive and testers are encouraged to do more _exploratory_ testing.
 
 {Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
