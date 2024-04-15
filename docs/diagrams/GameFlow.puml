@@ -11,11 +11,14 @@ package "Program Starts" as AnyUserCommands {
     (display help)
     (display list) -[hidden]- User
     (display explanation)
+    (clear progress)
 }
 
 package "Step 1: GameSetUp" as SetUp {
     (timed mode)
     (choose topic)
+    (customise questions)
+    (set checkpoint)
 }
 package "Step 2: GamePlay" as GamePlay {
     (answering questions)
