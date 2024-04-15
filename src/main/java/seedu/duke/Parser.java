@@ -54,10 +54,12 @@ public class Parser {
     private static final String MESSAGE_UNSPECIFIED_TIME = "Please specify a time limit";
     private static final String MESSAGE_INVALID_TIME = "Time limit must be more than 0 seconds";
     private static final String MESSAGE_INVALID_COMMAND = "That's an invalid command.";
+    private static final String MESSAGE_PARAM_TOO_LONG = "You've entered a parameter that is too long.";
+    private static final String MESSAGE_EXCEPTION_CAUGHT = "Exception caught!";
 
     private static final String OPTION_A = "a";
     private static final String OPTION_B = "b";
-    private static final String OPTION_C = "d";
+    private static final String OPTION_C = "c";
     private static final String OPTION_D = "d";
 
 
@@ -560,40 +562,51 @@ public class Parser {
             ResultsList allResults, AnswerTracker userAnswers, ProgressManager progressManager)
             throws CustomException {
 
-        ui.printCustomModeMessage();
+        Pattern customPattern = Pattern.compile(CommandList.getCustomPattern());
+        Matcher matcher = customPattern.matcher(command);
+        boolean foundMatch = matcher.find();
 
-        int numOfTopics = topicList.getSize();
-        System.out.println("There are " + numOfTopics + " topics to choose from.");
-        int topicNum = ui.getCustomTopicNum();
-        if (topicNum <= 0 || topicNum > numOfTopics) {
-            throw new CustomException("That topic number does not exist.");
+        if(!foundMatch) {
+            throw new CustomException("Exception caught! You've entered an invalid format.");
         }
 
-        QuestionsList chosenQuestionsList = questionListByTopic.getQuestionSet(topicNum - 1);
-        int numOfQnInChosenTopic = chosenQuestionsList.getSize();
+        String topicNumParam = matcher.group(FIRST_PARAMETER);
+        String numOfQuestionsParam = matcher.group(SECOND_PARAMETER);
 
-        System.out.println("There are " + numOfQnInChosenTopic + " questions in this topic.");
-        int numOfQuestions = ui.getCustomNumOfQuestions();
-        if (numOfQuestions <= 0 || numOfQuestions > numOfQnInChosenTopic) {
-            throw new CustomException("That's not a valid number of questions.");
+        boolean isTopicNumParamOverflowing = isParamOverflowing(topicNumParam);
+        boolean isNumOfQuestionsParamOverflowing = isParamOverflowing(numOfQuestionsParam);
+
+        if(isTopicNumParamOverflowing || isNumOfQuestionsParamOverflowing) {
+            throw new CustomException(MESSAGE_EXCEPTION_CAUGHT + MESSAGE_PARAM_TOO_LONG);
         }
+
+        final int numOfTopics = topicList.getSize();
+        int topicNum = getTopicNum(topicNumParam, numOfTopics);
+
+        final int indexOfTopicNum = topicNum - 1;
+
+        QuestionsList chosenQuestionsList = questionListByTopic.getQuestionSet(indexOfTopicNum);
+        final int numOfQnInChosenTopic = chosenQuestionsList.getSize();
+
+        int numOfCustomQuestions = getQuestionNum(numOfQuestionsParam, numOfQnInChosenTopic);
+
+        ui.printCustomModeMessage(topicNum, numOfCustomQuestions);
 
         ArrayList<Integer> randomQuestionNumbers = new ArrayList<Integer>();
-        for (int i = 0; i < numOfQuestions; i++) {
+        for (int i = 0; i < numOfCustomQuestions; i++) {
             randomQuestionNumbers.add(i);
         }
         Collections.shuffle(randomQuestionNumbers);
 
         QuestionsList customQuestionsList = new QuestionsList();
-        for (int i = 0; i < numOfQuestions; i++) {
+        for (int i = 0; i < numOfCustomQuestions; i++) {
             int randomQuestionNumber = randomQuestionNumbers.get(i);
             Question randomQuestion = chosenQuestionsList.getQuestionUnit(randomQuestionNumber);
             customQuestionsList.addQuestion(randomQuestion);
         }
 
-        System.out.println("Here are your custom questions.");
         boolean isInCheckpointMode = progressManager.isInCheckpointMode();
-        for (int i = 0; i < numOfQuestions; i++) {
+        for (int i = 0; i < numOfCustomQuestions; i++) {
 
             ui.printQuestion(customQuestionsList.getQuestionUnit(i));
             ui.askForAnswerInput();
@@ -605,7 +618,7 @@ public class Parser {
             }
         }
 
-        System.out.println("You have completed " + numOfQuestions + " questions from topic " + topicNum);
+        System.out.println("You have completed " + numOfCustomQuestions + " questions from topic " + topicNum);
 
         if (isInCheckpointMode) {
             int checkpointModeGoal = progressManager.getCheckpointModeGoal();
@@ -789,11 +802,10 @@ public class Parser {
         final int maxParamLength = 5;
         int paramLength = param.length();
 
-        if (paramLength > maxParamLength) {
+        if(paramLength > maxParamLength) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     private int getTopicNum(String topicNumParam, int numOfTopics) throws CustomException {
