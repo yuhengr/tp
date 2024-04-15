@@ -1,0 +1,74 @@
+@startuml
+skinparam ParticipantFontColor #FFFFFF
+
+box handleCustomCommand() #ABCAFA
+participant ":Parser" as Parser #FE2727
+participant "questionListByTopic:QuestionsListByTopic" as QuestionsListByTopic #1162E3
+participant "chosenQuestionsList:QuestionsList" as QuestionsList #1162E3
+participant "topicList:TopicList" as TopicList #1162E3
+participant "ui:Ui" as Ui #FE2727
+participant "progressManager:ProgressManager" as ProgressManager #FE2727
+participant "customPattern:Pattern" as Pattern #FE2727
+participant "matcher:Matcher" as Matcher #FE2727
+participant ":CommandList" as CommandList #FE2727
+end box
+
+-> Parser
+activate Parser
+
+Parser -> ProgressManager : isInCheckpointMode()
+activate ProgressManager
+ProgressManager --> Parser : isAlreadyInCheckpointMode
+
+opt isAlreadyInCheckpointMode
+    Parser -> ProgressManager : getCheckpointModeGoal()
+    ProgressManager --> Parser : goal
+    Parser -> ProgressManager : getNumOfAttemptedCustomQuestions()
+    ProgressManager --> Parser : numOfAttemptedCustomQuestions
+    Parser -> Ui : displayAlreadyInCheckpointMode(goal, numOfQuestionsToHitGoal)
+    activate Ui
+end
+
+Parser -> CommandList : getCheckpointPattern()
+activate CommandList
+CommandList --> Parser : checkpointPattern
+deactivate CommandList
+
+Parser -> Pattern : compile(checkpointPattern)
+activate Pattern
+Pattern --> Parser : customPattern
+
+Parser -> Matcher : match(command)
+activate Matcher
+Matcher --> Parser : matcher
+
+Parser -> Matcher : find()
+Matcher --> Parser : foundMatch
+
+Parser -> Matcher : group(FIRST_PARAMETER)
+Matcher --> Parser : checkpointGoalParam
+
+Parser -> Parser : isParamOverflowing(checkpointGoalParam)
+Parser --> Parser : isCheckpointGoalParamOverflowing
+
+Parser -> TopicList : getSize()
+activate TopicList
+TopicList --> Parser : totalNumOfTopics
+
+loop totalNumOfTopics
+    Parser -> QuestionsListByTopic : getQuestionSet()
+    activate QuestionsListByTopic
+    QuestionsListByTopic --> Parser : currentQuestionsList
+    Parser -> QuestionsList : getSize()
+    activate QuestionsList
+    QuestionsList --> Parser : numOfQuestions
+end
+
+Parser -> Parser : getCheckpointGoal(checkpointGoalParam, totalNumOfQuestions)
+Parser --> Parser : checkpointGoal
+
+Parser -> ProgressManager : setCheckpointMode()
+Parser -> ProgressManager : setCheckpointModeGoal(checkpointGoal)
+Parser -> Ui : displayCheckpointGoal(checkpointGoal)
+
+@enduml

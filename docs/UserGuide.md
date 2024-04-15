@@ -321,6 +321,6 @@ bye bye, get more sleep zzz
 * Show Solution `solution TOPIC_NUM [QUESTION_NUM]` e.g. `solution 1 1`
 * Show Explanation `explain TOPIC_NUM [QUESTION_NUM]` e.g. `explain 1 1`
 * Timed Mode `timed mode [TIME_LIMIT]` e.g. `timed mode 5`
-* Customise questions `custom`
-* Checkpoint goals `checkpoint`
+* Customise questions `custom TOPIC_NUM NUM_OF_QUESTIONS`
+* Checkpoint goals `checkpoint NUM_OF_QUESTIONS`
 * Exit `bye`

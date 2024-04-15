@@ -9,8 +9,8 @@ public class HelperTest {
 
     @Test
     // check number of prompts in the helper's command list
-    public void getCommandsCount_correctNumOfCommandsInList_expect8(){
-        assertEquals(8, helperTest.getCommandsCount());
+    public void getCommandsCount_correctNumOfCommandsInList_expect11(){
+        assertEquals(11, helperTest.getCommandsCount());
     }
 
     //@@author ngxzs

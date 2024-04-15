@@ -17,7 +17,12 @@ end box
 -> Parser:
 activate Parser
 
-Parser -> Pattern : compile()
+Parser -> CommandList : getCustomPattern()
+activate CommandList
+CommandList --> Parser : customPattern
+deactivate CommandList
+
+Parser -> Pattern : compile(customPattern)
 activate Pattern
 Pattern --> Parser : customPattern
 
