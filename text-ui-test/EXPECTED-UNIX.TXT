@@ -18,7 +18,7 @@ Here are the topics in CS2113:
 Please choose a topic to play:
 ************************************************
 Input a command player!
-command format is invalid.
+That's an invalid command.
 Input a command player!
 bye bye, get more sleep zzz
 ************************************************
