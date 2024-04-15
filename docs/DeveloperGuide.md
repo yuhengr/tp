@@ -2,18 +2,28 @@
 
 * [Acknowledgements](#acknowledgements)
 * [Implementation](#implementation)
-  * [Results Feature](#results-feature)
-  * [Topic Feature](#topics-feature)
-  * [Solution Feature](#solution-feature) 
-  * [Explain Feature](#explain-feature)
+    * [Results Feature](#results-feature)
+    * [Topic Feature](#topics-feature)
+    * [Solution Feature](#solution-feature)
+    * [Explain Feature](#explain-feature)
 * [Appendix: Requirements](#appendix-requirements)
     * [Product Scope](#appendix-a-product-scope)
     * [User Stories](#appendix-b-user-stories)
     * [Non-Functional Requirements](#appendix-c-non-functional-requirements)
     * [Glossary](#appendix-d-glossary)
 * [Appendix: Instructions for manual testing](#appendix-e-instructions-for-manual-testing)
-    * Launch and Shutdown (TODO: include testing methods)
-    * (include tests for other features)
+    * [Launch and Shutdown](#launch-and-shutdown)
+    * [Choosing a topic](#choosing-a-topic)
+    * [Viewing Results](#viewing-results)
+    * [Viewing Solutions](#viewing-solutions)
+    * [Viewing Explanations](#viewing-explanations)
+    * [Selecting Timed Mode](#selecting-timed-mode)
+    * [Viewing all topics available](#viewing-all-topics-available-)
+    * [Viewing Help](#viewing-help)
+    * [Pause and Resume GamePlay](#pause-and-resume-gameplay)
+    * [Customizing questions](#customizing-questions)
+    * [Setting Checkpoints](#setting-checkpoints)
+    * [Clearing Progress](#clearing-progress)
 
 ## Acknowledgements
 
@@ -22,7 +32,6 @@
 1. Display formatted tables in the CLI - [ASCII TABLES](https://bethecoder.com/applications/products/asciiTable.action)
 
 2. Topic selection menu and testing mode progress bar - [ProgressBar](https://github.com/ctongfei/progressbar)
-
 
 ## Implementation
 
@@ -161,17 +170,18 @@ else if there are 2 parameters (ie get one explanation):
 ### Appendix A: Product scope
 
 **Target user profile:**
-* revising Java OOP and Software Engineering concepts taught in CS2113/T 
+
+* revising Java OOP and Software Engineering concepts taught in CS2113/T
 * prefer desktop app over other types
 * can type fast
 * reasonably comfortable with CLI
 
-**Value proposition:** more accessible than current CS2113/T website as questions are consolidated in dataset. In addition, able to keep track of progress.  
+**Value proposition:** more accessible than current CS2113/T website as questions are consolidated in dataset. In
+addition, able to keep track of progress.
 
 ### Appendix B: User Stories
 
 Priorities: High (must-have) - `***`, Medium (good-to-have) - `**`, Low (nice-to-have) - `*`
-
 
 | Version | Priority | As a ...            | I want to ...                                        | So that I can ...                                          |
 |---------|----------|---------------------|------------------------------------------------------|------------------------------------------------------------|
@@ -184,28 +194,94 @@ Priorities: High (must-have) - `***`, Medium (good-to-have) - `**`, Low (nice-to
 | v1.0    | ***      | busy user           | exit the game                                        | I can do other things in life                              |
 | v2.0    | **       | regular user        | see a progress bar when answering MCQs               | track my progress when attempting a question set           |
 | v2.0    | **       | regular user        | see a progress bar about all topics in the main menu | track my revision progress for the entire course           |
-| v2.0    | **       | regular user        | access timed modes in the game easily                | train my answering speed in preparation for tests          |
+| v2.0    | ***      | regular user        | access timed modes in the game easily                | train my answering speed in preparation for tests          |
 | v2.0    | **       | student new to Java | practice on a random topic                           | avoid memorizing answers if I do a topic repeatedly        |
-| v2.0    | **       | regular user        | come back to my saved points in the game             | continue working from my previous progress                 |
+| v2.0    | ***      | regular user        | come back to my saved points in the game             | continue working from my previous progress                 |
 | v2.0    | **       | busy user           | study in smaller chunks by having checkpoints        | play the game during my small slots of free time           |
 | TBC     | *        | regular user        | have topics' suggestion instead of choosing one      | I can avoid choosing a topic and be lazy                   |
 | TBC     | *        | busy user           | have a reminder to do questions                      | I can keep track with the lectures                         |
 
 *[More to be added]*
 
-
-## Appendix C: Non-Functional Requirements
+### Appendix C: Non-Functional Requirements
 
 1. Should work on any *mainstream* OS as long as it has Java `11` or above installed
-2. A user with average typing speed should be able to find and answer questions faster than using the CS2113/T course website
+2. A user with average typing speed should be able to find and answer questions faster than using the CS2113/T course
+   website
 
-## Appendix D: Glossary
+### Appendix D: Glossary
 
 - *mainstream OS:* Windows, Linux, MacOS
 
-### Appendix E: Instructions for Manual Testing
+## Appendix E: Instructions for Manual Testing
+
 > **NOTE:**
 > These instructions only provide a starting point for testers to work on.
 > They are non-exhaustive and testers are encouraged to do more _exploratory_ testing.
 
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+### Launch and Shutdown
+
+1. Initial launch
+    1. Download the jar file and copy to an empty folder
+    2. Open CLI and `cd` to the empty folder
+    3. Enter `java -jar jarFileName` to run the program
+2. Shutdown
+    1. Enter `bye` to exit program.
+
+### Choosing a topic
+
+1. Test case: `topic 1`
+   Expected: Topic 1 is chosen. Questions from Topic 1 will start appearing.
+2. Test case: `topic`
+    Expected: No topic chosen. Invalid command error message shown.
+
+### Viewing Results
+1. Test case: `results`
+   Expected: Scores for all previous attempts shown
+2. Test case: `results details 1`
+   Expected: Scores for Attempt 1 shown. Questions and user answers are shown as well.
+3. Test case: `result`
+   Expected: No results shown. Invalid command error message shown.
+
+### Viewing Solutions
+1. Test case: `solution 1 1`
+   Expected: Shows solution to Topic 1 Question 1.
+2. Test case: `solution`
+   Expected: No solution showed. Invalid command format error message shown.
+
+### Viewing Explanations
+1. Test case: `explain 1 1`
+   Expected: Shows explanation to Topic 1 Question 1.
+2. Test case: `explain`
+   Expected: No explanation showed. Invalid command format error message shown.
+
+### Selecting Timed Mode
+1. Test case: `timed mode 5`, `topic 1`
+   Expected: Topic will automatically end after 5 seconds.
+2. Test case: `timed mode`
+    Expected: No timer will be set. User will be prompted for a time limit.
+
+### Viewing all topics available
+1. Test case: `list`
+    Expected: All topics will be listed, with the topic names, summary, and attempted status
+2. Test case: `topic 1`, `list`
+    Expected: All topics will be listed, and attempted status for topic 1 will be updated.
+
+### Viewing Help
+1. Test case: `help`
+    Expected: All possible commands will be displayed
+
+### Pause and Resume GamePlay
+1. Test case: `pause`, then `resume`
+    Expected: Game will be paused and resumed
+2. Test case: `pause`, then `bye`. Start the program again
+   Expected: Game will pause, then exit. Upon start of program, user will be prompted whether to continue with previous attempt.
+
+### Customizing questions
+1. Test case: ``
+### Setting Checkpoints
+
+### Clearing Progress
+
+
+

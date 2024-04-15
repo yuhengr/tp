@@ -476,7 +476,7 @@ public class Parser {
         boolean foundMatch = matcher.find();
 
         if (!foundMatch) {
-            throw new CustomException("Exception caught! You've entered an invalid format.");
+            throw new CustomException(EXPLAIN_PARAMETER + " " + MESSAGE_INVALID_COMMAND_FORMAT);
         }
 
         String topicNumParam = matcher.group(FIRST_PARAMETER);
