@@ -29,3 +29,10 @@ Responsible for developing utilities used in the app, as well as implementing UI
 1. Clarified variable data type to be fed into functions.
 2. Reiterated value proposition of the app and how it relates with technical implementations.
 
+### Contributions to Final Release
+
+| No. | Release | Contribution                                         | User Benefit                                                            |
+|-----|---------|------------------------------------------------------|-------------------------------------------------------------------------|
+| 1   | `v2.1`  | Implement checking of the terminal console size      | Users will be suggested to adjust their terminal size for optimal usage |
+| 2   | `v2.1`  | Handled `Ctrl + C` command at runtime                | Support hard-termination at any point of the execution                  |
+| 3 | `v2.1`  | Testing of release `JAR` on Windows, Linux and MacOS | Ensure cross-platform performance                                       |
