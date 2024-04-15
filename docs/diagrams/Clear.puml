@@ -1,0 +1,41 @@
+@startuml
+skinparam ParticipantFontColor #FFFFFF
+
+box handleCustomCommand() #ABCAFA
+participant ":Parser" as Parser #FE2727
+participant "topicList:TopicList" as TopicList #1162E3
+participant "ui:Ui" as Ui #FE2727
+participant "progressManager:ProgressManager" as ProgressManager #FE2727
+participant "customPattern:Pattern" as Pattern #FE2727
+participant "matcher:Matcher" as Matcher #FE2727
+participant ":CommandList" as CommandList #FE2727
+end box
+
+Parser -> CommandList : getClearPattern()
+activate CommandList
+CommandList --> Parser : clearPattern
+deactivate CommandList
+
+Parser -> Pattern : compile()
+activate Pattern
+Pattern --> Parser : clearPattern
+
+Parser -> Matcher : match(command)
+activate Matcher
+Matcher --> Parser : matcher
+
+Parser -> Matcher : find()
+Matcher --> Parser : foundMatch
+
+Parser -> Ui : getConfirmationClearProgress()
+activate Ui
+Ui --> Parser : confirmClear
+
+opt confirmClear
+    Parser -> ProgressManager : clearProgress()
+    activate ProgressManager
+    ProgressManager --> Parser : allResults
+    Parser -> Ui : displayProgressClearedMessage()
+end
+
+@enduml
