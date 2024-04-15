@@ -16,9 +16,9 @@
     * Launch and Shutdown (TODO: include testing methods)
     * (include tests for other features)
 
-## Design & implementation
+## Implementation
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+
 
 ### Results feature
 
@@ -150,18 +150,19 @@ if there is 1 parameter (ie get all explanations):
 else if there are 2 parameters (ie get one explanation):
 `QuestionsList#getOneExplanation` will get the specified explanation and `ui#printOneExplanation` will print it.
 
-## Product scope
+## Appendix: Requirements
 
-### Target user profile
+### Product scope
 
-CS2113/2103 students who wish to have an efficient tool to help them revise relevant concepts.
+**Target user profile:**
+* revising Java OOP and Software Engineering concepts taught in CS2113/T 
+* prefer desktop app over other types
+* can type fast
+* reasonably comfortable with CLI
 
-### Value proposition
+**Value proposition:** more accessible than current CS2113/T website as questions are consolidated in dataset. In addition, able to keep track of progress.  
 
-Integration of key notions and learning objectives for CS2113 course, self-adaptive testing for understanding and
-feedback.
-
-## User Stories
+### User Stories
 
 | Version | As a ...                       | I want to ...                                                                         | So that I can ...                                                     |
 |---------|--------------------------------|---------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
