@@ -196,6 +196,40 @@ the necessary game data and add them back into `ResultsList`, `TopicList` and `A
 The following is the class diagram:
 ![Storage Class Diagram](./team/img/DG/Storage.png)
 
+### Custom Feature
+
+The custom feature allows the user to select a topic and generate a subset of random questions from that topic.
+
+This feature is facilitated by `Parser#handleCustomCommand` which is called by `Parser#parseCommand`.
+
+Within `Parser#handleCustomCommand`, Java regular expression packages `Pattern` and `Matcher` are used to ensure that the command is given in valid format. They are also used to extract the relevant parameters.
+
+The following is the overview of the method:
+![Custom sequence diagram](team/img/DG/Custom.png)
+
+### Checkpoint Feature
+
+The checkpoint feature allows the user to set a goal to achieve within the study session. Note that this checkpoint feature is only available when practising in custom mode.
+
+This feature is facilitated by `Parser#handleCheckpointCommand` which is called by `Parser#parseCommand`.
+
+Once the checkpoint goal has been reached, the user will be notified that they have achieved their goal for the session.
+
+The following is the overview of the method:
+![Checkpoint sequence diagram](team/img/DG/Checkpoint.png)
+
+### Clear Feature
+
+The clear feature allows the user to clear the game progress thus far.
+
+This feature is facilitated by `Parser#handleClearCommand` which is called by `Parser#parseCommand`.
+
+To prevent the user from accidentally clearing their progress, they would get an additional prompt to confirm that they want to clear their progress.
+
+The following is the overview of the method:
+![Clear sequence diagram](team/img/DG/Clear.png)
+
+
 ## Appendix: Requirements
 
 ### Appendix A: Product scope
