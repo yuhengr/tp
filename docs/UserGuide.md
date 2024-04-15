@@ -25,7 +25,7 @@ Command Line Interface** (CLI).
 
 ## Getting Started
 
-Prerequisites: JDK 11, Player2113 release `JDK` file
+Prerequisites: JDK 11, Player2113 release `JDK` file. Please ensure the terminal screen size is at least `80(w)*18(h)` characters for optimal experience.
 
 Start the programme with the following command:
 

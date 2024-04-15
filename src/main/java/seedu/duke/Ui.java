@@ -36,6 +36,8 @@ public class Ui {
     private static final String RESUME = "resume";
     private static final String INVALID_INPUT = "Invalid input. Please type 'yes' or 'no'";
     private static final String INSTRUCTIONS = "Type 'yes' to restart session or 'no' to resume.";
+    private static final String TERMINAL_SIZE_WARNING =
+            "You may adjust your terminal size to 80(w)*18(h) for optimal experience";
 
     private static final int INDEX_TOPIC_NUM = 0;
     private static final int INDEX_INDEX = 1;
@@ -69,12 +71,14 @@ public class Ui {
             Ui ui, TopicList topicList,
             QuestionListByTopic questionListByTopic, ResultsList allResults, Helper helper, AnswerTracker userAnswers,
             Storage storage, ProgressManager progressManager
-    ) {
+    ) throws CustomException {
         Parser parser = new Parser();
 
         while (isPlaying) {
             ui.askForInput();
+
             String command = in.nextLine();
+
             try {
                 parser.parseCommand(command, ui, topicList, questionListByTopic, allResults, helper,
                         userAnswers, storage, progressManager);
@@ -679,6 +683,11 @@ public class Ui {
         System.out.println("You've already set a checkpoint.");
         System.out.println("Your goal is to attempt " + checkpointGoal + " questions.");
         System.out.println("You have " + numOfQnsToHitGoal + " more questions to go.");
+    }
+
+    //@@author songyuew
+    public void displayScreenSizeWarning() {
+        System.out.println(TERMINAL_SIZE_WARNING);
     }
 }
 
