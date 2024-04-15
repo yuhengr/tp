@@ -1,0 +1,24 @@
+Hello from
+______ _                       _____  __   __   _____
+| ___ \ |                     / __  \/  | /  | |____ |
+| |_/ / | __ _ _   _  ___ _ __`' / /'`| | `| |     / /
+|  __/| |/ _` | | | |/ _ \ '__| / /   | |  | |     \ \
+| |   | | (_| | |_| |  __/ |  ./ /____| |__| |_.___/ /
+\_|   |_|\__,_|\__, |\___|_|  \_____/\___/\___/\____/
+                __/ |
+               |___/
+What is your name?
+Hello CaiShenYe
+************************************************
+[----------] 0% 0/2 topics attempted
+Here are the topics in CS2113:
+1. topic1
+2. topic2
+3. Randomly select a topic for me ;)
+Please choose a topic to play:
+************************************************
+Input a command player!
+command format is invalid.
+Input a command player!
+bye bye, get more sleep zzz
+************************************************
