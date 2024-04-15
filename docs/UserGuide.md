@@ -53,6 +53,8 @@ What is your name?
 >
 > The current release of Player2113 is a MVP preview version with various proposed functions unimplemented. Please
 > strictly follow this user's guide.
+> 
+> 
 > For optimal viewing, please run Player2113 on a full-screen sized terminal window.
 
 > **NOTE** [coming in v3.0]
@@ -66,7 +68,7 @@ GameFlow sequence is as shown:
 ## Features
 
 > **NOTE:**
-> + Words in UPPER_CASE are to be supplied by the user e.g. in `results [details] [INDEX]`, `INDEX` is open to user
+> + Words in UPPER_CASE are to be supplied by the user e.g. in `results [details] [ATTEMPT_NUM]`, `ATTEMPT_NUM` is open to user
     input, such as `1` or `2`.
 > + Words in lower_case are fixed e.g. in `results [details] [INDEX]`, `details` has to be input by the user exactly for
     that parameter.
@@ -223,7 +225,7 @@ Sample Output:
 
 ```
 Enter your answer: pause
-Current progress: The game is paused.
+The game is paused.
 Input "resume" to continue, or "bye" to exit.
 Enter your answer:
 ```
@@ -307,7 +309,7 @@ bye bye, get more sleep zzz
 
 **Q**: Who is this product for?
 
-**A**: For those wanting to learn more about CS2113/ Java OOP concepts!
+**A**: For those wanting to learn more about CS2113 / Java OOP concepts!
 
 ## Command Summary of [features](#features)
 

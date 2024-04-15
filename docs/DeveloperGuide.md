@@ -6,6 +6,7 @@
     * [Topic Feature](#topics-feature)
     * [Solution Feature](#solution-feature)
     * [Explain Feature](#explain-feature)
+    * [Save Feature](#save-feature)
 * [Appendix: Requirements](#appendix-requirements)
     * [Product Scope](#appendix-a-product-scope)
     * [User Stories](#appendix-b-user-stories)
@@ -170,6 +171,31 @@ if there is 1 parameter (ie get all explanations):
 else if there are 2 parameters (ie get one explanation):
 `QuestionsList#getOneExplanation` will get the specified explanation and `ui#printOneExplanation` will print it.
 
+### Save Feature
+
+The save feature is facilitated by `Storage`. It implements the following operations:
+- Storage#initSaveFile()
+- Storage#loadProgress()
+- Storage#processLine()
+- Storage#saveProgress()
+- Storage#writeToFile()
+
+Step 1. When the user exits the application for the first time, `Storage` creates a local
+text file. Then, it calls `ResultsList#getSessionResults()`, `TopicList#getTopicsChosen()`,
+`AnswerTracker#getAllAnswers()`, and `AnswerTracker#getAllCorrectness()` to get all the necessary
+game data.
+
+Step 2. `Storage` converts to all the game data into a particular format in order for
+the game progress to be recognised when the application is opened the next time. It will then
+write all the game data into the aforementioned local text file.
+
+Step 3. The next time the user opens the application, `Storage` will attempt to find the local text
+file. If successful, `Storage` will convert the formatted text back into 
+the necessary game data and add them back into `ResultsList`, `TopicList` and `AnswerTracker`.
+
+The following is the class diagram:
+![Storage Class Diagram](./team/img/DG/Storage.png)
+
 ## Appendix: Requirements
 
 ### Appendix A: Product scope
@@ -193,17 +219,17 @@ Priorities: High (must-have) - `***`, Medium (good-to-have) - `**`, Low (nice-to
 | v1.0    | ***      | new user            | access the tutorial / guide to the game easily       | refer to it if I am unfamiliar with the usage of a command |
 | v1.0    | ***      | new user            | choose a topic                                       | choose a specific topic to revise on                       |
 | v1.0    | **       | regular user        | take note of the questions answered wrong previously | revisit past mistakes and learn from them                  |
-| v1.0    | ***      | student new to Java | receive solutions after answering                    | learn the correct solution for the question                |
-| v1.0    | **       | student new to Java | receive explanations after answering                 | learn the correct explanation for the solution             |
-| v1.0    | **       | regular user        | clear my progress in the game                        | start anew                                                 |
-| v1.0    | ***      | busy user           | exit the game                                        | I can do other things in life                              |
-| v2.0    | **       | regular user        | see a progress bar when answering MCQs               | track my progress when attempting a question set           |
+| v1.0    | ***      | student new to Java | receive solutions after answering                   | learn the correct solution for the question                |
+| v1.0    | **       | student new to Java | receive explanations after answering                | learn the correct explanation for the solution             |
+| v1.0    | **       | regular user        | clear my progress in the game                       | start anew                                                 |
+| v1.0    | ***      | busy user           | exit the game                                       | I can do other things in life                              |
+| v2.0    | **       | regular user        | see a progress bar when answering MCQs              | track my progress when attempting a question set           |
 | v2.0    | **       | regular user        | see a progress bar about all topics in the main menu | track my revision progress for the entire course           |
 | v2.0    | ***      | regular user        | access timed modes in the game easily                | train my answering speed in preparation for tests          |
 | v2.0    | **       | student new to Java | practice on a random topic                           | avoid memorizing answers if I do a topic repeatedly        |
 | v2.0    | ***      | regular user        | come back to my saved points in the game             | continue working from my previous progress                 |
 | v2.0    | **       | busy user           | study in smaller chunks by having checkpoints        | play the game during my small slots of free time           |
-| TBC     | *        | regular user        | have topics' suggestion instead of choosing one      | I can avoid choosing a topic and be lazy                   |
+| TBC     | *        | regular user        | have topics suggestion instead of choosing one      | I can avoid choosing a topic and be lazy                   |
 | TBC     | *        | busy user           | have a reminder to do questions                      | I can keep track with the lectures                         |
 
 *[More to be added]*
