@@ -30,7 +30,12 @@ opt isAlreadyInCheckpointMode
     activate Ui
 end
 
-Parser -> Pattern : compile()
+Parser -> CommandList : getCheckpointPattern()
+activate CommandList
+CommandList --> Parser : checkpointPattern
+deactivate CommandList
+
+Parser -> Pattern : compile(checkpointPattern)
 activate Pattern
 Pattern --> Parser : customPattern
 

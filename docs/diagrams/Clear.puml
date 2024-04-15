@@ -16,7 +16,7 @@ activate CommandList
 CommandList --> Parser : clearPattern
 deactivate CommandList
 
-Parser -> Pattern : compile()
+Parser -> Pattern : compile(clearPattern)
 activate Pattern
 Pattern --> Parser : clearPattern
 
