@@ -4,7 +4,7 @@ import seedu.duke.exceptions.CustomException;
 
 public enum CommandList {
 
-    TOPIC, HELP, SOLUTION, EXPLAIN, RESULTS, TIMED_MODE, BYE, CUSTOM, CHECKPOINT, INVALID;
+    TOPIC, HELP, SOLUTION, EXPLAIN, RESULTS, TIMED_MODE, BYE, CUSTOM, CHECKPOINT, CLEAR, INVALID;
 
     private static final String PATTERN_TOPIC = "(?i)topic\\s*(\\d*)";
 
@@ -12,9 +12,10 @@ public enum CommandList {
 
     private static final String PATTERN_SOLUTION = "(?i)solution\\s*(\\d+)\\s*(.*)";
 
-    private static final String PATTERN_CUSTOM = "(?i)custom";
+    private static final String PATTERN_CUSTOM = "(?i)custom\\s*(\\d+)\\s*(\\d+)";
+    private static final String PATTERN_CHECKPOINT = "(?i)checkpoint\\s*(\\d+)";
 
-    private static final String PATTERN_EXPLANATION = "(?i)explanation\\s*(\\d+)\\s*(\\d+)";
+    private static final String PATTERN_EXPLAIN = "(?i)explain\\s*(\\d+)\\s*(.*)";
 
     private static final String PATTERN_HELP = "(?i)help\\s*(\\w*)";
 
@@ -27,6 +28,18 @@ public enum CommandList {
 
     public static String getSolutionPattern() {
         return PATTERN_SOLUTION;
+    }
+
+    public static String getExplainPattern() {
+        return PATTERN_EXPLAIN;
+    }
+
+    public static String getCustomPattern() {
+        return PATTERN_CUSTOM;
+    }
+
+    public static String getCheckpointPattern() {
+        return PATTERN_CHECKPOINT;
     }
 
     public static CommandList getCommandToken(String command) throws CustomException {
@@ -49,7 +62,7 @@ public enum CommandList {
             return CUSTOM;
         } else if (mainCommand.contentEquals("checkpoint")) {
             return CHECKPOINT;
-        } else if (mainCommand.contentEquals("explanation")) {
+        } else if (mainCommand.contentEquals("explain")) {
             return EXPLAIN;
         } else if (mainCommand.contentEquals("results")) {
             return RESULTS;
@@ -57,6 +70,8 @@ public enum CommandList {
             return TIMED_MODE;
         } else if (mainCommand.contentEquals("bye")) {
             return BYE;
+        } else if (mainCommand.contentEquals("clear")) {
+            return CLEAR;
         } else {
             return INVALID;
         }

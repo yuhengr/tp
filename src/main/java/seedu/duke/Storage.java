@@ -70,9 +70,9 @@ public class Storage {
     /**
      * Loads in all the save data from the save file.
      *
-     * @param f Save file.
+     * @param f       Save file.
      * @param results List of all results.
-     * @param topics List of all topics.
+     * @param topics  List of all topics.
      * @param answers List of all user answers to questions.
      * @return If the user previously paused and exited the game.
      * @throws FileNotFoundException If there was an error finding the save file.
@@ -90,9 +90,9 @@ public class Storage {
     /**
      * Process each line within the save file.
      *
-     * @param line The line read in from the save file.
+     * @param line    The line read in from the save file.
      * @param results List of all results.
-     * @param topics List of all topics.
+     * @param topics  List of all topics.
      * @param answers List of all user answers to questions.
      */
     private static void processLine(String line, ResultsList results, TopicList topics, AnswerTracker answers) {
@@ -136,10 +136,10 @@ public class Storage {
     /**
      * Resumes the game if the user previously paused and exited the game.
      *
-     * @param file The save file
+     * @param file         The save file
      * @param topicResults User results within the current attempt.
-     * @param userAnswers User answers within the current attempt.
-     * @param correctness User answer correctness within the current attempt.
+     * @param userAnswers  User answers within the current attempt.
+     * @param correctness  User answer correctness within the current attempt.
      * @return The topic number and question number that the user previously paused on.
      * @throws FileNotFoundException If there was an error locating the save file.
      */
@@ -181,7 +181,7 @@ public class Storage {
      * Create a temporary result for the paused attempt.
      *
      * @param topicResults User result within the current attempt.
-     * @param line The line read in from the save file.
+     * @param line         The line read in from the save file.
      */
     private static void createTempResult(Results topicResults, String line) {
         String[] processedLine = line.split(ARG_SEPARATOR);
@@ -195,7 +195,7 @@ public class Storage {
      * Create a temporary list of user answers for the paused attempt.
      *
      * @param userAnswers User answers within the current attempt.
-     * @param line The line read in from the save file.
+     * @param line        The line read in from the save file.
      */
     private static void createTempAnswers(ArrayList<String> userAnswers, String line) {
         String[] processedLine = line.split(ARG_SEPARATOR);
@@ -209,7 +209,7 @@ public class Storage {
      * Create a temporary list of user answer correctness for the paused attempt.
      *
      * @param correctness User answer correctness within the current attempt.
-     * @param line The line read in from the save file.
+     * @param line        The line read in from the save file.
      */
     private static void createTempCorrectness(ArrayList<Boolean> correctness, String line) {
         String[] processedLine = line.split(ARG_SEPARATOR);
@@ -256,7 +256,7 @@ public class Storage {
      * Saves the game data.
      *
      * @param results List of all results.
-     * @param topics List of all topics.
+     * @param topics  List of all topics.
      * @param answers List of all user answers to questions.
      * @throws CustomException If there was an error writing to the save file.
      */
@@ -274,14 +274,14 @@ public class Storage {
     /**
      * Saves the game data when the user is exiting from a paused game.
      *
-     * @param results List of all results.
-     * @param topics List of all topics.
-     * @param answers List of all user answers to questions.
-     * @param allAnswers User answers within the current attempt.
+     * @param results            List of all results.
+     * @param topics             List of all topics.
+     * @param answers            List of all user answers to questions.
+     * @param allAnswers         User answers within the current attempt.
      * @param answersCorrectness User answer correctness within the current attempt.
-     * @param topicResults User results within the current attempt.
-     * @param topicNum The topic number.
-     * @param index The question number.
+     * @param topicResults       User results within the current attempt.
+     * @param topicNum           The topic number.
+     * @param index              The question number.
      * @throws CustomException If there was an error writing to the save file.
      */
     public void pauseGame(ResultsList results, TopicList topics, AnswerTracker answers, ArrayList<String> allAnswers,
@@ -300,12 +300,12 @@ public class Storage {
     /**
      * Writes to the file a save point in the current attempt.
      *
-     * @param allAnswers User answers within the current attempt.
+     * @param allAnswers         User answers within the current attempt.
      * @param answersCorrectness User answers correctness within the current attempt.
-     * @param topicResults User results within the current attempt.
-     * @param fileWriter File writer to write to the save file.
-     * @param topicNum The topic number.
-     * @param index The question number.
+     * @param topicResults       User results within the current attempt.
+     * @param fileWriter         File writer to write to the save file.
+     * @param topicNum           The topic number.
+     * @param index              The question number.
      * @throws IOException If there was an error writing to the save file.
      */
     private static void savePoint(ArrayList<String> allAnswers, ArrayList<Boolean> answersCorrectness,
@@ -341,9 +341,9 @@ public class Storage {
     /**
      * Writes to the save file current game data.
      *
-     * @param results List of all results.
-     * @param topics List of all topics.
-     * @param answers List of all user answers to questions.
+     * @param results    List of all results.
+     * @param topics     List of all topics.
+     * @param answers    List of all user answers to questions.
      * @param fileWriter File writer to write to the save file.
      * @throws IOException If there was an error writing to the save file.
      */
@@ -391,23 +391,26 @@ public class Storage {
     }
 
     //@@author ngxzs
-    // creates question list1,2 etc
+    // creates question list1,2,3
     public void updateQuestionList(int questionListIndex, QuestionsList questionList) throws CustomException {
         int questionListNum = questionListIndex + 1; // +1 coz 0 index
-        // to add a questionList, create a function for each questionList
         switch (questionListNum) {
-        case (1):
+        case (1):   // creates questionsList1 for topic1
             updateQuestionList1(questionList);
             break;
-        case (2):
+        case (2):   // creates questionsList2 for topic2
             updateQuestionList2(questionList);
+            break;
+        case (3):   // creates questionsList3 for topic3
+            updateQuestionList3(questionList);
             break;
         default:
             throw new CustomException("unable to create questionList" + questionListNum);
         }
     }
-    // Adds questions for questionsList1
-    private void updateQuestionList1(QuestionsList questionList) {
+
+    // Adds questions for questionsList1 "Software Engineering Concepts I"
+    private void updateQuestionList1(QuestionsList questionsList) {
         Question question1 = new Question(
                 "What language does CS2113 use?",
                 "a",
@@ -464,24 +467,61 @@ public class Storage {
                              "NA: not possible in real life",
                              "Idk",
                              "True"});
-        Question question7 = new Question(
-                "What does SLAP stands for?",
-                "d",
-                "See the course website!",
-                new String[]{"when you feel pain on your face",
-                             "when another person feels pain on their face",
-                             "Studying-lit Acceleration Program",
-                             "Single Level of Abstraction Per method"});
 
-        questionList.addQuestion(question1);
-        questionList.addQuestion(question2);
-        questionList.addQuestion(question3);
-        questionList.addQuestion(question4);
-        questionList.addQuestion(question5);
-        questionList.addQuestion(question6);
-        questionList.addQuestion(question7);
+        Question question7 = new Question(
+                "Which of the following is WRONG?",
+                "a",
+                "A private method cannot be a part of the API as it is not accessible by other classes.",
+                new String[]{"Any method of a class is part of its API",
+                             "API forms the contract between the component developer and the component user",
+                             "A software component can have an API",
+                             "Private methods of a class are not part of its API"});
+
+        Question question8 = new Question(
+                "What is substitutability in OOP?",
+                "d",
+                "Inheritance allows for substitutability: the ability to substitute a child class object where a " +
+                        "parent class object is expected",
+                new String[]{"We can substitute int for Integer",
+                             "We can substitute a superclass object where a subclass object is expected",
+                             "Similar to how we SU our grades, we can substitute a char as a String with length 1",
+                             "Every instance of a subclass is an instance of the superclass, but not vice-versa"});
+
+        Question question9 = new Question(
+                "What are the 2 aspects of encapsulation in OOP?",
+                "c",
+                "packaging aspect refers to packaging data and related behaviour together in 1 self-contained unit.\n" +
+                        "The information hiding aspect refers to an object, hidden from the outside world and only " +
+                        "accessible from the object's interface",
+                new String[]{"manufacturing aspect and packaging aspect",
+                             "abstracting aspect and packaging aspect",
+                             "packaging aspect and information hiding aspect",
+                             "abstracting aspect and substitution aspect"});
+
+        Question question10 = new Question(
+                "What is abstraction in OOP?",
+                "b",
+                "Abstraction is a technique for dealing with complexity.\n" +
+                        "It works by establishing a level of complexity we are interested in, and suppressing the " +
+                        "more complex details below that level.",
+                new String[]{"If you can't convince, confuse.",
+                             "Hide the lower level details, work with the bigger granularity entities.",
+                             "SLAP your code such that you are seeing it in the big picture view",
+                             "Make the class private"});
+
+        questionsList.addQuestion(question1);
+        questionsList.addQuestion(question2);
+        questionsList.addQuestion(question3);
+        questionsList.addQuestion(question4);
+        questionsList.addQuestion(question5);
+        questionsList.addQuestion(question6);
+        questionsList.addQuestion(question7);
+        questionsList.addQuestion(question8);
+        questionsList.addQuestion(question9);
+        questionsList.addQuestion(question10);
     }
-    // Adds questions for questionList2
+
+    // Adds questions for questionList2 "Software Engineering Concepts II"
     private void updateQuestionList2(QuestionsList questionsList) {
         Question question1 = new Question(
                 "One should never prioritize efficiency or performance over readability",
@@ -491,6 +531,7 @@ public class Storage {
                              "False: efficiency == readability",
                              "True: readability is always more important",
                              "True: the compiler will optimize for you"});
+
         Question question2 = new Question(
                 "As per the KISS principle, one should always prefer the simpler solution over clever ones",
                 "b",
@@ -501,6 +542,7 @@ public class Storage {
                              "False: sometimes we want the clever solutions",
                              "Both are irrelevant to KISS",
                              "I give up!"});
+
         Question question3 = new Question(
                 "Which of the following follows the correct coding standard?",
                 "d",
@@ -509,6 +551,7 @@ public class Storage {
                              "int my_var = 2;",
                              "int MyVar = 2;",
                              "final static int MY_VAR = 2;"});
+
         Question question4 = new Question(
                 "Constants often follow this naming convention: ALL_CAPS_LIKE_THIS. What is it called?",
                 "a",
@@ -518,9 +561,179 @@ public class Storage {
                              "PascalCase",
                              "Train-Case"});
 
+        Question question5 = new Question(
+                "What is a programming paradigm?",
+                "c",
+                "For example, OOP is a programming paradigm ie a way of analyzing the code.",
+                new String[]{"it separates code into 2 parts: data and operations on data",
+                             "it is laying out all the data structures in the programme",
+                             "it guides users to analyze programming problems and structure programming solutions in " +
+                                     "a specific way, like OOP",
+                             "it is how you work with others in a software engineer project setting"});
+
+        Question question6 = new Question(
+                "Which is NOT a programming paradigm listed in the textbook?",
+                "b",
+                "Hardware Description Language is a programming language, not a paradigm",
+                new String[]{"Procedural Programming paradigm (C)",
+                             "Hardware Description Language paradigm (Verilog)",
+                             "Functional Programming paradigm (F#, Haskell, Scala)",
+                             "Logic Programming Paradigm (Prolog)"});
+
+        Question question7 = new Question(
+                "Which of the following is FALSE?",
+                "c",
+                "While many languages support the OO paradigm, OO is not a language itself.",
+                new String[]{"OO is a programming paradigm",
+                             "OO is mainly an abstraction mechanism",
+                             "OO is a programming language",
+                             "OO guides us in how to structure the solution"});
+
+        Question question8 = new Question(
+                "Which of the following is FALSE?",
+                "c",
+                "C follows the procedural paradigm. Yes, we can also write procedural code using OO language.",
+                new String[]{"Java and C++ are OO languages",
+                             "Java can be used to write procedural code",
+                             "C language follows the Functional Programming paradigm",
+                             "Prolog follows the Logic Programming paradigm"});
+
+        Question question9 = new Question(
+                "What does SLAP stands for?",
+                "d",
+                "See the course website!",
+                new String[]{"when you feel pain on your face",
+                             "when another person feels pain on their face",
+                             "Studying-lit Acceleration Program",
+                             "Single Level of Abstraction Per method"});
+
+        Question question10 = new Question(
+                "What is polymorphism in OOP?",
+                "b",
+                "Recall the lecture example Cat.speak() v Dog.speak().",
+                new String[]{"Method overloading as the same function name returns different results based on the " +
+                                     "type sequence of the parameters",
+                             "ability to write code targeting superclasses objects, use that code on subclasses " +
+                                     "objects, and achieve possibly different results based on the actual class of " +
+                                     "the object",
+                             "Hide all non-relevant details and only display the relevant ones",
+                             "A subclass inheriting from a superclass. In this case, the superclass is being reused"});
+
         questionsList.addQuestion(question1);
         questionsList.addQuestion(question2);
         questionsList.addQuestion(question3);
         questionsList.addQuestion(question4);
+        questionsList.addQuestion(question5);
+        questionsList.addQuestion(question6);
+        questionsList.addQuestion(question7);
+        questionsList.addQuestion(question8);
+        questionsList.addQuestion(question9);
+        questionsList.addQuestion(question10);
+    }
+
+    // "All about Java"
+    private void updateQuestionList3(QuestionsList questionsList) {
+        Question question1 = new Question(
+                "Which command checks your current java version",
+                "a",
+                "Read the textbook/ java manual.",
+                new String[]{"java -version",
+                             "java --version",
+                             "java -v",
+                             "java -v"});
+
+        Question question2 = new Question(
+                "Which command compiles fileName.java?",
+                "d",
+                "Read the textbook/ java manual.",
+                new String[]{"java -c fileName.java",
+                             "java -compile fileName.java",
+                             "java --compile fileName.java",
+                             "javac fileName.java"});
+
+        Question question3 = new Question(
+                "Which commands runs the compiled java program after compiling fileName.java?",
+                "d",
+                "java fileName (without .java) is the correct way to run the program after compiling.",
+                new String[]{"java --run fileName.java",
+                             "fileName.java",
+                             "java fileName.java",
+                             "java fileName"});
+
+        Question question4 = new Question(
+                "Which of the following is not a primitive data type in Java?",
+                "a",
+                "While Strings are used often, it is not a primitive data type.",
+                new String[]{"String",
+                             "short",
+                             "boolean",
+                             "float"});
+
+        Question question5 = new Question(
+                "What is method overloading?",
+                "b",
+                "For example, me.speak(Word word) v me.speak(Number number) have the same number but different type " +
+                        "signatures",
+                new String[]{"Using a method repeatedly in more than 1 class",
+                             "When multiple methods have the same name but different type signatures (parameters)",
+                             "When you take 24MCs instead of the recommended 20MC workload",
+                             "When multiple methods have the same name but in different classes"});
+
+        Question question6 = new Question(
+                "Which of the following is TRUE? (Here, int x = 2)",
+                "a",
+                "Type conversion must be explicit in strongly-typed languages.",
+                new String[]{"Java is a strongly-typed language: long y = new Long(x) will pass",
+                             "Java is a strongly-typed language: String must start with capital S",
+                             "Java is a weakly-typed language: long y = x will pass.",
+                             "Java is a weakly-typed language: int or Integer both works"});
+
+
+        Question question7 = new Question(
+                "Assume you have a String s = \"Hi\". How do we capitalize it?",
+                "c",
+                "Invoking the method toUpperCase() has no effect if you don't assign the return value to a variable.",
+                new String[]{"s.toUpperCase()",
+                             "s.toUpperCase",
+                             "s = s.toUpperCase()",
+                             "s = s.toUpperCase"});
+
+        Question question8 = new Question(
+                "How to compare 2 strings, string1 and string2, in Java?",
+                "b",
+                "The correct way is string1.equals(string2).",
+                new String[]{"string1.compareTo(string2);",
+                             "string1.equals(string2);",
+                             "string1 = string2;",
+                             "string1 == string2;"});
+
+        Question question9 = new Question(
+                "After calling new in Java, one does not need to call delete. Why?",
+                "b",
+                "In Java, the system automatically looks for stranded objects and deletes them.",
+                new String[]{"Java has enough memory in the heap",
+                             "Java has auto garbage collection",
+                             "Memory leak does not exist in Java",
+                             "As long as it compiles, one does not need to care."});
+
+        Question question10 = new Question(
+                "How do we specify class-level methods/ attributes in Java?",
+                "c",
+                "The keyword static is used to specify class-level entities.",
+                new String[]{"public",
+                             "new",
+                             "static",
+                             "final"});
+
+        questionsList.addQuestion(question1);
+        questionsList.addQuestion(question2);
+        questionsList.addQuestion(question3);
+        questionsList.addQuestion(question4);
+        questionsList.addQuestion(question5);
+        questionsList.addQuestion(question6);
+        questionsList.addQuestion(question7);
+        questionsList.addQuestion(question8);
+        questionsList.addQuestion(question9);
+        questionsList.addQuestion(question10);
     }
 }
