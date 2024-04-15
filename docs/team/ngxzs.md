@@ -45,7 +45,8 @@ The application has about 3.6k lines of code and is written in Java.
 * **Enhancements to existing features:**
     * Made GUI more user-friendly with line breaks ([#40](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/40/files))
     * Added Parser class testing to increase line test coverage from 0% to
-      9% due to code regression ([#75](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/75/files), [#82](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/82/files))
+      9% due to code
+      regression ([#75](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/75/files), [#82](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/82/files))
     * Added scaffolding for main class code ([#21](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/21/files))
 
 <div style="page-break-after: always;"></div>
@@ -54,7 +55,7 @@ The application has about 3.6k lines of code and is written in Java.
     * Added documentation for features `solution`
       and `explain` ([#57](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/86/files))
     * Added links, headings, and standardized format structure for
-      UG ([#69](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/69/files), [#161](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/161/files))
+      UG ([#69](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/69/files), [#161](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/161/files), [#181](https://github.com/AY2324S2-CS2113-F15-1/tp/pull/181/files))
 
 
 * **DG Contributions:**
