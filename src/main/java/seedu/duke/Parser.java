@@ -322,6 +322,11 @@ public class Parser {
             throw new CustomException("invalid " + lowerCaseCommand + " command");
         }
         String commandParameter = commandParts[FIRST_PARAMETER];
+
+        boolean isCommandParameterOverflowing = isParamOverflowing(commandParameter);
+        if(isCommandParameterOverflowing) {
+            throw new CustomException(MESSAGE_EXCEPTION_CAUGHT + MESSAGE_PARAM_TOO_LONG);
+        }
         try {
             // if parameter is an Integer
             int topicNum = Integer.parseInt(commandParameter);
