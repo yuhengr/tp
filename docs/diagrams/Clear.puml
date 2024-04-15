@@ -11,6 +11,9 @@ participant "matcher:Matcher" as Matcher #FE2727
 participant ":CommandList" as CommandList #FE2727
 end box
 
+-> Parser : handleClearCommand(ui, allResults, progressManager, command)
+activate Parser
+
 Parser -> CommandList : getClearPattern()
 activate CommandList
 CommandList --> Parser : clearPattern

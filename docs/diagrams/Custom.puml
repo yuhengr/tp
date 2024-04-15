@@ -14,7 +14,7 @@ participant ":CommandList" as CommandList #FE2727
 participant ":Results" as Results #FE2727
 end box
 
--> Parser:
+-> Parser: handleCustomCommand(command, ui, topicList, questionListByTopic, progressManager)
 activate Parser
 
 Parser -> CommandList : getCustomPattern()
