@@ -30,8 +30,7 @@ public class Ui {
     private static final String MESSAGE_ALL_EXPLANATIONS = "The explanations are :";
     private static final String MESSAGE_ASK_FOR_NAME = "What is your name?";
     private static final String MESSAGE_ASK_FOR_NAME_AGAIN = "Good try, but I still don't know who I'm talking to";
-    private static final String MESSAGE_SAY_BYE = "Most often, the problem is not the lack of time but the lack of " +
-            "direction";
+    private static final String MESSAGE_SAY_BYE = "bye bye, get more sleep zzz";
     private static final String ANSWER_TIMEOUT = "You ran out of time!";
     private static final String MESSAGE_ANSWER_FORMAT = "Your answer must be either a, b, c, or d!";
     private static final String RESUME = "resume";
@@ -395,8 +394,10 @@ public class Ui {
                                QuestionListByTopic questionListByTopic, AnswerTracker userAnswers, int index) {
         System.out.println("Attempt " + index + ": " + System.lineSeparator() + "Your results for Topic " +
                 (topicNum + 1) + ":\n" + score + System.lineSeparator());
+        printLine();
         if (includesDetails) {
             printResultDetails(questionListByTopic, topicNum, index - 1, userAnswers);
+            printLine();
         }
     }
 
@@ -417,8 +418,10 @@ public class Ui {
             System.out.println("Attempt " + (i + 1) + ": " + System.lineSeparator() + "Your results for Topic " +
                     (topicNum + 1) + ":\n" + allResults.getSpecifiedResult(i).getScore()
                     + System.lineSeparator());
+            printLine();
             if (includesDetails) {
                 printResultDetails(questionListByTopic, topicNum, i, userAnswers);
+                printLine();
             }
         }
     }
@@ -557,8 +560,8 @@ public class Ui {
         System.out.println("Results from the incomplete attempt will be discarded :0");
     }
 
-    public void printCustomModeMessage() {
-        System.out.println("You've selected to practise in custom mode.");
+    public void printCustomModeMessage(int topicNum, int numOfQuestions) {
+        System.out.println("You've selected to practise " + numOfQuestions + " from topic " + topicNum);
     }
 
     public int getCustomTopicNum() {
@@ -632,6 +635,50 @@ public class Ui {
             return true;
         }
         return false;
+    }
+
+    public void printCustomQuestionSet(
+            int numOfCustomQns, ProgressManager progressManager, QuestionsList customQuestionsList,
+            boolean isInCheckpointMode, Ui ui, Results results) {
+        System.out.println("Ui is displaying custom question set.");
+        System.out.println("There are " + numOfCustomQns + " questions.");
+
+        String[] inputAnswers = new String[numOfCustomQns];
+        ArrayList<Boolean> answersCorrectness = new ArrayList<>();
+
+        for(int i = 0; i < numOfCustomQns; i++) {
+            Question questionUnit = customQuestionsList.getQuestionUnit(i);
+            results.increaseNumberOfQuestions();
+            Parser parser = new Parser();
+            boolean isCorrectAnswerFormat = false;
+            String userAnswerInput;
+
+            do {
+                printQuestion(questionUnit);
+                askForAnswerInput();
+                userAnswerInput = getUserAnswerInput();
+                displayUserAnswer(userAnswerInput);
+
+                isCorrectAnswerFormat = parser.checkFormat(userAnswerInput, ui);
+            } while(!isCorrectAnswerFormat);
+
+            parser.handleAnswerInputs(inputAnswers, i, userAnswerInput,
+                    questionUnit, results, answersCorrectness);
+
+            if(isInCheckpointMode) {
+                progressManager.incrementNumOfAttemptedCustomQuestions();
+            }
+        }
+    }
+
+    public void displayCheckpointGoal(int checkpointGoal) {
+        System.out.println("You've chosen a goal of " + checkpointGoal + " questions.");
+    }
+
+    public void displayAlreadyInCheckpointMode(int checkpointGoal, int numOfQnsToHitGoal) {
+        System.out.println("You've already set a checkpoint.");
+        System.out.println("Your goal is to attempt " + checkpointGoal + " questions.");
+        System.out.println("You have " + numOfQnsToHitGoal + " more questions to go.");
     }
 }
 

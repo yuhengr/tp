@@ -391,25 +391,23 @@ public class Storage {
     }
 
     //@@author ngxzs
-    // creates question list1,2 etc
+    // creates question list1,2,3
     public void updateQuestionList(int questionListIndex, QuestionsList questionList) throws CustomException {
         int questionListNum = questionListIndex + 1; // +1 coz 0 index
-        // to add a questionList, create a function for each questionList
         switch (questionListNum) {
-        case (1):
+        case (1):   // creates questionsList1 for topic1
             updateQuestionList1(questionList);
             break;
-        case (2):
+        case (2):   // creates questionsList2 for topic2
             updateQuestionList2(questionList);
             break;
-        case (3):
+        case (3):   // creates questionsList3 for topic3
             updateQuestionList3(questionList);
             break;
         default:
             throw new CustomException("unable to create questionList" + questionListNum);
         }
     }
-    // See all the way @ below for question template code
 
     // Adds questions for questionsList1 "Software Engineering Concepts I"
     private void updateQuestionList1(QuestionsList questionsList) {
@@ -726,111 +724,6 @@ public class Storage {
                              "new",
                              "static",
                              "final"});
-
-        questionsList.addQuestion(question1);
-        questionsList.addQuestion(question2);
-        questionsList.addQuestion(question3);
-        questionsList.addQuestion(question4);
-        questionsList.addQuestion(question5);
-        questionsList.addQuestion(question6);
-        questionsList.addQuestion(question7);
-        questionsList.addQuestion(question8);
-        questionsList.addQuestion(question9);
-        questionsList.addQuestion(question10);
-    }
-
-    // ------------------------------------------------------------------------------
-    // Question Code template (Copy paste this, DONT edit directly)
-    private void updateQuestionList4(QuestionsList questionsList) {
-        Question question1 = new Question(
-                "",
-                "",
-                "",
-                new String[]{"",
-                             "",
-                             "",
-                             ""});
-
-        Question question2 = new Question(
-                "",
-                "",
-                "",
-                new String[]{"",
-                             "",
-                             "",
-                             ""});
-
-        Question question3 = new Question(
-                "",
-                "",
-                "",
-                new String[]{"",
-                             "",
-                             "",
-                             ""});
-
-        Question question4 = new Question(
-                "",
-                "",
-                "",
-                new String[]{"",
-                             "",
-                             "",
-                             ""});
-
-        Question question5 = new Question(
-                "",
-                "",
-                "",
-                new String[]{"",
-                             "",
-                             "",
-                             ""});
-
-        Question question6 = new Question(
-                "",
-                "",
-                "",
-                new String[]{"",
-                             "",
-                             "",
-                             ""});
-
-        Question question7 = new Question(
-                "",
-                "",
-                "",
-                new String[]{"",
-                             "",
-                             "",
-                             ""});
-
-        Question question8 = new Question(
-                "",
-                "",
-                "",
-                new String[]{"",
-                             "",
-                             "",
-                             ""});
-
-        Question question9 = new Question(
-                "",
-                "",
-                "",
-                new String[]{"",
-                             "",
-                             "",
-                             ""});
-
-        Question question10 = new Question(
-                "",
-                "",
-                "",
-                new String[]{"",
-                             "",
-                             "",
-                             ""});
 
         questionsList.addQuestion(question1);
         questionsList.addQuestion(question2);

@@ -1,6 +1,6 @@
 # [Player2113](https://github.com/AY2324S2-CS2113-F15-1/tp/releases)
 
-Player2113 is a **desktop app for helping CS2113/T student revise Java OOP concepts in a gamification environment via a
+Player2113 is a **desktop app for helping CS2113/T students revise Java OOP concepts in a gamification environment via a
 Command Line Interface** (CLI).
 
 * [Getting Started](#getting-started)
@@ -15,7 +15,10 @@ Command Line Interface** (CLI).
   * [View help: `help`](#7-viewing-help-help)
   * [Pause the game: `pause`](#8-pausing-the-game-pause)
   * [Resume the game: `resume`](#9-resuming-the-game-resume)
-  * [Exit the program: `bye`](#10-exiting-the-game-bye)
+  * [Customise questions: `custom`](#10-customise-questions-custom)
+  * [Checkpoint goals: `checkpoint`](#11-checkpoint-goals-checkpoint)
+  * [Clear progress: `clear`](#12-clear-progress-clear)
+  * [Exit the program: `bye`](#13-exiting-the-game-bye)
 * [FAQ](#faq)
 * [Command Summary](#command-summary-of-features)
 
@@ -85,10 +88,7 @@ Format: `topic TOPIC_INDEX`
 - Press Enter to submit the response. System will then key in the next question.
 - Each question bank has 10 questions.
 
-Example:
-Input index of answer you want to respond with
-Press enter to submit response
-eg “a” to choose option "a. Java" (below)
+Sample Output:
 
 ```angular2html
 What language does CS2113 use?
@@ -119,7 +119,10 @@ Format: `results [details] [ATTEMPT_NUM]`
 - Anything after `[INDEX]` will be ignored.
 - Command works as long as the user input starts with `results` (e.g. `resultsss`, `resultsad`) for easier usage.
 
-Example usage: `results details 2`
+Examples: 
+`results details 2` shows the results for Attempt 2 (with questions and answers)
+`results 2` shows the results for Attempt 2 (score only)
+
 
 ### 3. Get solution(s) for a question / topic: `solution`
 
@@ -165,6 +168,7 @@ Examples:
 ` timed mode 5` sets time limit to 5s
 
 Sample Output:
+
 ```angular2html
 Timed mode selected. Please enter the topic you would like to try.
 You cannot pause in timed mode!
@@ -173,20 +177,21 @@ Input a command player!
 
 ### 6. List all available topics and their summaries: `list`
 
-Example of usage: `list`
-
 A progress bar indicating the overall revision progress will be displayed, followed by a table of question bank summaries.
 
-Sample output:
+Format: `list`
+
+Sample Output:
 
 ```
-[*****-----] 50% 1/2 topics attempted
-+-------+--------+-------------------------------------------------+-----------+
-| index |  topic |                     summary                     | attempted |
-+-------+--------+-------------------------------------------------+-----------+
-|     1 | topic1 | Covers topic 1 notions mentioned in lecture 1-2 |      true |
-|     2 | topic2 | Covers topic 2 notions mentioned in lecture 3-4 |     false |
-+-------+--------+-------------------------------------------------+-----------+
+[***-------] 30% 1/3 topics attempted
++-------+----------------------------------+----------------------+-----------+
+| index |               topic              |        summary       | attempted |
++-------+----------------------------------+----------------------+-----------+
+|     1 |  Software Engineering Concepts I |    SE & OOP concepts |      true |
+|     2 | Software Engineering Concepts II | SE & OOP concepts II |     false |
+|     3 |                   All About Java | General info on Java |     false |
++-------+----------------------------------+----------------------+-----------+
 ```
 
 ### 7. Viewing help: `help`
@@ -196,7 +201,7 @@ Shows developer credits information.
 
 Format: `help`
 
-Sample output:
+Sample Output:
 
 ![Help Sample Output](team/img/UG/ug_usage_help.png)
 
@@ -208,6 +213,8 @@ Format: `pause`
 
 - This command is valid only when the user is answering the topic questions.
 - <strong>User cannot pause when in timed mode.</strong>
+
+Sample Output: 
 
 ```
 Enter your answer: pause
@@ -224,14 +231,47 @@ Format: `resume`
 
 - This command is valid only when the game is paused.
 
-### 10. Exiting the game: `bye`
+### 10. Customise questions: `custom`
+
+This command allows the player to customise the questions by selecting which topic and the number of questions they would like to practise.
+
+Format: `custom TOPIC_NUM NUM_OF_QUESTIONS`
+
+- Upon entering this command, the user will get a customised question set.
+- `TOPIC_NUM` and `NUM_OF_QUESTIONS` should be a non-zero positive integer (e.g. 1, 2, 3, ...) that is within range of topics and questions available.
+
+Example: `custom 1 3` will generate a question set of 3 questions from topic 1.
+
+### 11. Checkpoint goals: `checkpoint`
+
+This command allows the user to set a number of questions that they would like to complete in the current session.
+
+Format: `checkpoint NUM_OF_QUESTIONS`
+
+- Upon entering this command, the user will set a checkpoint goal.
+- The user can use this checkpoint goal to track number of customised questions attempted.
+- `NUM_OF_QUESTIONS` should be a non-zero positive integer (e.g. 1, 2, 3, ...) that is within range of questions available.
+
+Example: `checkpoint 5` will set a goal of 5 questions and the user will get a congratulatory message after reaching this goal by attempting customised questions.
+
+### 12. Clear progress: `clear`
+
+This command allows the user to clear their progress on Player2113.
+
+Format: `clear`
+
+- Upon entering this command, the user will get a prompt to confirm that they want to clear their progress. Upon confirmation, the progress for the user will be cleared.
+
+### 13. Exiting the game: `bye`
 
 All results will be saved to a local save file, which will be loaded up when the application is opened next time.
+
+Format: `bye`
 
 - If exited after pausing the game, you can choose whether to continue from where you left off or
   discard the results for that topic.
 
-Example of usage: `bye`
+
 
 A goodbye message will be displayed:
 
@@ -256,4 +296,6 @@ bye bye, get more sleep zzz
 * Show Solution `solution TOPIC_NUM [QUESTION_NUM]` e.g. `solution 1 1`
 * Show Explanation `explain TOPIC_NUM [QUESTION_NUM]` e.g. `explain 1 1`
 * Timed Mode `timed mode [TIME_LIMIT]` e.g. `timed mode 5`
+* Customise questions `custom`
+* Checkpoint goals `checkpoint`
 * Exit `bye`
