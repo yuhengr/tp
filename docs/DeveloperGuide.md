@@ -51,18 +51,21 @@ Step 1. The user launches the application for the first time,
 and proceeds to start a game with their chosen topic.
 
 The following sequence diagram shows how the `Results` for
-one question set is added to the `ResultsList`:  
+one question set is added to the `ResultsList`:
+
 ![ResultsList sequence diagram](team/img/DG/Results.png)
+
 > **Note:** The lifeline for Parser and Results should end
 > at the destroy marker (X) but due to a limitation of PlantUML,
 > the lifeline reaches the end of the diagram.
 
 Similarly, the following sequence diagram shows how the
-`AnswerTracker` stores all the user answer inputs:  
+`AnswerTracker` stores all the user answer inputs:
+
 ![AnswerTracker sequence diagram](team/img/DG/AnswerTracker.png)
+
 > **Note:** The lifeline for Parser, allAnswers, and answersCorrectness
-> should end
-> at the destroy marker (X) but due to a limitation of PlantUML,
+> should end at the destroy marker (X) but due to a limitation of PlantUML,
 > the lifeline reaches the end of the diagram.
 
 Step 2. The user may repeat Step 1 with other question sets.
@@ -72,6 +75,7 @@ and `AnswerTracker` are the same as the ones shown in Step 1.
 
 Step 3. The user now wants to view their results by executing
 the `results` command.  
+
 ![Results command sequence diagram](team/img/DG/ViewResults.png)
 
 > **Note:** If the user uses the results feature before
@@ -92,6 +96,7 @@ Step 1. The user launches the application for the first time,
 and proceeds to start a game with their chosen topic.
 
 The following shows the class diagram for `topicList`:
+
 ![TopicList class diagram](team/img/DG/topicList_noC_class_diagram.png)
 
 Step 2. A question from the question set of the chosen topic is displayed.
@@ -101,6 +106,7 @@ Step 3. Step 2 repeats until all the questions in the question set has been aske
 Step 1 executes and process repeats.
 
 The following shows the class diagram for `QuestionListByTopic`:
+
 ![QuestionListByTopic](team/img/DG/questionList_class_diagram.png)
 
 ### Solution Feature
@@ -112,7 +118,7 @@ The solution feature is facilitated by `Parser#processSolutionCommand`, which is
 > **OVERVIEW:**
 > ![Solution sequence diagram](team/img/DG/Solution.png)
 
-> > **Note:** The lifeline for Parser and Results should end
+> **Note:** The lifeline for Parser and Results should end
 > at the destroy marker (X) but due to a limitation of PlantUML,
 > the lifeline reaches the end of the diagram.
 
@@ -147,7 +153,6 @@ Step 1: After user runs the program and keys in the user command, the command wi
 `Parser#parseCommand`.
 
 > **NOTE:** The command must contain the `explain` keyword.
->
 > Sequence diagram for `explain` is similar to the [sequence diagram](#solution-feature) for `solution` feature
 
 Step 2a: `Parser#processExplainCommand` first checks the number of parameters in the user command
@@ -257,65 +262,109 @@ Priorities: High (must-have) - `***`, Medium (good-to-have) - `**`, Low (nice-to
 ### Choosing a topic
 
 1. Test case: `topic 1`
+
    Expected: Topic 1 is chosen. Questions from Topic 1 will start appearing.
+
 2. Test case: `topic`
-    Expected: No topic chosen. Invalid command error message shown.
+
+   Expected: No topic chosen. Invalid command error message shown.
 
 ### Viewing Results
+
 1. Test case: `results`
+
    Expected: Scores for all previous attempts shown
+
 2. Test case: `results details 1`
+
    Expected: Scores for Attempt 1 shown. Questions and user answers are shown as well.
+
 3. Test case: `result`
+
    Expected: No results shown. Invalid command error message shown.
 
+
 ### Viewing Solutions
+
 1. Test case: `solution 1 1`
+
    Expected: Shows solution to Topic 1 Question 1.
+
 2. Test case: `solution`
+
    Expected: No solution showed. Invalid command format error message shown.
 
+
 ### Viewing Explanations
+
 1. Test case: `explain 1 1`
+
    Expected: Shows explanation to Topic 1 Question 1.
+
 2. Test case: `explain`
+
    Expected: No explanation showed. Invalid command format error message shown.
 
+
 ### Selecting Timed Mode
+
 1. Test case: `timed mode 5`, `topic 1`
+
    Expected: Topic will automatically end after 5 seconds.
+
 2. Test case: `timed mode`
-    Expected: No timer will be set. User will be prompted for a time limit.
+
+   Expected: No timer will be set. User will be prompted for a time limit.
+
 
 ### Viewing all topics available
+
 1. Test case: `list`
-    Expected: All topics will be listed, with the topic names, summary, and attempted status
+
+   Expected: All topics will be listed, with the topic names, summary, and attempted status
+
 2. Test case: `topic 1`, `list`
-    Expected: All topics will be listed, and attempted status for topic 1 will be updated.
+
+   Expected: All topics will be listed, and attempted status for topic 1 will be updated.
+
 
 ### Viewing Help
+
 1. Test case: `help`
-    Expected: All possible commands will be displayed
+
+   Expected: All possible commands will be displayed
 
 ### Pause and Resume GamePlay
+
 1. Test case: `pause`, then `resume`
-    Expected: Game will be paused and resumed
+
+   Expected: Game will be paused and resumed
+
 2. Test case: `pause`, then `bye`. Start the program again
-   Expected: Game will pause, then exit. Upon start of program, user will be prompted whether to continue with previous attempt.
+
+   Expected: Game will pause, then exit. Upon start of program, user will be prompted whether to continue with previous
+   attempt.
+
 
 ### Customizing questions
+
 1. Test case: `custom 1 10`
+
    Expected: Game will display 10 questions from Topic 1. Topic 1 status (Attempted/ Unattempted) will remain unchanged.
 
 
 ### Setting Checkpoints
+
 1. Prerequisite: In custom mode
+
 2. Test case: `checkpoint 2`
-   Expected: Sets checkpoint to 2. 
+
+   Expected: Sets checkpoint to 2.
+
 
 ### Clearing Progress
+
 1. Test case: `clear`
+
    Expected: Progress cleared
-
-
 
