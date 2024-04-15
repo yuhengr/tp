@@ -670,5 +670,15 @@ public class Ui {
             }
         }
     }
+
+    public void displayCheckpointGoal(int checkpointGoal) {
+        System.out.println("You've chosen a goal of " + checkpointGoal + " questions.");
+    }
+
+    public void displayAlreadyInCheckpointMode(int checkpointGoal, int numOfQnsToHitGoal) {
+        System.out.println("You've already set a checkpoint.");
+        System.out.println("Your goal is to attempt " + checkpointGoal + " questions.");
+        System.out.println("You have " + numOfQnsToHitGoal + " more questions to go.");
+    }
 }
 

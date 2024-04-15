@@ -56,6 +56,7 @@ public class Parser {
     private static final String MESSAGE_INVALID_COMMAND = "That's an invalid command.";
     private static final String MESSAGE_PARAM_TOO_LONG = "You've entered a parameter that is too long.";
     private static final String MESSAGE_EXCEPTION_CAUGHT = "Exception caught!";
+    private static final String MESSAGE_INVALID_CHECKPOINT = "That's not a valid checkpoint goal.";
 
     private static final String OPTION_A = "a";
     private static final String OPTION_B = "b";
@@ -642,13 +643,25 @@ public class Parser {
             int goal = progressManager.getCheckpointModeGoal();
             int numOfAttemptedCustomQuestions = progressManager.getNumOfAttemptedCustomQuestions();
             int numOfQuestionsToHitGoal = goal - numOfAttemptedCustomQuestions;
-            System.out.println("You're already in checkpoint mode.");
-            System.out.println("Your goal is to attempt " + goal + " questions.");
-            System.out.println("You have " + numOfQuestionsToHitGoal + " more to go.");
+
+            ui.displayAlreadyInCheckpointMode(goal, numOfQuestionsToHitGoal);
             return;
         }
 
-        int checkpointGoal = ui.getCheckpointGoal();
+        Pattern checkpointPattern = Pattern.compile(CommandList.getCheckpointPattern());
+        Matcher matcher = checkpointPattern.matcher(command);
+        boolean foundMatch = matcher.find();
+
+        if(!foundMatch) {
+            throw new CustomException(MESSAGE_EXCEPTION_CAUGHT + MESSAGE_INVALID_CHECKPOINT);
+        }
+
+        String checkpointGoalParam = matcher.group(FIRST_PARAMETER);
+        boolean isCheckpointGoalParamOverflowing = isParamOverflowing(checkpointGoalParam);
+
+        if(isCheckpointGoalParamOverflowing) {
+            throw new CustomException(MESSAGE_EXCEPTION_CAUGHT + MESSAGE_PARAM_TOO_LONG);
+        }
 
         int totalNumOfTopics = topicList.getSize();
         int totalNumOfQuestions = 0;
@@ -657,16 +670,11 @@ public class Parser {
             int numOfQuestions = currentQuestionsList.getSize();
             totalNumOfQuestions += numOfQuestions;
         }
-        if (checkpointGoal > totalNumOfQuestions) {
-            System.out.println("There aren't that many questions available.");
-            System.out.println("Pick a goal that is lesser or equals to " + totalNumOfQuestions);
-        } else if (checkpointGoal <= 0) {
-            System.out.println("That is an invalid goal.");
-        } else {
-            progressManager.setCheckpointMode();
-            progressManager.setCheckpointModeGoal(checkpointGoal);
-            System.out.println("You've chosen a goal of " + progressManager.getCheckpointModeGoal() + " questions.");
-        }
+
+        int checkpointGoal = getCheckpointGoal(checkpointGoalParam, totalNumOfQuestions);
+        progressManager.setCheckpointMode();
+        progressManager.setCheckpointModeGoal(checkpointGoal);
+        ui.displayCheckpointGoal(checkpointGoal);
     }
 
     //@@author ngxzs
@@ -833,6 +841,27 @@ public class Parser {
             return questionNum;
         } catch (NumberFormatException error) {
             throw new CustomException("Exception caught! Unable to parse question number provided.");
+        }
+    }
+
+    private int getCheckpointGoal(String checkpointGoalParam, int totalNumOfQuestions) throws CustomException {
+
+        int checkpointGoal;
+
+        try {
+            checkpointGoal = Integer.parseInt(checkpointGoalParam);
+
+            if(checkpointGoal > totalNumOfQuestions) {
+                System.out.println("There are only " + totalNumOfQuestions + " questions in total.");
+                throw new CustomException("Exception caught! There aren't that many questions.");
+            } else if (checkpointGoal <= 0) {
+                throw new CustomException("Exception caught! That's not a valid checkpoint goal.");
+            } else {
+                return checkpointGoal;
+            }
+        }
+        catch (NumberFormatException error) {
+            throw new CustomException("Exception caught! Unable to parse checkpoint goal provided.");
         }
     }
 }
