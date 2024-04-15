@@ -3,7 +3,7 @@
 ## Overview
 Player2113 is a CLI revision tool that allows the user to revise materials in CS2113. The user can choose a topic to revise and get instant feedback after their attempt. The application is written in Java and has approximately 3.6k lines of code.
 
-### Summary of Contributions
+### Summary of Contributions to Features
 * **New Feature:** Customise the question set
     * What does it do exactly?
         * User can input the `custom TOPIC_NUM NUM_OF_QUESTIONS` command to get a subset of random questions from a particular topic.
@@ -30,3 +30,23 @@ Player2113 is a CLI revision tool that allows the user to revise materials in CS
     * The WHY:
         * It is able to capture inputs more accurately such that they fit a particular pre-determined format.
         * It also allows relevant parameters to be extracted more easily.
+
+### Contributions to Developer Guide
+* **Implementation of `custom` command**
+    * Explanation of how the method handling the command works.
+    * Drew the sequence diagram as an overview of the underlying method.
+
+* **Implementation of `checkpoint` command**
+    * Explanation of how the method handling the command works.
+    * Drew the sequence diagram as an overview of the underlying method.
+
+* **Implementation of `clear` command**
+    * Explanation of how the method handling the command works.
+    * Drew the sequence diagram as an overview of the underlying method.
+
+### Contributions to User Guide
+* **Documented the usage of the following commands:**
+    * `custom`, `checkpoint` and `clear`
+
+### Contributions to Bug Fixing
+* **Fixed bugs found during the mock practical exam**
