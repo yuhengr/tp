@@ -1,3 +1,4 @@
+You may adjust your terminal size to 80(w)*18(h) for optimal experience
 Hello from
 ______ _                       _____  __   __   _____
 | ___ \ |                     / __  \/  | /  | |____ |
