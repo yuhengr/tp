@@ -606,19 +606,10 @@ public class Parser {
         }
 
         boolean isInCheckpointMode = progressManager.isInCheckpointMode();
+        Results customQuestionSetResults = new Results();
 
-        ui.printCustomQuestionSet();
-        for (int i = 0; i < numOfCustomQuestions; i++) {
-
-            ui.printQuestion(customQuestionsList.getQuestionUnit(i));
-            ui.askForAnswerInput();
-            String userAnswerInput = ui.getUserAnswerInput();
-            ui.displayUserAnswer(userAnswerInput);
-
-            if (isInCheckpointMode) {
-                progressManager.incrementNumOfAttemptedCustomQuestions();
-            }
-        }
+        ui.printCustomQuestionSet(
+                numOfCustomQuestions, progressManager, customQuestionsList, isInCheckpointMode);
 
         System.out.println("You have completed " + numOfCustomQuestions + " questions from topic " + topicNum);
 

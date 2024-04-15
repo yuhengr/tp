@@ -637,8 +637,23 @@ public class Ui {
         return false;
     }
 
-    public void printCustomQuestionSet() {
+    public void printCustomQuestionSet(
+            int numOfCustomQns, ProgressManager progressManager, QuestionsList customQuestionsList,
+            boolean isInCheckpointMode) {
         System.out.println("Ui is displaying custom question set.");
+        System.out.println("There are " + numOfCustomQns + " questions.");
+
+        for(int i = 0; i < numOfCustomQns; i++) {
+            Question questionUnit = customQuestionsList.getQuestionUnit(i);
+            printQuestion(questionUnit);
+            askForAnswerInput();
+            String userAnswerInput = getUserAnswerInput();
+            displayUserAnswer(userAnswerInput);
+
+            if(isInCheckpointMode) {
+                progressManager.incrementNumOfAttemptedCustomQuestions();
+            }
+        }
     }
 }
 
