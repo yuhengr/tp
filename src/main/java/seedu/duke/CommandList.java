@@ -6,16 +6,16 @@ public enum CommandList {
 
     TOPIC, HELP, SOLUTION, EXPLAIN, RESULTS, TIMED_MODE, BYE, CUSTOM, CHECKPOINT, CLEAR, INVALID;
 
-    private static final String PATTERN_TOPIC = "(?i)topic\\s*(\\d*)";
+    private static final String PATTERN_TOPIC = "(?i)topic\\s+(\\d*)";
 
     private static final String PATTERN_BYE = "(?i)bye";
 
-    private static final String PATTERN_SOLUTION = "(?i)solution\\s*(\\d+)\\s*(.*)";
+    private static final String PATTERN_SOLUTION = "(?i)solution\\s+(\\d+)\\s+(.*)";
 
-    private static final String PATTERN_CUSTOM = "(?i)custom\\s*(\\d+)\\s*(\\d+)";
-    private static final String PATTERN_CHECKPOINT = "(?i)checkpoint\\s*(\\d+)";
+    private static final String PATTERN_CUSTOM = "(?i)custom\\s+(\\d+)\\s+(\\d+)";
+    private static final String PATTERN_CHECKPOINT = "(?i)checkpoint\\s+(\\d+)";
 
-    private static final String PATTERN_EXPLAIN = "(?i)explain\\s*(\\d+)\\s*(.*)";
+    private static final String PATTERN_EXPLAIN = "(?i)explain\\s+(\\d+)\\s+(.*)";
 
     private static final String PATTERN_HELP = "(?i)help\\s*(\\w*)";
 
