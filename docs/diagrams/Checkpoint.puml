@@ -13,7 +13,7 @@ participant "matcher:Matcher" as Matcher #FE2727
 participant ":CommandList" as CommandList #FE2727
 end box
 
--> Parser
+-> Parser : handleCheckpointCommand(command, ui, topicList, questionListByTopic, progressManager)
 activate Parser
 
 Parser -> ProgressManager : isInCheckpointMode()
