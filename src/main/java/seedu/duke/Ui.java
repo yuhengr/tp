@@ -394,8 +394,10 @@ public class Ui {
                                QuestionListByTopic questionListByTopic, AnswerTracker userAnswers, int index) {
         System.out.println("Attempt " + index + ": " + System.lineSeparator() + "Your results for Topic " +
                 (topicNum + 1) + ":\n" + score + System.lineSeparator());
+        printLine();
         if (includesDetails) {
             printResultDetails(questionListByTopic, topicNum, index - 1, userAnswers);
+            printLine();
         }
     }
 
@@ -416,8 +418,10 @@ public class Ui {
             System.out.println("Attempt " + (i + 1) + ": " + System.lineSeparator() + "Your results for Topic " +
                     (topicNum + 1) + ":\n" + allResults.getSpecifiedResult(i).getScore()
                     + System.lineSeparator());
+            printLine();
             if (includesDetails) {
                 printResultDetails(questionListByTopic, topicNum, i, userAnswers);
+                printLine();
             }
         }
     }
