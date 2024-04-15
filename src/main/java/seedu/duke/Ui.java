@@ -639,16 +639,24 @@ public class Ui {
 
     public void printCustomQuestionSet(
             int numOfCustomQns, ProgressManager progressManager, QuestionsList customQuestionsList,
-            boolean isInCheckpointMode) {
+            boolean isInCheckpointMode, Ui ui) {
         System.out.println("Ui is displaying custom question set.");
         System.out.println("There are " + numOfCustomQns + " questions.");
 
         for(int i = 0; i < numOfCustomQns; i++) {
             Question questionUnit = customQuestionsList.getQuestionUnit(i);
-            printQuestion(questionUnit);
-            askForAnswerInput();
-            String userAnswerInput = getUserAnswerInput();
-            displayUserAnswer(userAnswerInput);
+            Parser parser = new Parser();
+            boolean isCorrectAnswerFormat = false;
+            String userAnswerInput;
+
+            do {
+                printQuestion(questionUnit);
+                askForAnswerInput();
+                userAnswerInput = getUserAnswerInput();
+                displayUserAnswer(userAnswerInput);
+
+                isCorrectAnswerFormat = parser.checkFormat(userAnswerInput, ui);
+            } while(!isCorrectAnswerFormat);
 
             if(isInCheckpointMode) {
                 progressManager.incrementNumOfAttemptedCustomQuestions();

@@ -609,7 +609,7 @@ public class Parser {
         Results customQuestionSetResults = new Results();
 
         ui.printCustomQuestionSet(
-                numOfCustomQuestions, progressManager, customQuestionsList, isInCheckpointMode);
+                numOfCustomQuestions, progressManager, customQuestionsList, isInCheckpointMode, ui);
 
         System.out.println("You have completed " + numOfCustomQuestions + " questions from topic " + topicNum);
 
