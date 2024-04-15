@@ -556,7 +556,7 @@ public class Parser {
         }
     }
 
-    //@@author
+    //@@author yuhengr
     private void handleCustomCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
             ResultsList allResults, AnswerTracker userAnswers, ProgressManager progressManager)
@@ -601,7 +601,6 @@ public class Parser {
         QuestionsList customQuestionsList = new QuestionsList();
         for (int i = 0; i < numOfCustomQuestions; i++) {
             int randomQuestionNumber = randomQuestionNumbers.get(i);
-            System.out.println("Random qn number: " + randomQuestionNumber);
             Question randomQuestion = chosenQuestionsList.getQuestionUnit(randomQuestionNumber);
             customQuestionsList.addQuestion(randomQuestion);
         }
