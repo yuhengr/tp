@@ -238,7 +238,7 @@ This command allows the player to customise the questions by selecting which top
 Format: `custom TOPIC_NUM NUM_OF_QUESTIONS`
 
 - Upon entering this command, the user will get a customised question set.
-- `TOPIC_NUM` and `NUM_OF_QUESTIONS` should be non-zero positive integer (e.g. 1, 2, 3, ...).
+- `TOPIC_NUM` and `NUM_OF_QUESTIONS` should be a non-zero positive integer (e.g. 1, 2, 3, ...) that is within range of topics and questions available.
 
 Example: `custom 1 3` will generate a question set of 3 questions from topic 1.
 
@@ -246,9 +246,13 @@ Example: `custom 1 3` will generate a question set of 3 questions from topic 1.
 
 This command allows the user to set a number of questions that they would like to complete in the current session.
 
-Format: `checkpoint`
+Format: `checkpoint NUM_OF_QUESTIONS`
 
-- Upon entering this command, the user can follow the subsequent prompts to set a target.
+- Upon entering this command, the user will set a checkpoint goal.
+- The user can use this checkpoint goal to track number of customised questions attempted.
+- `NUM_OF_QUESTIONS` should be a non-zero positive integer (e.g. 1, 2, 3, ...) that is within range of questions available.
+
+Example: `checkpoint 5` will set a goal of 5 questions and the user will get a congratulatory message after reaching this goal by attempting customised questions.
 
 ### 12. Clear progress: `clear`
 

@@ -12,7 +12,7 @@ Player2113 is a CLI revision tool that allows the user to revise materials in CS
 
 * **New Feature:** Add study checkpoints
     * What does it do exactly?
-        * User can input the `checkpoint` command and follow the subsequent prompts to set a checkpoint goal for the current study session.
+        * User can input the `checkpoint NUM_OF_QUESTIONS` command set a checkpoint goal for the current study session.
         * Upon reaching the goal, Player2113 will congratulate the user for reaching their target.
     * Why the need?
         * Revision can be tiring and setting small goals can help to make learning easier.
