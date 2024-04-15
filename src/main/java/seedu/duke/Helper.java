@@ -50,6 +50,24 @@ public class Helper {
                         "timed mode"
                 )
         );
+        commandList.add(
+                new Command(
+                        "custom", "generate custom question set",
+                        "custom TOPIC_NUM NUM_OF_QN"
+                )
+        );
+        commandList.add(
+                new Command(
+                        "checkpoint", "set a study goal",
+                        "checkpoint NUM_OF_QN"
+                )
+        );
+        commandList.add(
+                new Command(
+                        "clear", "clear progress",
+                        "clear"
+                )
+        );
     }
 
     //@@author songyuew
