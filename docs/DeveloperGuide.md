@@ -1,26 +1,23 @@
 # Developer Guide
 
-* Acknowledgements
-* Design
-    * Architecture
-    * (list components / common classes here)
-* Implementation
-    * (state features here)
-* Appendix: Requirements
-    * Product Scope (feel free to modify these)
-    * User Stories
-    * Use Cases
-    * Non-functional Requirements
-    * Glossary
-* Appendix: Instructions for manual testing
+* [Implementation](#implementation)
+  * [Results Feature](#results-feature)
+  * [Topic Feature](#topics-feature)
+  * [Solution Feature](#solution-feature) 
+  * [Explain Feature](#explain-feature)
+* [Appendix: Requirements](#appendix-requirements)
+    * [Product Scope](#product-scope)
+    * [User Stories](#user-stories)
+    * [Non-Functional Requirements](#non-functional-requirements)
+    * [Glossary](#glossary)
+    * [Acknowledgements](#acknowledgements)
+* [Appendix: Instructions for manual testing](#appendix-instructions-for-manual-testing)
     * Launch and Shutdown (TODO: include testing methods)
     * (include tests for other features)
 
 ## Implementation
 
-
-
-### Results feature
+### Results Feature
 
 The results feature is facilitated by `ResultsList` and
 `AnswerTracker`. Both are used to display the results for
@@ -87,7 +84,7 @@ Step 1 executes and process repeats.
 The following shows the class diagram for `QuestionListByTopic`:
 ![QuestionListByTopic](team/img/DG/QuestionListByTopic_class_diagram.png)
 
-### Solution feature
+### Solution Feature
 
 The solution feature either prints the solution to 1 question or all questions in 1 topic.
 
@@ -121,7 +118,7 @@ if there is 1 parameter (ie get all solutions):
 else if there are 2 parameters (ie get one solution):
 `QuestionsList#getOneSolution` will get the specified solution and `ui#printOneSolution` will print it.
 
-### Explain feature
+### Explain Feature
 
 The explain feature either prints the explanation to 1 question or all questions in 1 topic.
 
@@ -164,7 +161,7 @@ else if there are 2 parameters (ie get one explanation):
 
 ### User Stories
 
-
+Priorities: High (must-have) - `***`, Medium (good-to-have) - `**`, Low (nice-to-have) - `*`
 
 
 | Version | Priority | As a ...            | I want to ...                                        | So that I can ...                                          |
@@ -185,26 +182,30 @@ else if there are 2 parameters (ie get one explanation):
 | TBC     | *        | regular user        | have topics' suggestion instead of choosing one      | I can avoid choosing a topic and be lazy                   |
 | TBC     | *        | busy user           | have a reminder to do questions                      | I can keep track with the lectures                         |
 
+*[More to be added]*
+
+
 ## Non-Functional Requirements
 
-Usability: the user is able to use the app without reading lengthy documentations.
-
-Technical: the app should run on both macOS and Windows
+1. Should work on any *mainstream* OS as long as it has Java `11` or above installed
+2. A user with average typing speed should be able to find and answer questions faster than using the CS2113/T course website
 
 ## Glossary
 
-- _glossary item_ - Definition
+- *mainstream OS:* Windows, Linux, MacOS
 
 ## Acknowledgements
 
-### Libraries
+*Libraries:*
 
 1. Display formatted tables in the CLI - [ASCII TABLES](https://bethecoder.com/applications/products/asciiTable.action)
 
 2. Topic selection menu and testing mode progress bar - [ProgressBar](https://github.com/ctongfei/progressbar)
 
-### References
 
-## Instructions for manual testing
+### Appendix: Instructions for Manual Testing
+> **NOTE:**
+> These instructions only provide a starting point for testers to work on.
+> They are non-exhaustive and testers are encouraged to do more _exploratory_ testing.
 
 {Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
