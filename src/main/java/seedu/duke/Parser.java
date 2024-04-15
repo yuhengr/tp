@@ -556,7 +556,7 @@ public class Parser {
         }
     }
 
-    //@@author
+    //@@author yuhengr
     private void handleCustomCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
             ResultsList allResults, AnswerTracker userAnswers, ProgressManager progressManager)
@@ -606,19 +606,17 @@ public class Parser {
         }
 
         boolean isInCheckpointMode = progressManager.isInCheckpointMode();
-        for (int i = 0; i < numOfCustomQuestions; i++) {
+        Results customQuestionSetResults = new Results();
 
-            ui.printQuestion(customQuestionsList.getQuestionUnit(i));
-            ui.askForAnswerInput();
-            String userAnswerInput = ui.getUserAnswerInput();
-            ui.displayUserAnswer(userAnswerInput);
+        ui.printCustomQuestionSet(
+                numOfCustomQuestions, progressManager, customQuestionsList,
+                isInCheckpointMode, ui, customQuestionSetResults);
 
-            if (isInCheckpointMode) {
-                progressManager.incrementNumOfAttemptedCustomQuestions();
-            }
-        }
+        customQuestionSetResults.calculateScore();
+        String scoreToDisplay = customQuestionSetResults.getScore();
 
         System.out.println("You have completed " + numOfCustomQuestions + " questions from topic " + topicNum);
+        System.out.println("Your score: " + scoreToDisplay);
 
         if (isInCheckpointMode) {
             int checkpointModeGoal = progressManager.getCheckpointModeGoal();
