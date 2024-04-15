@@ -164,14 +164,26 @@ else if there are 2 parameters (ie get one explanation):
 
 ### User Stories
 
-| Version | As a ...                       | I want to ...                                                                         | So that I can ...                                                     |
-|---------|--------------------------------|---------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
-| v1.0    | new user                       | see user guide in the app                                                             | refer to them if I am unfamiliar with the usage of a command          |
-| v1.0    | student new to Java            | receive solutions with explanation after answering                                    | be aware of the reasoning behind the correct answer                   | 
-| v2.0    | regular user                   | see a progress bar when answering MCQs                                                | track my progress when attempting a question set                      |
-| v2.0    | regular user                   | see a progress bar about all topics in the main menu                                  | track my revision progress for the entire course                      |
-| v2.0    | student going to take the exam | access timed modes in the game easily                                                 | train my thought process to quicken in preparation for tests          |
-| v2.0    | student new to Java            | avoid memorization of specific question sets through randomly generated practice sets | I can ensure I understand the concepts rather than memorising answers |
+
+
+
+| Version | Priority | As a ...            | I want to ...                                        | So that I can ...                                          |
+|---------|----------|---------------------|------------------------------------------------------|------------------------------------------------------------|
+| v1.0    | ***      | new user            | access the tutorial / guide to the game easily       | refer to it if I am unfamiliar with the usage of a command |
+| v1.0    | ***      | new user            | choose a topic                                       | choose a specific topic to revise on                       |
+| v1.0    | **       | regular user        | take note of the questions answered wrong previously | revisit past mistakes and learn from them                  |
+| v1.0    | ***      | student new to Java | receive solutions after answering                    | learn the correct solution for the question                |
+| v1.0    | **       | student new to Java | receive explanations after answering                 | learn the correct explanation for the solution             |
+| v1.0    | **       | regular user        | clear my progress in the game                        | start anew                                                 |
+| v1.0    | ***      | busy user           | exit the game                                        | I can do other things in life                              |
+| v2.0    | **       | regular user        | see a progress bar when answering MCQs               | track my progress when attempting a question set           |
+| v2.0    | **       | regular user        | see a progress bar about all topics in the main menu | track my revision progress for the entire course           |
+| v2.0    | **       | regular user        | access timed modes in the game easily                | train my answering speed in preparation for tests          |
+| v2.0    | **       | student new to Java | practice on a random topic                           | avoid memorizing answers if I do a topic repeatedly        |
+| v2.0    | **       | regular user        | come back to my saved points in the game             | continue working from my previous progress                 |
+| v2.0    | **       | busy user           | study in smaller chunks by having checkpoints        | play the game during my small slots of free time           |
+| TBC     | *        | regular user        | have topics' suggestion instead of choosing one      | I can avoid choosing a topic and be lazy                   |
+| TBC     | *        | busy user           | have a reminder to do questions                      | I can keep track with the lectures                         |
 
 ## Non-Functional Requirements
 
