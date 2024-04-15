@@ -557,8 +557,8 @@ public class Ui {
         System.out.println("Results from the incomplete attempt will be discarded :0");
     }
 
-    public void printCustomModeMessage() {
-        System.out.println("You've selected to practise in custom mode.");
+    public void printCustomModeMessage(int topicNum, int numOfQuestions) {
+        System.out.println("You've selected to practise " + numOfQuestions + " from topic " + topicNum);
     }
 
     public int getCustomTopicNum() {
