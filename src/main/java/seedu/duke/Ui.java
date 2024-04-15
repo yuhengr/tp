@@ -171,7 +171,7 @@ public class Ui {
                 answer = in.nextLine();
                 isPaused = parser.checkPause(answer, allResults, topicList, userAnswers, ui, storage, isPaused,
                         isTimedMode, allAnswers, answersCorrectness, topicResults, topicNum, indexGlobal);
-                if (!isPaused && !answer.equalsIgnoreCase(RESUME) && !isTimesUp) {
+                if (!isPaused && !isTimesUp && !(wasPaused && answer.equalsIgnoreCase(RESUME))) {
                     isCorrectFormat = parser.checkFormat(answer, ui);
                 }
             } while ((isPaused || wasPaused || !isCorrectFormat) && !isTimesUp);

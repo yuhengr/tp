@@ -1,0 +1,49 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+hide circle
+skinparam classAttributeIconSize 0
+
+class Storage {
+- isPaused: boolean
++ Storage()
++ initSaveFile()
++ saveProgress()
++ loadProgress(): boolean
+- processLine()
+- writeToFile()
+}
+
+class ResultsList {
+# sessionResults: ArrayList<Results>
+# topicsChosen: ArrayList<Integer>
++ ResultsList()
++ addResults(roundResults: Results)
++ addQuestions(topicNumber: Integer)
++ getSessionResults(): ArrayList<Results>
++ getTopicsChosen: ArrayList<Integer>
+}
+
+class AnswerTracker {
+# userAnswers: ArrayList<ArrayList<String>>
+# isCorrect: ArrayList<ArrayList<Boolean>>
++ AnswerTracker()
++ getAllAnswers(): ArrayList<ArrayList<String>>
++ getAllCorrectness(): ArrayList<ArrayList<Boolean>>
++ addUserAnswers(answers: ArrayList<String>)
++ addUserCorrectness(correctness: ArrayList<Boolean>)
+}
+
+class TopicList {
+- topicList: ArrayList<Topic>
++ TopicList()
++ getTopicList(): ArrayList<Topic>
+}
+
+TopicList <.. Storage
+ResultsList <.. Storage
+AnswerTracker <.. Storage
+
+
+
+@enduml
