@@ -6,7 +6,7 @@ Player2113 is a CLI revision tool that allows the user to revise materials in CS
 ### Summary of Contributions
 * **New Feature:** Customise the question set
     * What does it do exactly?
-        * User can input the `custom` command and follow the subsequent prompts to generate a subset of random questions from a particular topic.
+        * User can input the `custom TOPIC_NUM NUM_OF_QUESTIONS` command to get a subset of random questions from a particular topic.
     * Why the need?
         * This feature is almost like flash cards which the user can use to practise a particular topic with questions being displayed in random order to facilitate learning experience.
 
