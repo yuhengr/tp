@@ -174,6 +174,7 @@ Input a command player!
 ```
 
 > **NOTE**
+> 
 > Pause will **not be allowed in timed mode** as it is meant to simulate exam conditions.
 > Timed mode selection happens before topic selection.
 
@@ -248,6 +249,13 @@ Format: `custom TOPIC_NUM NUM_OF_QUESTIONS`
 
 Examples:
 ` custom 1 3 ` will generate a question set of 3 questions from topic 1.
+` custom 1 ` is ignored.
+
+> **NOTE**
+> 
+> As this is custom mode, answering all questions in a topic will not mark the topic as attempted. 
+> Suppose Topic 1 has 10 questions and is unattempted. ` custom 1 10` will still not mark Topic 1 status as "has Attempted".
+
 
 ### 11. Checkpoint goals: `checkpoint`
 
@@ -263,6 +271,12 @@ Format: `checkpoint NUM_OF_QUESTIONS`
 Examples:
 ` checkpoint 5 ` will set a goal of 5 questions and the user will get a congratulatory message after reaching
 this goal by attempting customised questions.
+
+> **NOTE:**
+> 
+> Checkpoint can only be set for custom mode.
+> Suppose you set checkpoint as 2. The program will only count the number of attempted questions in custom mode. 
+
 
 ### 12. Clear progress: `clear`
 

@@ -57,6 +57,7 @@ public class Parser {
     private static final String MESSAGE_PARAM_TOO_LONG = "You've entered a parameter that is too long.";
     private static final String MESSAGE_EXCEPTION_CAUGHT = "Exception caught!";
     private static final String MESSAGE_INVALID_CHECKPOINT = "That's not a valid checkpoint goal.";
+    private static final String MESSAGE_INVALID_CUSTOM = "That's not a valid custom format.";
 
     private static final String OPTION_A = "a";
     private static final String OPTION_B = "b";
@@ -573,7 +574,7 @@ public class Parser {
         boolean foundMatch = matcher.find();
 
         if(!foundMatch) {
-            throw new CustomException("Exception caught! You've entered an invalid format.");
+            throw new CustomException(MESSAGE_EXCEPTION_CAUGHT + MESSAGE_INVALID_CUSTOM);
         }
 
         String topicNumParam = matcher.group(FIRST_PARAMETER);

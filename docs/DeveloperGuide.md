@@ -278,10 +278,18 @@ Priorities: High (must-have) - `***`, Medium (good-to-have) - `**`, Low (nice-to
    Expected: Game will pause, then exit. Upon start of program, user will be prompted whether to continue with previous attempt.
 
 ### Customizing questions
-1. Test case: ``
+1. Test case: `custom 1 10`
+   Expected: Game will display 10 questions from Topic 1. Topic 1 status (Attempted/ Unattempted) will remain unchanged.
+
+
 ### Setting Checkpoints
+1. Prerequisite: In custom mode
+2. Test case: `checkpoint 2`
+   Expected: Sets checkpoint to 2. 
 
 ### Clearing Progress
+1. Test case: `clear`
+   Expected: Progress cleared
 
 
 
