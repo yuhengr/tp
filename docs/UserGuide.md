@@ -88,10 +88,7 @@ Format: `topic TOPIC_INDEX`
 - Press Enter to submit the response. System will then key in the next question.
 - Each question bank has 10 questions.
 
-Example:
-Input index of answer you want to respond with
-Press enter to submit response
-eg “a” to choose option "a. Java" (below)
+Sample Output:
 
 ```angular2html
 What language does CS2113 use?
@@ -122,7 +119,10 @@ Format: `results [details] [ATTEMPT_NUM]`
 - Anything after `[INDEX]` will be ignored.
 - Command works as long as the user input starts with `results` (e.g. `resultsss`, `resultsad`) for easier usage.
 
-Example usage: `results details 2`
+Examples: 
+`results details 2` shows the results for Attempt 2 (with questions and answers)
+`results 2` shows the results for Attempt 2 (score only)
+
 
 ### 3. Get solution(s) for a question / topic: `solution`
 
@@ -168,6 +168,7 @@ Examples:
 ` timed mode 5` sets time limit to 5s
 
 Sample Output:
+
 ```angular2html
 Timed mode selected. Please enter the topic you would like to try.
 You cannot pause in timed mode!
@@ -176,11 +177,11 @@ Input a command player!
 
 ### 6. List all available topics and their summaries: `list`
 
-Example of usage: `list`
-
 A progress bar indicating the overall revision progress will be displayed, followed by a table of question bank summaries.
 
-Sample output:
+Format: `list`
+
+Sample Output:
 
 ```
 [***-------] 30% 1/3 topics attempted
@@ -200,7 +201,7 @@ Shows developer credits information.
 
 Format: `help`
 
-Sample output:
+Sample Output:
 
 ![Help Sample Output](team/img/UG/ug_usage_help.png)
 
@@ -212,6 +213,8 @@ Format: `pause`
 
 - This command is valid only when the user is answering the topic questions.
 - <strong>User cannot pause when in timed mode.</strong>
+
+Sample Output: 
 
 ```
 Enter your answer: pause
@@ -256,10 +259,12 @@ Format: `clear`
 
 All results will be saved to a local save file, which will be loaded up when the application is opened next time.
 
+Format: `bye`
+
 - If exited after pausing the game, you can choose whether to continue from where you left off or
   discard the results for that topic.
 
-Example of usage: `bye`
+
 
 A goodbye message will be displayed:
 
