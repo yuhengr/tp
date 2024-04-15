@@ -601,6 +601,7 @@ public class Parser {
         QuestionsList customQuestionsList = new QuestionsList();
         for (int i = 0; i < numOfCustomQuestions; i++) {
             int randomQuestionNumber = randomQuestionNumbers.get(i);
+            System.out.println("Random qn number: " + randomQuestionNumber);
             Question randomQuestion = chosenQuestionsList.getQuestionUnit(randomQuestionNumber);
             customQuestionsList.addQuestion(randomQuestion);
         }
@@ -609,9 +610,14 @@ public class Parser {
         Results customQuestionSetResults = new Results();
 
         ui.printCustomQuestionSet(
-                numOfCustomQuestions, progressManager, customQuestionsList, isInCheckpointMode, ui);
+                numOfCustomQuestions, progressManager, customQuestionsList,
+                isInCheckpointMode, ui, customQuestionSetResults);
+
+        customQuestionSetResults.calculateScore();
+        String scoreToDisplay = customQuestionSetResults.getScore();
 
         System.out.println("You have completed " + numOfCustomQuestions + " questions from topic " + topicNum);
+        System.out.println("Your score: " + scoreToDisplay);
 
         if (isInCheckpointMode) {
             int checkpointModeGoal = progressManager.getCheckpointModeGoal();
