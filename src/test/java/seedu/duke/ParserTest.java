@@ -147,4 +147,22 @@ class ParserTest {
         assertThrows(CustomException.class,
                 () -> runParserCommand(command));
     }
+
+    @Test
+    void parseCommand_overflowingParam_customError() {
+        setUp();
+        final String command = "topic 1000000000000";
+
+        assertThrows(CustomException.class,
+                () -> runParserCommand(command));
+    }
+
+    @Test
+    void parseCommand_invalidTopicNumParamForCustom_customError() {
+        setUp();
+        final String command = "custom 10 1";
+
+        assertThrows(CustomException.class,
+                () -> runParserCommand(command));
+    }
 }

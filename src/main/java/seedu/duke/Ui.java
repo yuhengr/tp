@@ -36,6 +36,8 @@ public class Ui {
     private static final String RESUME = "resume";
     private static final String INVALID_INPUT = "Invalid input. Please type 'yes' or 'no'";
     private static final String INSTRUCTIONS = "Type 'yes' to restart session or 'no' to resume.";
+    private static final String TERMINAL_SIZE_WARNING =
+            "You may adjust your terminal size to 80(w)*18(h) for optimal experience";
 
     private static final int INDEX_TOPIC_NUM = 0;
     private static final int INDEX_INDEX = 1;
@@ -69,12 +71,14 @@ public class Ui {
             Ui ui, TopicList topicList,
             QuestionListByTopic questionListByTopic, ResultsList allResults, Helper helper, AnswerTracker userAnswers,
             Storage storage, ProgressManager progressManager
-    ) {
+    ) throws CustomException {
         Parser parser = new Parser();
 
         while (isPlaying) {
             ui.askForInput();
+
             String command = in.nextLine();
+
             try {
                 parser.parseCommand(command, ui, topicList, questionListByTopic, allResults, helper,
                         userAnswers, storage, progressManager);
@@ -560,10 +564,12 @@ public class Ui {
         System.out.println("Results from the incomplete attempt will be discarded :0");
     }
 
+    //@@author yuhengr
     public void printCustomModeMessage(int topicNum, int numOfQuestions) {
         System.out.println("You've selected to practise " + numOfQuestions + " from topic " + topicNum);
     }
 
+    //@@author yuhengr
     public int getCustomTopicNum() {
         System.out.println("Which topic do you want to practise?");
         String userInput = in.nextLine();
@@ -577,6 +583,7 @@ public class Ui {
         }
     }
 
+    //@@author yuhengr
     public int getCustomNumOfQuestions() {
         System.out.println("How many questions would you like to practise?");
         String userInput = in.nextLine();
@@ -589,15 +596,18 @@ public class Ui {
         }
     }
 
+    //@@author yuhengr
     public String getUserAnswerInput() {
         String userInput = in.nextLine();
         return userInput;
     }
 
+    //@@author yuhengr
     public void displayUserAnswer(String userAnswer) {
         System.out.println("Your answer: " + userAnswer);
     }
 
+    //@@author yuhengr
     public int getCheckpointGoal() {
         System.out.println("How many custom questions would you like to complete?");
         String userInput = in.nextLine();
@@ -609,10 +619,12 @@ public class Ui {
         }
     }
 
+    //@@author yuhengr
     public void displayProgressClearedMessage() {
         System.out.println("Your progress has been cleared.");
     }
 
+    //@@author yuhengr
     public boolean getConfirmationClearProgress() {
         System.out.println("Are you sure you want to clear game progress? (y or n)");
 
@@ -630,6 +642,7 @@ public class Ui {
         return false;
     }
 
+    //@@author yuhengr
     private boolean isValidConfirmationInput(String userInput) {
         if(userInput.contentEquals("y") || userInput.contentEquals("n")) {
             return true;
@@ -637,6 +650,7 @@ public class Ui {
         return false;
     }
 
+    //@@author yuhengr
     public void printCustomQuestionSet(
             int numOfCustomQns, ProgressManager progressManager, QuestionsList customQuestionsList,
             boolean isInCheckpointMode, Ui ui, Results results) {
@@ -671,14 +685,21 @@ public class Ui {
         }
     }
 
+    //@@author yuhengr
     public void displayCheckpointGoal(int checkpointGoal) {
         System.out.println("You've chosen a goal of " + checkpointGoal + " questions.");
     }
 
+    //@@author yuhengr
     public void displayAlreadyInCheckpointMode(int checkpointGoal, int numOfQnsToHitGoal) {
         System.out.println("You've already set a checkpoint.");
         System.out.println("Your goal is to attempt " + checkpointGoal + " questions.");
         System.out.println("You have " + numOfQnsToHitGoal + " more questions to go.");
+    }
+
+    //@@author songyuew
+    public void displayScreenSizeWarning() {
+        System.out.println(TERMINAL_SIZE_WARNING);
     }
 }
 

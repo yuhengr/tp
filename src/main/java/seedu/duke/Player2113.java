@@ -4,12 +4,16 @@ import seedu.duke.exceptions.CustomException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Player2113 {
+
     private static final String FILE_PATH_STORAGE = "data/player2113.txt";
     private static final String MESSAGE_FILE_ERROR = "There was an error locating the save file.";
+    private static final String CHECK_SCREEN_ERROR = "There was an error checking the terminal size.";
     private static final String YES = "yes";
     private static final String NO = "no";
 
@@ -24,9 +28,13 @@ public class Player2113 {
     private Storage storage;
     private ProgressManager progressManager;
     private final Helper helper;
+    private ScreenChecker screenChecker;
+
+    private String osName = System.getProperty("os.name");
 
     //@@author ngxzs
     public Player2113() {
+        System.setProperty("org.jline.terminal.dumb", "true");
         questionsList1 = new QuestionsList();
         questionsList2 = new QuestionsList();
         questionsList3 = new QuestionsList();
@@ -64,7 +72,15 @@ public class Player2113 {
 
     //@@author
     public void run() {
+        if(osName.startsWith("Windows")) {
+            try {
+                checkScreenSize();
+            } catch (CustomException exception) {
+                ui.handleException(exception);
+            }
+        }
         ui.sayHi();
+
         File saveFile = new File(FILE_PATH_STORAGE);
         boolean isPaused = false;
         try {
@@ -124,10 +140,17 @@ public class Player2113 {
         topicList.displayProgressBar();
         ui.printTopicList(topicList, ui);
 
-
+        //@@author songyuew
         while (ui.isPlaying) {
-            ui.readCommands(ui, topicList, questionListByTopic, allResults, helper,
-                    userAnswers, storage, progressManager);
+            try {
+                ui.readCommands(ui, topicList, questionListByTopic, allResults, helper,
+                        userAnswers, storage, progressManager);
+            } catch (CustomException e) {
+                ui.handleException(e);
+            } catch (NoSuchElementException e) {
+                ui.sayBye();
+            }
+
         }
 
     }
@@ -153,6 +176,19 @@ public class Player2113 {
 
         ui.resumeTopic(pausedQuestion, topicList, questionListByTopic, allResults, userAnswers, storage, ui,
                 answers, correctness, topicResults);
+    }
+
+    //@@author songyuew
+    private void checkScreenSize() throws CustomException {
+        try {
+            screenChecker = new ScreenChecker();
+            if (!screenChecker.checkOptimalSize()) {
+                ui.displayScreenSizeWarning();
+            }
+        } catch (IOException | NumberFormatException e) {
+            throw new CustomException(CHECK_SCREEN_ERROR);
+        }
+
     }
 
     //@@author ngxzs

@@ -6,26 +6,25 @@ Command Line Interface** (CLI).
 * [Getting Started](#getting-started)
 * [Usage](#usage)
 * [Features](#features)
-  * [Choosing a topic: `topic`](#1-starting-game-topic)
-  * [Displaying results: `results`](#2-viewing-results-results)
-  * [Displaying solution: `solution`](#3-get-solutions-for-a-question--topic-solution)
-  * [Displaying explanations: `explain`](#4-get-explanations-for-a-question--topic-explain)
-  * [Entering timed mode: `timed mode`](#5-attempt-the-questions-under-a-time-limit-timed-mode)
-  * [List All Topics: `list`](#6-list-all-available-topics-and-their-summaries-list)
-  * [View help: `help`](#7-viewing-help-help)
-  * [Pause the game: `pause`](#8-pausing-the-game-pause)
-  * [Resume the game: `resume`](#9-resuming-the-game-resume)
-  * [Customise questions: `custom`](#10-customise-questions-custom)
-  * [Checkpoint goals: `checkpoint`](#11-checkpoint-goals-checkpoint)
-  * [Clear progress: `clear`](#12-clear-progress-clear)
-  * [Exit the program: `bye`](#13-exiting-the-game-bye)
+    * [Choosing a topic: `topic`](#1-starting-game-topic)
+    * [Displaying results: `results`](#2-viewing-results-results)
+    * [Displaying solution: `solution`](#3-get-solutions-for-a-question--topic-solution)
+    * [Displaying explanations: `explain`](#4-get-explanations-for-a-question--topic-explain)
+    * [Entering timed mode: `timed mode`](#5-attempt-the-questions-under-a-time-limit-timed-mode)
+    * [List All Topics: `list`](#6-list-all-available-topics-and-their-summaries-list)
+    * [View help: `help`](#7-viewing-help-help)
+    * [Pause the game: `pause`](#8-pausing-the-game-pause)
+    * [Resume the game: `resume`](#9-resuming-the-game-resume)
+    * [Customise questions: `custom`](#10-customise-questions-custom)
+    * [Checkpoint goals: `checkpoint`](#11-checkpoint-goals-checkpoint)
+    * [Clear progress: `clear`](#12-clear-progress-clear)
+    * [Exit the program: `bye`](#13-exiting-the-game-bye)
 * [FAQ](#faq)
 * [Command Summary](#command-summary-of-features)
 
-
 ## Getting Started
 
-Prerequisites: JDK 11, Player2113 release `JDK` file
+Prerequisites: JDK 11, Player2113 release `JDK` file. Please ensure the terminal screen size is at least `80(w)*18(h)` characters for optimal experience.
 
 Start the programme with the following command:
 
@@ -51,7 +50,7 @@ What is your name?
 ## Usage
 
 > **IMPORTANT**
-> 
+>
 > The current release of Player2113 is a MVP preview version with various proposed functions unimplemented. Please
 > strictly follow this user's guide.
 > 
@@ -59,7 +58,7 @@ What is your name?
 > For optimal viewing, please run Player2113 on a full-screen sized terminal window.
 
 > **NOTE** [coming in v3.0]
-> 
+>
 > More topics will be released in v3.0
 
 GameFlow sequence is as shown:
@@ -75,7 +74,7 @@ GameFlow sequence is as shown:
     that parameter.
 > + Items in square brackets are optional
     e.g. in `solution TOPIC_NUM [INDEX]`, `TOPIC_NUM` is a compulsory parameter like `solution 1 1`,
-  while `INDEX` is an optional parameter like `solution 1`
+    while `INDEX` is an optional parameter like `solution 1`
 
 ### 1. Starting game: `topic`
 
@@ -121,10 +120,9 @@ Format: `results [details] [ATTEMPT_NUM]`
 - Anything after `[INDEX]` will be ignored.
 - Command works as long as the user input starts with `results` (e.g. `resultsss`, `resultsad`) for easier usage.
 
-Examples: 
-- `results details 2` shows the results for Attempt 2 (with questions and answers)
-- `results 2` shows the results for Attempt 2 (score only)
-
+Examples:
+` results details 2 ` shows the results for Attempt 2 (with questions and answers)
+` results 2 ` shows the results for Attempt 2 (score only)
 
 ### 3. Get solution(s) for a question / topic: `solution`
 
@@ -137,9 +135,9 @@ Format: `solution TOPIC_NUM [INDEX]`
 - If `INDEX` is omitted, command will show all solutions for specified TOPIC_NUM
 
 Examples:
-` solution 1` shows the solutions for topic 1
-` solution 1 1` shows the solution for topic 1 question 1
-` solution  ` will be ignored
+` solution 1 ` shows the solutions for topic 1
+` solution 1 1 ` shows the solution for topic 1 question 1
+` solution ` will be ignored
 
 ### 4. Get explanation(s) for a question / topic: `explain`
 
@@ -152,22 +150,22 @@ Format: `explain TOPIC_NUM [INDEX]`
 - If `INDEX` is omitted, command will show all explanations for specified TOPIC_NUM
 
 Examples:
-` explain 1` shows all explanations for topic 1
-` explain 1 1` shows the explanation for topic 1 question 1
+` explain 1 ` shows all explanations for topic 1
+` explain 1 1 ` shows the explanation for topic 1 question 1
 ` explain  ` will be ignored
 
 ### 5. Attempt the questions under a time limit: `timed mode`
 
-Pause will not be allowed in timed mode as it is meant to simulate exam conditions.
-Timed mode selection happens before topic selection.
+Sets the **total** amount of time to finish answering **1 topic**.
 
-Format: `timed mode [TIME_LIMIT]`
+Format: `timed mode TIME_LIMIT`
 
 - `TIME_LIMIT` represents the time limit set for the question set in seconds
 - The`TIME_LIMIT` must be a non-zero positive integer (e.g. 1, 2, 3, …).
 
 Examples:
-` timed mode 5` sets time limit to 5s
+` timed mode 5 ` sets time limit to 5s
+` timed mode ` will be ignored.
 
 Sample Output:
 
@@ -177,9 +175,16 @@ You cannot pause in timed mode!
 Input a command player!
 ```
 
+> **NOTE**
+> 
+> Pause will **not be allowed in timed mode** as it is meant to simulate exam conditions.
+> Timed mode selection happens before topic selection.
+
+
 ### 6. List all available topics and their summaries: `list`
 
-A progress bar indicating the overall revision progress will be displayed, followed by a table of question bank summaries.
+A progress bar indicating the overall revision progress will be displayed, followed by a table of question bank
+summaries.
 
 Format: `list`
 
@@ -216,7 +221,7 @@ Format: `pause`
 - This command is valid only when the user is answering the topic questions.
 - <strong>User cannot pause when in timed mode.</strong>
 
-Sample Output: 
+Sample Output:
 
 ```
 Enter your answer: pause
@@ -235,14 +240,24 @@ Format: `resume`
 
 ### 10. Customise questions: `custom`
 
-This command allows the player to customise the questions by selecting which topic and the number of questions they would like to practise.
+This command allows the player to customise the questions by selecting which topic and the number of questions they
+would like to practise.
 
 Format: `custom TOPIC_NUM NUM_OF_QUESTIONS`
 
 - Upon entering this command, the user will get a customised question set.
-- `TOPIC_NUM` and `NUM_OF_QUESTIONS` should be a non-zero positive integer (e.g. 1, 2, 3, ...) that is within range of topics and questions available.
+- `TOPIC_NUM` and `NUM_OF_QUESTIONS` should be a non-zero positive integer (e.g. 1, 2, 3, ...) that is within range of
+  topics and questions available.
 
-Example: `custom 1 3` will generate a question set of 3 questions from topic 1.
+Examples:
+` custom 1 3 ` will generate a question set of 3 questions from topic 1.
+` custom 1 ` is ignored.
+
+> **NOTE**
+> 
+> As this is custom mode, answering all questions in a topic will not mark the topic as attempted. 
+> Suppose Topic 1 has 10 questions and is unattempted. ` custom 1 10` will still not mark Topic 1 status as "has Attempted".
+
 
 ### 11. Checkpoint goals: `checkpoint`
 
@@ -252,9 +267,18 @@ Format: `checkpoint NUM_OF_QUESTIONS`
 
 - Upon entering this command, the user will set a checkpoint goal.
 - The user can use this checkpoint goal to track number of customised questions attempted.
-- `NUM_OF_QUESTIONS` should be a non-zero positive integer (e.g. 1, 2, 3, ...) that is within range of questions available.
+- `NUM_OF_QUESTIONS` should be a non-zero positive integer (e.g. 1, 2, 3, ...) that is within range of questions
+  available.
 
-Example: `checkpoint 5` will set a goal of 5 questions and the user will get a congratulatory message after reaching this goal by attempting customised questions.
+Examples:
+` checkpoint 5 ` will set a goal of 5 questions and the user will get a congratulatory message after reaching
+this goal by attempting customised questions.
+
+> **NOTE:**
+> 
+> Checkpoint can only be set for custom mode.
+> Suppose you set checkpoint as 2. The program will only count the number of attempted questions in custom mode. 
+
 
 ### 12. Clear progress: `clear`
 
@@ -262,7 +286,8 @@ This command allows the user to clear their progress on Player2113.
 
 Format: `clear`
 
-- Upon entering this command, the user will get a prompt to confirm that they want to clear their progress. Upon confirmation, the progress for the user will be cleared.
+- Upon entering this command, the user will get a prompt to confirm that they want to clear their progress. Upon
+  confirmation, the progress for the user will be cleared.
 
 ### 13. Exiting the game: `bye`
 
@@ -272,8 +297,6 @@ Format: `bye`
 
 - If exited after pausing the game, you can choose whether to continue from where you left off or
   discard the results for that topic.
-
-
 
 A goodbye message will be displayed:
 

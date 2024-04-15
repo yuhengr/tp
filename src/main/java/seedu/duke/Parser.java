@@ -49,7 +49,7 @@ public class Parser {
     private static final String MESSAGE_INVALID_TOPIC_NUM = "Topic number is invalid.";
     private static final String MESSAGE_INVALID_QUESTION_NUM = "Question number is invalid.";
 
-    private static final String MESSAGE_INVALID_COMMAND_FORMAT = "command format is invalid.";
+    private static final String MESSAGE_INVALID_COMMAND_FORMAT = "Command format is invalid.";
 
     private static final String MESSAGE_UNSPECIFIED_TIME = "Please specify a time limit";
     private static final String MESSAGE_INVALID_TIME = "Time limit must be more than 0 seconds";
@@ -57,6 +57,7 @@ public class Parser {
     private static final String MESSAGE_PARAM_TOO_LONG = "You've entered a parameter that is too long.";
     private static final String MESSAGE_EXCEPTION_CAUGHT = "Exception caught!";
     private static final String MESSAGE_INVALID_CHECKPOINT = "That's not a valid checkpoint goal.";
+    private static final String MESSAGE_INVALID_CUSTOM = "That's not a valid custom format.";
 
     private static final String OPTION_A = "a";
     private static final String OPTION_B = "b";
@@ -95,16 +96,14 @@ public class Parser {
                 // processSolutionCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
                 handleSolutionCommandRegEx(command, ui, topicList, questionListByTopic);
             } else if (commandToken == CommandList.CUSTOM) {
-                handleCustomCommand(command, ui, topicList, questionListByTopic, allResults,
-                        userAnswers, progressManager);
+                handleCustomCommand(command, ui, topicList, questionListByTopic, progressManager);
             } else if (commandToken == CommandList.CHECKPOINT) {
-                handleCheckpointCommand(command, ui, topicList, questionListByTopic, allResults,
-                        userAnswers, progressManager);
+                handleCheckpointCommand(command, ui, topicList, questionListByTopic, progressManager);
             } else if (commandToken == CommandList.EXPLAIN) {
                 //processExplainCommand(lowerCaseCommand, ui, topicList, questionListByTopic);
                 handleExplainCommandRegEx(command, ui, topicList, questionListByTopic);
             } else if (commandToken == CommandList.CLEAR) {
-                handleClearCommand(ui, allResults, progressManager);
+                handleClearCommand(ui, allResults, progressManager, command);
             } else if (lowerCaseCommand.startsWith(RESULTS_PARAMETER)) {
                 processResultsCommand(lowerCaseCommand, allResults, ui, questionListByTopic, userAnswers);
             } else if (lowerCaseCommand.contentEquals(BYE_PARAMETER)) {
@@ -189,7 +188,7 @@ public class Parser {
         }
     }
 
-    //@@author
+    //@@author yuhengr
     private void beginStartCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
             ResultsList allResults, AnswerTracker userAnswers, Storage storage
@@ -392,6 +391,17 @@ public class Parser {
         }
     }
 
+    //@@author yuhengr
+
+    /**
+     * Parses the user command for solution. Proceed to display relevant solutions.
+     *
+     * @param command               User command given as the input.
+     * @param ui                    User interface.
+     * @param topicList             A list of topics, each containing their question sets.
+     * @param questionListByTopic   List of questions sorted by topic.
+     * @throws CustomException      if parameters are invalid.
+     */
     private void handleSolutionCommandRegEx(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
@@ -467,6 +477,17 @@ public class Parser {
         }
     }
 
+    //@@author yuhengr
+
+    /**
+     * Parses the user command for explain. Proceeds to display relevant explanations.
+     *
+     * @param command               User command given as input.
+     * @param ui                    User interface.
+     * @param topicList             List of topics, each containing their question set.
+     * @param questionListByTopic   List of questions sorted by topic.
+     * @throws CustomException      if invalid parameters are provided.
+     */
     private void handleExplainCommandRegEx(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic)
             throws CustomException {
@@ -476,7 +497,7 @@ public class Parser {
         boolean foundMatch = matcher.find();
 
         if (!foundMatch) {
-            throw new CustomException("Exception caught! You've entered an invalid format.");
+            throw new CustomException(EXPLAIN_PARAMETER + " " + MESSAGE_INVALID_COMMAND_FORMAT);
         }
 
         String topicNumParam = matcher.group(FIRST_PARAMETER);
@@ -552,7 +573,28 @@ public class Parser {
         }
     }
 
-    private void handleClearCommand(Ui ui, ResultsList allResults, ProgressManager progressManager) {
+    //@@author yuhengr
+
+    /**
+     * Parses the command for clear. Proceeds to ask user for confirmation to clear progress.
+     *
+     * @param ui                    User interface.
+     * @param allResults            Current results.
+     * @param progressManager       Progress tracker of the game progress.
+     * @param command               User command given as input.
+     * @throws CustomException      if command does not follow format.
+     */
+    private void handleClearCommand(
+            Ui ui, ResultsList allResults, ProgressManager progressManager, String command)
+            throws CustomException {
+
+        Pattern clearPattern = Pattern.compile(CommandList.getClearPattern());
+        Matcher matcher = clearPattern.matcher(command);
+        boolean foundMatch = matcher.find();
+
+        if(!foundMatch) {
+            throw new CustomException(MESSAGE_EXCEPTION_CAUGHT + MESSAGE_INVALID_COMMAND_FORMAT);
+        }
 
         boolean confirmClear = ui.getConfirmationClearProgress();
 
@@ -563,9 +605,20 @@ public class Parser {
     }
 
     //@@author yuhengr
+
+    /**
+     * Parses the command for custom. Proceeds to generate a set of customised questions.
+     *
+     * @param command               User command given as input.
+     * @param ui                    User interface.
+     * @param topicList             List of topics, each containing their question set.
+     * @param questionListByTopic   List of questions sorted by topics.
+     * @param progressManager       Progress tracker to track checkpoint if set.
+     * @throws CustomException      if invalid parameters are given.
+     */
     private void handleCustomCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
-            ResultsList allResults, AnswerTracker userAnswers, ProgressManager progressManager)
+            ProgressManager progressManager)
             throws CustomException {
 
         Pattern customPattern = Pattern.compile(CommandList.getCustomPattern());
@@ -573,7 +626,7 @@ public class Parser {
         boolean foundMatch = matcher.find();
 
         if(!foundMatch) {
-            throw new CustomException("Exception caught! You've entered an invalid format.");
+            throw new CustomException(MESSAGE_EXCEPTION_CAUGHT + MESSAGE_INVALID_CUSTOM);
         }
 
         String topicNumParam = matcher.group(FIRST_PARAMETER);
@@ -637,9 +690,20 @@ public class Parser {
         }
     }
 
+    //@@author yuhengr
+
+    /**
+     * Parses user command for checkpoint. Proceeds to set a checkpoint goal.
+     * @param command                   User command given as input.
+     * @param ui                        User interface.
+     * @param topicList                 List of topics, each containing their question set.
+     * @param questionListByTopic       List of questions sorted by topics.
+     * @param progressManager           Progress tracker to track progress.
+     * @throws CustomException          if invalid parameters are given.
+     */
     private void handleCheckpointCommand(
             String command, Ui ui, TopicList topicList, QuestionListByTopic questionListByTopic,
-            ResultsList allResults, AnswerTracker userAnswers, ProgressManager progressManager)
+            ProgressManager progressManager)
             throws CustomException {
         // For now, checkpoint command is only for custom mode.
 
@@ -809,6 +873,7 @@ public class Parser {
         return false;
     }
 
+    //@@author yuhengr
     private boolean isParamOverflowing(String param) {
         final int maxParamLength = 5;
         int paramLength = param.length();
@@ -819,6 +884,16 @@ public class Parser {
         return false;
     }
 
+    //@@author yuhengr
+
+    /**
+     * Converts the topic number parameter into an integer and checks that it is valid.
+     *
+     * @param topicNumParam     Topic number parameter given by user as String.
+     * @param numOfTopics       Available number of topics.
+     * @return                  A valid topic number as an integer.
+     * @throws CustomException  if topic number given is not valid.
+     */
     private int getTopicNum(String topicNumParam, int numOfTopics) throws CustomException {
 
         try {
@@ -834,6 +909,16 @@ public class Parser {
         }
     }
 
+    //@@author yuhengr
+
+    /**
+     * Converts the question number parameter into an integer and checks that it is valid.
+     *
+     * @param questionNumParam      Question number parameter given as a String.
+     * @param numOfQuestions        Available number of questions.
+     * @return                      A valid question number as an integer.
+     * @throws CustomException      if question number parameter is invalid.
+     */
     private int getQuestionNum(String questionNumParam, int numOfQuestions) throws CustomException {
 
         try {
@@ -849,6 +934,16 @@ public class Parser {
         }
     }
 
+    //@@author yuhengr
+
+    /**
+     * Converts the checkpoint goal parameter into an integer and checks that it is valid.
+     *
+     * @param checkpointGoalParam   Checkpoint goal given as a String.
+     * @param totalNumOfQuestions   Available number of questions in the chosen topic.
+     * @return                      A valid checkpoint goal as an integer.
+     * @throws CustomException      if checkpoint goal given is invalid.
+     */
     private int getCheckpointGoal(String checkpointGoalParam, int totalNumOfQuestions) throws CustomException {
 
         int checkpointGoal;
@@ -864,8 +959,7 @@ public class Parser {
             } else {
                 return checkpointGoal;
             }
-        }
-        catch (NumberFormatException error) {
+        } catch (NumberFormatException error) {
             throw new CustomException("Exception caught! Unable to parse checkpoint goal provided.");
         }
     }
